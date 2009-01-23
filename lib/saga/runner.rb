@@ -22,13 +22,11 @@ module Saga
     
     def run
       argv = @argv.dup
-      if argv.empty?
-        parser.parse!(argv)
-        if command = argv.shift
-          run_command(command, options)
-        else
-          puts parser.to_s
-        end
+      parser.parse!(argv)
+      if command = argv.shift
+        run_command(command, options)
+      else
+        puts parser.to_s
       end
     end
   end

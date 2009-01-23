@@ -1,10 +1,17 @@
 require 'rake/rdoctask'
 
 desc "Run all specs by default"
-task :default => :test
+task :default => :spec
 
 desc "Run all specs"
-task :test do
+task :spec do
+  require 'rubygems'
+  require 'mocha'
+  require 'bacon'
+
+  Bacon.extend Bacon::SpecDoxOutput
+  Bacon.summary_on_exit
+
   Dir[File.dirname(__FILE__) + '/test/**/*_spec.rb'].each do |file|
     load file
   end
@@ -27,4 +34,4 @@ namespace :documentation do
     rd.rdoc_files.include("README", "LICENSE", "lib/**/*.rb")
     rd.options << "--all" << "--charset" << "utf-8"
   end
-end%
+end
