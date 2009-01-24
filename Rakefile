@@ -76,6 +76,13 @@ namespace :ext do
   end
 end
 
+namespace :profile do
+  desc "Profile memory"
+  task :memory => :compile do
+    sh 'valgrind --tool=memcheck --leak-check=yes --num-callers=10 --track-fds=yes ruby test/profile/memory.rb'
+  end
+end
+
 namespace :gem do
   desc "Build the gem"
   task :build do
