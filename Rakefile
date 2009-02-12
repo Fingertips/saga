@@ -21,7 +21,7 @@ task :spec do
 end
 
 task :clean do
-  crap = "*.{bundle,so,o,obj,log}"
+  crap = "*.{bundle,so,o,obj,log,png,dot}"
   ["*.gem", "ext/**/#{crap}", "ext/saga/scanner.c", "ext/**/Makefile"].each do |glob|
     Dir.glob(glob).each do |file|
       rm(file)
@@ -42,12 +42,15 @@ namespace :ext do
     "#{ext}/*.c",
     "#{ext}/*.h",
     "#{ext}/*.rl",
+    "#{ext}/*.dot",
+    "#{ext}/*.png",
     "#{ext}/extconfig.rb",
     "#{ext}/Makefile"
   ]
   
   task :compile => extension do
-    unless File.exist?(File.expand_path('../ext/saga/scanner.bundle', __FILE__))
+    unless File.exist?(File.expand_path('../ext/saga/scanner.bundle', __FILE__)) or
+           File.exist?(File.expand_path('../ext/saga/scanner.so', __FILE__))
       $stderr.puts("Failed to build #{extension}.")
       exit(1)
     end
@@ -56,14 +59,27 @@ namespace :ext do
   file "#{ext}/scanner.c"  do
     sh %{cd ext/saga; ragel scanner.rl -o scanner.c}
   end
-
-  file "#{ext}/Makefile" => ["#{ext}/scanner.c"] do
+  
+  file "#{ext}/scanner.dot" do
+    sh %{cd ext/saga; ragel -V scanner.rl > scanner.dot}
+  end
+  
+  file "#{ext}/scanner.png" => "#{ext}/scanner.dot" do
+    sh %{cd ext/saga; neato -o scanner.png -T png scanner.dot}
+  end
+  
+  file "#{ext}/Makefile" => "#{ext}/scanner.c" do
     Dir.chdir(ext) { ruby "extconfig.rb" }
   end
-
+  
+  desc "Shows the a state diagram of the scanner"
+  task :visualize => "#{ext}/scanner.png" do
+    sh %{open #{ext}/scanner.png}
+  end
+  
   desc "Builds just the #{extension} extension"
   task extension.to_sym => ["#{ext}/Makefile", ext_so ]
-
+  
   file ext_so => ext_files do
     Dir.chdir(ext) do
       sh(PLATFORM =~ /win32/ ? 'nmake' : 'make') do |ok, res|

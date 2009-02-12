@@ -11,7 +11,7 @@ typedef struct scanner_state {
 } scanner_state;
 
 int scanner_init(scanner_state *state);
-int saga_scanner_execute(scanner_state *state, const char *input);
+int saga_scanner_execute(scanner_state *state, const char *input, size_t input_length);
 int scanner_finish(scanner_state *state);
 
 #endif
