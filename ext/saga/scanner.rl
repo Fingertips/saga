@@ -3,12 +3,6 @@
 
 #define HERE fprintf(stderr, "[HERE] %s:%d:%s\n", __FILE__, __LINE__, __FUNCTION__)
 
-void handle_role(void *self, const char *p)
-{
-  scanner_state *state = (scanner_state *)self;
-  rb_funcall(state->parser, rb_intern("handle_role"), 1, rb_str_new(state->start_of_token, p - state->start_of_token));
-}
-
 %%{
   machine saga_scanner;
   
@@ -21,29 +15,44 @@ void handle_role(void *self, const char *p)
   action clear_arguments {
   }
   
-  action push_role_argument {
-    state->handle_role(state, p);
+  action push_role {
+    rb_funcall(state->parser, rb_intern("handle_role"), 1, rb_str_new(state->start_of_token, p - state->start_of_token));
+  }
+  
+  action push_task {
+    rb_funcall(state->parser, rb_intern("handle_task"), 1, rb_str_new(state->start_of_token, p - state->start_of_token));
+  }
+  
+  action push_reason {
+    rb_funcall(state->parser, rb_intern("handle_reason"), 1, rb_str_new(state->start_of_token, p - state->start_of_token));
   }
   
   action push_story {
+    rb_funcall(state->parser, rb_intern("handle_story"), 0);
   }
   
   ## State machine definition
   
   # Characters
   
-  LF = "\n";
-  CRLF = "\r\n";
+  LF      = "\n";
+  CRLF    = "\r\n";
   NEWLINE = LF | CRLF;
-  WHITESPACE = " ";
+  SPACE   = " ";
+  DOT     = ".";
+  uchar   = (ascii | extend | SPACE);
   
   # A story
   
-  as_a    = 'As a';
-  as_an   = 'As an';
-  as_a_an = as_a | as_an;
-  role    = any*                       >mark_begin_token %push_role_argument;
-  story   = as_a_an WHITESPACE* role   >clear_arguments  %push_story;
+  as_a            = 'As a';
+  as_an           = 'As an';
+  as_a_an         = as_a | as_an;
+  role            = uchar*             >mark_begin_token %push_role;
+  i_would_like_to = 'I would like to';
+  task            = uchar*             >mark_begin_token %push_task;
+  so_that         = 'so that';
+  reason          = uchar*             >mark_begin_token %push_reason;
+  story           = as_a_an role i_would_like_to task so_that reason DOT >clear_arguments  %push_story;
   
   main := story NEWLINE;
   
@@ -54,11 +63,13 @@ int saga_scanner_init(scanner_state *state, VALUE parser)
 {
   int cs = 0;
   int eof = 0;
+  
   %% write init;
+  
+  state->parser = parser;
+  
   state->cs = cs;
   state->start_of_token = 0;
-  state->parser = parser;
-  state->handle_role = handle_role;
   
   return(1);
 }

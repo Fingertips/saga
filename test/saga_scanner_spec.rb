@@ -1,12 +1,7 @@
 require File.expand_path('../spec_helper', __FILE__)
 
-class Parser
-  def self.handle_role(role)
-  end
-end
-
 describe "Scanner" do
-  STORY = "As an admin\n"
+  STORY = "As a developer I would like to have written a site which is compliant with XHTML and CSS standards so that as many people as possible can access the site and view it as intended.\n"
   
   it "should have a scan methods" do
     Saga::Scanner.should.respond_to(:scan)
@@ -26,7 +21,11 @@ describe "Scanner" do
   
   it "should scan simple stories" do
     parser = stub
-    parser.expects(:handle_role).with('admin')
+    parser.expects(:handle_role).with('developer')
+    parser.expects(:handle_action).with('have written a site which is compliant with XHTML and CSS standards')
+    parser.expects(:handle_reason).with('as many people as possible can access the site and view it as intended')
+    parser.expects(:handle_story)
+    
     Saga::Scanner.scan(parser, STORY)
   end
 end

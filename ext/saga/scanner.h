@@ -3,17 +3,11 @@
 
 #include <sys/types.h>
 
-typedef void (*push_function)(void *self, const char *p);
-
 typedef struct scanner_state {
+  VALUE parser;
   
   int cs;
   const char *start_of_token;
-  
-  VALUE parser;
-  
-  push_function handle_role;
-  
 } scanner_state;
 
 int saga_scanner_init(scanner_state *state, VALUE parser);
