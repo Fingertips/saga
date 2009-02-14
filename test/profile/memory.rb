@@ -3,5 +3,9 @@ $:.unshift(File.expand_path('../../../ext', __FILE__))
 
 require 'saga'
 
-parser = Object.new
-Saga::Scanner.scan(parser, 'As an admin')
+class Parser
+  def handle_role(role)
+  end
+end
+
+Saga::Scanner.scan(Parser.new, "As an admin\n")
