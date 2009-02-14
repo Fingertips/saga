@@ -16,15 +16,15 @@
   }
   
   action push_role {
-    rb_funcall(state->parser, rb_intern("handle_role"), 1, rb_str_new(state->start_of_token, p - state->start_of_token));
+    rb_funcall(state->parser, rb_intern("current_role="), 1, rb_str_new(state->start_of_token, p - state->start_of_token));
   }
   
   action push_task {
-    rb_funcall(state->parser, rb_intern("handle_task"), 1, rb_str_new(state->start_of_token, p - state->start_of_token));
+    rb_funcall(state->parser, rb_intern("current_task="), 1, rb_str_new(state->start_of_token, p - state->start_of_token));
   }
   
   action push_reason {
-    rb_funcall(state->parser, rb_intern("handle_reason"), 1, rb_str_new(state->start_of_token, p - state->start_of_token));
+    rb_funcall(state->parser, rb_intern("current_reason="), 1, rb_str_new(state->start_of_token, p - state->start_of_token));
   }
   
   action push_story {
