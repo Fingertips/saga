@@ -1,12 +1,16 @@
 #include <ruby.h>
 #include "scanner.h"
 
+#define HASH_SET(H,K,V)  rb_hash_aset(H, ID2SYM(rb_intern(K)), V)
+
 #if DEBUG
 #define HERE fprintf(stderr, "[HERE] %s:%d:%s\n", __FILE__, __LINE__, __FUNCTION__)
 #define M(N,I) fprintf(stderr, "[!] %s is at %d\n", N, I)
+#define INSPECT(V) fprintf(stderr, "[?] %s\n", RSTRING(rb_inspect(V))->ptr)
 #else
 #define HERE
 #define M(N,I)
+#define INSPECT(V)
 #endif
 
 %%{
@@ -56,25 +60,22 @@
     M("end reason", fpc - input);
   }
   
-  action new_story_attributes {
-    state->story_attributes = rb_hash_new();
-  }
-  
   action push_story_id {
-    rb_hash_aset(state->story_attributes,
-      ID2SYM(rb_intern("id")),
-      rb_str_new(state->start_of_token, fpc - state->start_of_token)
-      );
+    if (state->story_attributes == Qnil) state->story_attributes = rb_hash_new();
+    
+    HASH_SET(state->story_attributes, "id", rb_str_new(state->start_of_token, fpc - state->start_of_token));
     M("end story_id", fpc - input);
   }
   
   action push_story {
-    rb_funcall(state->parser, rb_intern("handle_story"), 4,
-      rb_str_new(state->story_markers[0], state->story_markers[1] - state->story_markers[0]),
-      rb_str_new(state->story_markers[2], state->story_markers[3] - state->story_markers[2]),
-      rb_str_new(state->story_markers[4], state->story_markers[5] - state->story_markers[4]),
-      state->story_attributes
-      );
+    
+    if (state->story_attributes == Qnil) state->story_attributes = rb_hash_new();
+    
+    HASH_SET(state->story_attributes, "role", rb_str_new(state->story_markers[0], state->story_markers[1] - state->story_markers[0]));
+    HASH_SET(state->story_attributes, "task", rb_str_new(state->story_markers[2], state->story_markers[3] - state->story_markers[2]));
+    HASH_SET(state->story_attributes, "reason", rb_str_new(state->story_markers[4], state->story_markers[5] - state->story_markers[4]));
+    rb_funcall(state->parser, rb_intern("handle_story"), 1, state->story_attributes);
+    
     saga_scanner_reset_markers(state);
     M("push role", fpc - input);
   }
@@ -103,7 +104,7 @@
   story_body      = as_a_an role i_would_like_to task so_that reason DOT;
   
   story_id        = '#' (digit+)       >mark_start_token %push_story_id;
-  attributes      = story_id           >new_story_attributes;
+  attributes      = story_id;
   
   story           = story_body ( SPACE+ '-' SPACE+ attributes)? %push_story;
   

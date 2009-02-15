@@ -1,20 +1,17 @@
 require File.expand_path('../spec_helper', __FILE__)
 
 describe "A Parser" do
-  ROLE = 'admin'
-  TASK = 'block users'
-  REASON = 'I can disable their access'
-  
   before do
     @parser = Saga::Parser.new
   end
   
   it "should handle stories" do
-    @parser.handle_story(ROLE, TASK, REASON)
+    @parser.handle_story(:role => ' admin ', :task => ' block users ', :reason => ' I can disable their access', :id => '12')
     story = @parser.stories.last
     
-    story[:role].should == ROLE
-    story[:task].should == TASK
-    story[:reason].should == REASON
+    story[:role].should == 'admin'
+    story[:task].should == 'block users'
+    story[:reason].should == 'I can disable their access'
+    story[:id].should == 12
   end
 end
