@@ -2,6 +2,7 @@ require File.expand_path('../spec_helper', __FILE__)
 
 describe "Scanner" do
   STORY = "As a developer I would like to have written a site which is compliant with XHTML and CSS standards so that as many people as possible can access the site and view it as intended.\n"
+  STORY_WITH_ATTRIBUTES = "As a developer I would like to have written a site which is compliant with XHTML and CSS standards so that as many people as possible can access the site and view it as intended. - #12\n"
   
   it "should have a scan methods" do
     Saga::Scanner.should.respond_to(:scan)
@@ -27,6 +28,17 @@ describe "Scanner" do
     story[:role].should == 'developer'
     story[:task].should == 'have written a site which is compliant with XHTML and CSS standards'
     story[:reason].should == 'as many people as possible can access the site and view it as intended'
+  end
+  
+  it "should scan stories with attributes" do
+    parser = Saga::Parser.new
+    Saga::Scanner.scan(parser, STORY_WITH_ATTRIBUTES)
+    story = parser.stories.first
+    
+    story[:role].should == 'developer'
+    story[:task].should == 'have written a site which is compliant with XHTML and CSS standards'
+    story[:reason].should == 'as many people as possible can access the site and view it as intended'
+    story[:id].should == 12
   end
   
   it "should scan multiple stories" do

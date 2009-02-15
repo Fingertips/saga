@@ -7,8 +7,10 @@ typedef struct scanner_state {
   VALUE parser;
   
   int cs;
-  const char *story_markers[6];
   const char *start_of_token;
+  
+  const char *story_markers[6];
+  VALUE story_attributes;
 } scanner_state;
 
 int saga_scanner_init(scanner_state *state, VALUE parser);

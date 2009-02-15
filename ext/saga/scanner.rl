@@ -12,21 +12,28 @@
 %%{
   machine saga_scanner;
   
+  ## Actions
+  
+  action mark_start_token {
+    state->start_of_token = fpc;
+    M("start generic token", fpc - input);
+  }
+  
   ## Story actions
   
   action mark_start_role {
     state->story_markers[0] = fpc;
-    M("begin role", fpc - p);
+    M("begin role", fpc - input);
   }
   
   action mark_end_role {
     state->story_markers[1] = fpc;
-    M("end role", state->story_markers[1] - state->story_markers[0]);
+    M("end role", fpc - input);
   }
   
   action mark_start_task {
     state->story_markers[2] = fpc;
-    M("begin task", fpc - p);
+    M("begin task", fpc - input);
   }
   
   action mark_end_task {
@@ -35,27 +42,41 @@
      */
     if (state->story_markers[4] == NULL) {
       state->story_markers[3] = fpc;
-      M("end task", state->story_markers[3] - state->story_markers[2]);
+      M("end task", fpc - input);
     }
   }
   
   action mark_start_reason {
     state->story_markers[4] = fpc;
-    M("begin reason", fpc - p);
+    M("begin reason", fpc - input);
   }
   
   action mark_end_reason {
     state->story_markers[5] = fpc;
-    M("end reason", state->story_markers[5] - state->story_markers[4]);
+    M("end reason", fpc - input);
+  }
+  
+  action new_story_attributes {
+    state->story_attributes = rb_hash_new();
+  }
+  
+  action push_story_id {
+    rb_hash_aset(state->story_attributes,
+      ID2SYM(rb_intern("id")),
+      rb_str_new(state->start_of_token, fpc - state->start_of_token)
+      );
+    M("end story_id", fpc - input);
   }
   
   action push_story {
-    rb_funcall(state->parser, rb_intern("handle_story"), 3,
+    rb_funcall(state->parser, rb_intern("handle_story"), 4,
       rb_str_new(state->story_markers[0], state->story_markers[1] - state->story_markers[0]),
       rb_str_new(state->story_markers[2], state->story_markers[3] - state->story_markers[2]),
-      rb_str_new(state->story_markers[4], state->story_markers[5] - state->story_markers[4])
-    );
+      rb_str_new(state->story_markers[4], state->story_markers[5] - state->story_markers[4]),
+      state->story_attributes
+      );
     saga_scanner_reset_markers(state);
+    M("push role", fpc - input);
   }
   
   ## State machine definition
@@ -79,7 +100,12 @@
   task            = uchar+             >mark_start_task %mark_end_task;
   so_that         = 'so that';
   reason          = uchar+             >mark_start_reason %mark_end_reason;
-  story           = as_a_an role i_would_like_to task so_that reason DOT %push_story;
+  story_body      = as_a_an role i_would_like_to task so_that reason DOT;
+  
+  story_id        = '#' (digit+)       >mark_start_token %push_story_id;
+  attributes      = story_id           >new_story_attributes;
+  
+  story           = story_body ( SPACE+ '-' SPACE+ attributes)? %push_story;
   
   main := (story NEWLINE)* story?;
   
@@ -91,6 +117,7 @@ void saga_scanner_reset_markers(scanner_state *state)
   int i;
   
   state->start_of_token = NULL;
+  state->story_attributes = Qnil;
   for (i = 0; i < 6; i++) {
     state->story_markers[i] = NULL;
   }
