@@ -1,34 +1,60 @@
 #include <ruby.h>
 #include "scanner.h"
 
+#if DEBUG
 #define HERE fprintf(stderr, "[HERE] %s:%d:%s\n", __FILE__, __LINE__, __FUNCTION__)
+#define M(N,I) fprintf(stderr, "[!] %s is at %d\n", N, I)
+#else
+#define HERE
+#define M(N,I)
+#endif
 
 %%{
   machine saga_scanner;
   
-  ## Actions
+  ## Story actions
   
-  action mark_begin_token {
-    state->start_of_token = fpc;
+  action mark_start_role {
+    state->story_markers[0] = fpc;
+    M("begin role", fpc - p);
   }
   
-  action clear_arguments {
+  action mark_end_role {
+    state->story_markers[1] = fpc;
+    M("end role", state->story_markers[1] - state->story_markers[0]);
   }
   
-  action push_role {
-    rb_funcall(state->parser, rb_intern("current_role="), 1, rb_str_new(state->start_of_token, p - state->start_of_token));
+  action mark_start_task {
+    state->story_markers[2] = fpc;
+    M("begin task", fpc - p);
   }
   
-  action push_task {
-    rb_funcall(state->parser, rb_intern("current_task="), 1, rb_str_new(state->start_of_token, p - state->start_of_token));
+  action mark_end_task {
+    /* Because the FSM can't distinguish between the start of the 'so that' keyphrase and an uchar
+     * we only set the End Task Marker when there is no Start Reason Marker yet.
+     */
+    if (state->story_markers[4] == NULL) {
+      state->story_markers[3] = fpc;
+      M("end task", state->story_markers[3] - state->story_markers[2]);
+    }
   }
   
-  action push_reason {
-    rb_funcall(state->parser, rb_intern("current_reason="), 1, rb_str_new(state->start_of_token, p - state->start_of_token));
+  action mark_start_reason {
+    state->story_markers[4] = fpc;
+    M("begin reason", fpc - p);
+  }
+  
+  action mark_end_reason {
+    state->story_markers[5] = fpc;
+    M("end reason", state->story_markers[5] - state->story_markers[4]);
   }
   
   action push_story {
-    rb_funcall(state->parser, rb_intern("handle_story"), 0);
+    rb_funcall(state->parser, rb_intern("handle_story"), 3,
+      rb_str_new(state->story_markers[0], state->story_markers[1] - state->story_markers[0]),
+      rb_str_new(state->story_markers[2], state->story_markers[3] - state->story_markers[2]),
+      rb_str_new(state->story_markers[4], state->story_markers[5] - state->story_markers[4])
+    );
   }
   
   ## State machine definition
@@ -47,17 +73,27 @@
   as_a            = 'As a';
   as_an           = 'As an';
   as_a_an         = as_a | as_an;
-  role            = uchar*             >mark_begin_token %push_role;
+  role            = uchar+             >mark_start_role %mark_end_role;
   i_would_like_to = 'I would like to';
-  task            = uchar*             >mark_begin_token %push_task;
+  task            = uchar+             >mark_start_task %mark_end_task;
   so_that         = 'so that';
-  reason          = uchar*             >mark_begin_token %push_reason;
-  story           = as_a_an role i_would_like_to task so_that reason DOT >clear_arguments  %push_story;
+  reason          = uchar+             >mark_start_reason %mark_end_reason;
+  story           = as_a_an role i_would_like_to task so_that reason DOT %push_story;
   
   main := story NEWLINE;
   
   write data;
 }%%
+
+void saga_scanner_reset_markers(scanner_state *state)
+{
+  int i;
+  
+  state->start_of_token = NULL;
+  for (i = 0; i < 6; i++) {
+    state->story_markers[i] = NULL;
+  }
+}
 
 int saga_scanner_init(scanner_state *state, VALUE parser)
 {
@@ -69,7 +105,7 @@ int saga_scanner_init(scanner_state *state, VALUE parser)
   state->parser = parser;
   
   state->cs = cs;
-  state->start_of_token = 0;
+  saga_scanner_reset_markers(state);
   
   return(1);
 }

@@ -20,12 +20,12 @@ describe "Scanner" do
   end
   
   it "should scan simple stories" do
-    parser = stub
-    parser.expects(:current_role=).with(' developer ')
-    parser.expects(:current_task=).with(' have written a site which is compliant with XHTML and CSS standards ')
-    parser.expects(:current_reason=).with(' as many people as possible can access the site and view it as intended ')
-    parser.expects(:handle_story)
-    
+    parser = Saga::Parser.new
     Saga::Scanner.scan(parser, STORY)
+    story = parser.stories.first
+    
+    story[:role].should == 'developer'
+    story[:task].should == 'have written a site which is compliant with XHTML and CSS standards'
+    story[:reason].should == 'as many people as possible can access the site and view it as intended'
   end
 end

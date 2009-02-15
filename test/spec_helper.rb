@@ -7,6 +7,9 @@ require 'bacon'
 require "mocha/standalone"
 require "mocha/object"
 
+$:.unshift(File.expand_path('../', __FILE__))
+require 'snitch'
+
 class Bacon::Context
   include Mocha::Standalone
   

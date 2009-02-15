@@ -1,11 +1,10 @@
 module Saga
   class Parser
-    attr_accessor :current_role, :current_task, :current_reason
     attr_accessor :stories
     
-    def handle_story
+    def handle_story(role, task, reason)
       self.stories ||= []
-      self.stories << { :role => current_role, :task => current_task, :reason => current_reason }
+      self.stories << { :role => role.strip, :task => task.strip, :reason => reason.strip }
     end
   end
 end

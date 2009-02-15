@@ -10,12 +10,9 @@ describe "A Parser" do
   end
   
   it "should handle stories" do
-    @parser.current_role = ROLE
-    @parser.current_task = TASK
-    @parser.current_reason = REASON
-    @parser.handle_story
-    
+    @parser.handle_story(ROLE, TASK, REASON)
     story = @parser.stories.last
+    
     story[:role].should == ROLE
     story[:task].should == TASK
     story[:reason].should == REASON
