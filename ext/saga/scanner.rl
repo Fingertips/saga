@@ -55,6 +55,7 @@
       rb_str_new(state->story_markers[2], state->story_markers[3] - state->story_markers[2]),
       rb_str_new(state->story_markers[4], state->story_markers[5] - state->story_markers[4])
     );
+    saga_scanner_reset_markers(state);
   }
   
   ## State machine definition
@@ -80,7 +81,7 @@
   reason          = uchar+             >mark_start_reason %mark_end_reason;
   story           = as_a_an role i_would_like_to task so_that reason DOT %push_story;
   
-  main := story NEWLINE;
+  main := (story NEWLINE)* story?;
   
   write data;
 }%%

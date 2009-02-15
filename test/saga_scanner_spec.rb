@@ -28,4 +28,10 @@ describe "Scanner" do
     story[:task].should == 'have written a site which is compliant with XHTML and CSS standards'
     story[:reason].should == 'as many people as possible can access the site and view it as intended'
   end
+  
+  it "should scan multiple stories" do
+    parser = Saga::Parser.new
+    Saga::Scanner.scan(parser, [STORY, STORY].join("\n"))
+    parser.stories.length.should == 2
+  end
 end
