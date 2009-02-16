@@ -1,3 +1,3 @@
 # Saga
 
-Saga is a tool to convert the Saga user story between various markups.
+Saga is a tool to convert user stories between various markups.
