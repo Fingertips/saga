@@ -36,9 +36,15 @@ describe "Tokenizer" do
     end
   end
   
-  it "tokenizes definitions" do
+  it "tokenizes definition input" do
     each_case('definition') do |input, expected|
       Saga::Tokenizer.tokenize_definition(input).should == expected
+    end
+  end
+  
+  it "tokenizes author input" do
+    each_case('author') do |input, expected|
+      Saga::Tokenizer.tokenize_author(input).should == expected
     end
   end
 end

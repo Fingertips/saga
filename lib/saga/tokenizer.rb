@@ -39,5 +39,16 @@ module Saga
         {}
       end
     end
+    
+    def self.tokenize_author(input)
+      author = {}
+      parts = input[1..-1].split(',')
+      author[:name]    = parts[0].strip if parts[0]
+      author[:email]   = parts[1].strip if parts[1]
+      author[:company] = parts[2].strip if parts[2]
+      author[:website] = parts[3].strip if parts[3]
+      
+      author
+    end
   end
 end

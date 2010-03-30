@@ -1,0 +1,8 @@
+- Thijs van der Vossen
+=> {:name => 'Thijs van der Vossen'}
+- Thijs van der Vossen, thijs@fngtps.com
+=> {:name => 'Thijs van der Vossen', :email => 'thijs@fngtps.com'}
+- Thijs van der Vossen, thijs@fngtps.com, Fingertips
+=> {:name => 'Thijs van der Vossen', :email => 'thijs@fngtps.com', :company => 'Fingertips'}
+- Thijs van der Vossen, thijs@fngtps.com, Fingertips, http://www.fngtps.com
+=> {:name => 'Thijs van der Vossen', :email => 'thijs@fngtps.com', :company => 'Fingertips', :website => 'http://www.fngtps.com'}
