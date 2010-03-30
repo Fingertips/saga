@@ -3,32 +3,6 @@ begin
 rescue LoadError
 end
 
-require 'bacon'
-require "mocha/standalone"
-require "mocha/object"
-
-$:.unshift(File.expand_path('../', __FILE__))
-require 'snitch'
-
-class Bacon::Context
-  include Mocha::Standalone
-  
-  alias it_without_mocha it
-  def it(description)
-    it_without_mocha(description) do
-      mocha_setup
-      yield
-      Bacon::Counter[:requirements] += Mocha::Mockery.instance.mocks.length
-      mocha_verify
-      mocha_teardown
-    end
-  end
-end
+require 'mocha-on-bacon'
 
 $:.unshift(File.expand_path('../../lib', __FILE__))
-$:.unshift(File.expand_path('../../ext', __FILE__))
-
-require 'saga'
-
-$:.unshift(File.expand_path('../ext', __FILE__))
-
