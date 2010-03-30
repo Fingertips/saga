@@ -1,0 +1,8 @@
+
+=> {}
+User: A user
+=> {:title => 'User', :definition => 'A user'}
+Administrator: Any user with full administrative access.
+=> {:title => 'Administrator', :definition => 'Any user with full administrative access.'}
+Non-functional: Stories related to non-functional requirements.
+=> {:title => 'Non-functional', :definition => 'Stories related to non-functional requirements.'}

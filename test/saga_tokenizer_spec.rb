@@ -24,7 +24,7 @@ end
 describe "Tokenizer" do
   extend CasesHelper
   
-  it "should tokenizes story attributes input" do
+  it "tokenizes story attributes input" do
     each_case('story_attributes') do |input, expected|
       Saga::Tokenizer.tokenize_story_attributes(input).should == expected
     end
@@ -32,8 +32,13 @@ describe "Tokenizer" do
   
   it "tokenizes story input" do
     each_case('story') do |input, expected|
-      p [input, expected]
       Saga::Tokenizer.tokenize_story(input).should == expected
+    end
+  end
+  
+  it "tokenizes definitions" do
+    each_case('definition') do |input, expected|
+      Saga::Tokenizer.tokenize_definition(input).should == expected
     end
   end
 end

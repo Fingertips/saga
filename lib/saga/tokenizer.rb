@@ -33,7 +33,11 @@ module Saga
     end
     
     def self.tokenize_definition(input)
-      input
+      if match = /^([^:]+)\s*:\s*(.+)\s*$/.match(input)
+        {:title => match[1], :definition => match[2]}
+      else
+        {}
+      end
     end
   end
 end
