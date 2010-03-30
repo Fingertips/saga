@@ -1,5 +1,6 @@
 module Saga
-  autoload :Runner, 'saga/runner'
+  autoload :Runner,    'saga/runner'
+  autoload :Tokenizer, 'saga/tokenizer'
   
   def self.run(argv)
     runner = ::Saga::Runner.new(argv)
