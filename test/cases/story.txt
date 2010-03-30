@@ -1,0 +1,4 @@
+As a developer I would like to have created database indexes so that the queries run as fast as possible.
+=> {:description => 'As a developer I would like to have created database indexes so that the queries run as fast as possible.'}
+As a recorder I would like to use TLS (SSL) so that my connection with the storage API is secure and I can be sure of the API’s identity. - #4 todo
+=> {:description => 'As a recorder I would like to use TLS (SSL) so that my connection with the storage API is secure and I can be sure of the API’s identity.', :id => 4, :status => 'todo' }

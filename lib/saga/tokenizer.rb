@@ -5,10 +5,12 @@ module Saga
     end
     
     def self.tokenize_story_attributes(input)
-      attributes = {}
+      return {} if input.nil?
       
-      rest  = []
-      parts = input.split(/\s/)
+      attributes = {}
+      rest       = []
+      parts      = input.split(/\s/)
+      
       parts.each do |part|
         if part.strip == ''
           next
@@ -18,8 +20,8 @@ module Saga
           rest << part
         end
       end
-      attributes[:status] = rest.join(' ')
       
+      attributes[:status] = rest.join(' ') unless rest.empty?
       attributes
     end
     
@@ -28,6 +30,10 @@ module Saga
       story = tokenize_story_attributes(attributes)
       story[:description] = description.strip
       story
+    end
+    
+    def self.tokenize_definition(input)
+      input
     end
   end
 end

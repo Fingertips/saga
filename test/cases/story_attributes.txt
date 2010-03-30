@@ -1,0 +1,10 @@
+
+=> {}
+
+=> {}
+#4
+=> {:id => 4}
+#12 todo
+=> {:id => 12, :status => 'todo'}
+ #3  partially  done
+=> {:id => 3, :status => 'partially done'}
