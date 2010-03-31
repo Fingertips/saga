@@ -1,3 +1,8 @@
+begin
+  require 'rubygems'
+rescue LoadError
+end
+
 module Saga
   autoload :Document,  'saga/document'
   autoload :Formatter, 'saga/formatter'

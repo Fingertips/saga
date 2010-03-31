@@ -1,3 +1,5 @@
+require 'active_support/ordered_hash'
+
 module Saga
   class Document
     attr_accessor :title, :introduction, :authors, :stories, :definitions
@@ -6,8 +8,8 @@ module Saga
       @title        = ''
       @introduction = []
       @authors      = []
-      @stories      = {}
-      @definitions  = {}
+      @stories      = ActiveSupport::OrderedHash.new
+      @definitions  = ActiveSupport::OrderedHash.new
     end
   end
 end
