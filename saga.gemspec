@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
      "lib/saga/parser.rb",
      "lib/saga/runner.rb",
      "lib/saga/tokenizer.rb",
+     "saga.gemspec",
      "templates/default/document.erb",
      "templates/default/helpers.rb",
      "test/cases/author.txt",
@@ -64,9 +65,18 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<erubis>, [">= 2.6"])
+      s.add_runtime_dependency(%q<activesupport>, [">= 2.3"])
+      s.add_development_dependency(%q<mocha-on-bacon>, [">= 0"])
     else
+      s.add_dependency(%q<erubis>, [">= 2.6"])
+      s.add_dependency(%q<activesupport>, [">= 2.3"])
+      s.add_dependency(%q<mocha-on-bacon>, [">= 0"])
     end
   else
+    s.add_dependency(%q<erubis>, [">= 2.6"])
+    s.add_dependency(%q<activesupport>, [">= 2.3"])
+    s.add_dependency(%q<mocha-on-bacon>, [">= 0"])
   end
 end
 
