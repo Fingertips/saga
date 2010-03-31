@@ -12,8 +12,9 @@ module Saga
         opts.banner =  "Usage: saga [command]"
         opts.separator ""
         opts.separator "Commands:"
-        opts.separator "    new"
-        opts.separator "    convert <filename>"
+        opts.separator "    new                 - prints a blank stub"
+        opts.separator "    convert <filename>  - convert the stories to HTML"
+        opts.separator "    inspect <filename>  - print the internals of the document"
         opts.separator ""
         opts.separator "Options:"
         opts.on("-h", "--help", "Show help") do
