@@ -30,6 +30,16 @@ module Saga
       Saga::Formatter.format(document, :template => 'saga')
     end
     
+    def write_parsed_document(filename)
+      document = Saga::Parser.parse(File.read(filename))
+      puts document.title
+      document.authors.each { |author| p author }
+      puts
+      document.stories.each { |header, stories| puts header; stories.each { |story| p story } }
+      puts
+      document.definitions.each { |header, definitions| puts header; definitions.each { |definition| p definition } }
+    end
+    
     def convert(filename)
       Saga::Formatter.format(Saga::Parser.parse(File.read(filename)))
     end
@@ -40,6 +50,8 @@ module Saga
         puts new_file
       when 'convert'
         puts convert(File.expand_path(@argv[1]))
+      when 'inspect'
+        write_parsed_document(File.expand_path(@argv[1]))
       else
         puts convert(File.expand_path(command))
       end

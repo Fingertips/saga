@@ -44,6 +44,21 @@ describe "A Runner" do
     end.should == runner.parser.to_s*2 # Because we stub exit it runs twice ):
   end
   
+  it "generates a requirements stub to can get started" do
+    Saga::Runner.stubs(:author).returns({:name => "Manfred Stienstra"})
+    runner = Saga::Runner.new(%w(new))
+    output = collect_stdout do
+      runner.run
+    end
+    output.should.include('Requirements (Title)')
+    output.should.include('- Manfred Stienstra')
+  end
+  
+  it "knows information about the user currently logged in to the system" do
+    author = Saga::Runner.author
+    author[:name].should.not.be.nil
+  end
+  
   it "converts the provided filename" do
     runner = Saga::Runner.new(%w(requirements.txt))
     runner.expects(:convert).with(File.expand_path('requirements.txt')).returns('output')
@@ -60,19 +75,9 @@ describe "A Runner" do
     end.should == "output\n"
   end
   
-  
-  it "generates a requirements stub to can get started" do
-    Saga::Runner.stubs(:author).returns({:name => "Manfred Stienstra"})
-    runner = Saga::Runner.new(%w(new))
-    output = collect_stdout do
-      runner.run
-    end
-    output.should.include('Requirements (Title)')
-    output.should.include('- Manfred Stienstra')
-  end
-  
-  it "knows information about the user currently logged in to the system" do
-    author = Saga::Runner.author
-    author[:name].should.not.be.nil
+  it "inspects the parsed document" do
+    runner = Saga::Runner.new(%w(inspect requirements.txt))
+    runner.expects(:write_parsed_document).with(File.expand_path('requirements.txt'))
+    runner.run
   end
 end
