@@ -1,3 +1,64 @@
 = Saga
 
-Saga is a tool to convert the story format used at Fingertips to a readable document.
+Saga is a tool to convert the requirements format used at Fingertips to HTML.
+
+The Saga document consists of three major parts: an introduction, the stories, and definitions. The document is usually a succinct and complete description of a piece of software. Anyone reading the document should get a fairly good idea of the application without further information.
+
+=== The introduction
+
+The first line of the document is the title. You can start the line with ‘Requirements’, but this is not compulsory.
+
+  Requirements Saga
+
+After the title follows a list of authors. It's encouraged to add all the authors, this way people know who to speak to for more information about the stories. Only the name of the author is compulsory.
+
+  - Manfred Stienstra, manfred@fngtps.com, Fingertips, http://www.fngtps.com
+
+The final part of the introduction is a concise description of the project.
+
+  Saga is a tool to convert the requirements format used at Fingertips to HTML.
+
+=== The stories
+
+The stories section starts with the USER STORIES header.
+
+  USER STORIES
+
+After this follows a list of stories. You can choose to add section headers, but this is optional. For example:
+
+  As a writer I want to convert my description of the project to a nice format. - #1 todo
+  
+  Workflow
+  
+  As a writer I want an example so I don't have to remember all the details of the format. – #2 todo
+    Try to find author details for the system information and autofill that in the generated stub.
+  As a writer I want to debug the parse process so I can find out what I did wrong. - #3 todo
+  
+
+Stories consist of a description and some extra information. The number behind the hash is the unique number of the story. We use the id to point to a story without having to type the whole description in everyday conversation. The little text label at the end describes the status of the story.
+
+== Definitions
+
+The document ends with a list of definitions. Here we define words used throughout the document. We only define words if they need a strict definition or if they might be misunderstood by someone. Like with the stories sections are optional.
+
+  ROLES
+  
+  Writer: Someone who was appointed the task of writing the stories.
+  Developer: A person developing the application.
+  
+  DEFINITIONS
+  
+  Project: The software project the developers are working on.
+
+=== Usage
+
+  Usage: saga [command]
+  
+  Commands:
+      new                 - prints a blank stub
+      convert <filename>  - convert the stories to HTML
+      inspect <filename>  - print the internals of the document
+  
+  Options:
+      -h, --help                       Show help
+
