@@ -37,7 +37,7 @@ After this follows a list of stories. You can choose to add section headers, but
 
 Stories consist of a description and some extra information. The number behind the hash is the unique number of the story. We use the id to point to a story without having to type the whole description in everyday conversation. The little text label at the end describes the status of the story.
 
-== Definitions
+=== Definitions
 
 The document ends with a list of definitions. Here we define words used throughout the document. We only define words if they need a strict definition or if they might be misunderstood by someone. Like with the stories sections are optional.
 
