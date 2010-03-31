@@ -1,3 +1,3 @@
-# Saga
+= Saga
 
-Saga is a tool to convert user stories between various markups.
+Saga is a tool to convert the story format used at Fingertips to a readable document.

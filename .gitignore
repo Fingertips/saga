@@ -1,4 +1,2 @@
-ext/saga/Makefile
-ext/saga/scanner.bundle
-ext/saga/scanner.c
-ext/saga/scanner.o
+html
+pkg
