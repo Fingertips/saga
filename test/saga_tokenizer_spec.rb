@@ -89,4 +89,11 @@ describe "A Tokenizer" do
       @tokenizer.process_line(line)
     end
   end
+  
+  it "processes lines from the input" do
+    input = File.read(File.expand_path("../cases/story.txt", __FILE__))
+    count = input.split("\n").length
+    @tokenizer.expects(:process_line).times(count)
+    @tokenizer.process(input)
+  end
 end
