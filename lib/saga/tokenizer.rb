@@ -44,10 +44,14 @@ module Saga
     end
     
     def self.tokenize_story(input)
-      description, attributes = input.split('-')
-      story = tokenize_story_attributes(attributes)
-      story[:description] = description.strip
-      story
+      parts = input.split('-')
+      if parts.length > 1
+        story = tokenize_story_attributes(parts[-1])
+        story[:description] = parts[0..-2].join('-').strip
+        story
+      else
+        { :description => input.strip }
+      end
     end
     
     def self.tokenize_definition(input)

@@ -51,6 +51,11 @@
   <td class="meta iteration"><%= story[:iteration] %></td>
   <td class="meta status"><%= story[:status] %></td>
 </tr>
+<% if story[:notes] %>
+<tr class="<%= story[:status] %>">
+  <td class="notes" colspan="5"><%= story[:notes] %></td>
+</tr>
+<% end %>
 <% end %>
 </table>
 <% end %>

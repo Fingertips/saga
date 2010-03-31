@@ -29,6 +29,10 @@ module ParserHelper
     parser.parse('As a recorder I would like to add a recording so that it becomes available. - #1 todo')
   end
   
+  def parse_story_comment
+    parser.parse('  “Your recording was created successfully.”')
+  end
+  
   def parse_definition
     parser.parse('Other: Stories that don’t fit anywhere else.')
   end
@@ -85,6 +89,17 @@ describe "A Parser, concerning the handling of input" do
     parser.document.stories.keys.should == ['Storage']
     parser.document.stories['Storage'].length.should == 1
     parser.document.stories['Storage'].first[:id].should == 1
+  end
+  
+  it "interprets a comment after a story as being part of the story" do
+    parse_story_marker
+    parse_story
+    parse_story_comment
+    
+    parser.document.stories.keys.should == ['']
+    parser.document.stories[''].length.should == 1
+    parser.document.stories[''].first[:id].should == 1
+    parser.document.stories[''].first[:notes].should == '“Your recording was created successfully.”'
   end
   
   it "interprets definitions without a header as being a gobal definition" do

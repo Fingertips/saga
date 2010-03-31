@@ -2,3 +2,5 @@ As a developer I would like to have created database indexes so that the queries
 => {:description => 'As a developer I would like to have created database indexes so that the queries run as fast as possible.'}
 As a recorder I would like to use TLS (SSL) so that my connection with the storage API is secure and I can be sure of the API’s identity. - #4 todo
 => {:description => 'As a recorder I would like to use TLS (SSL) so that my connection with the storage API is secure and I can be sure of the API’s identity.', :id => 4, :status => 'todo' }
+As a subscriber I would like to be able to buy additional pre-paid recording slots even though I also have a subscription so that I don’t have to upgrade my subscription level when I temporarily need to make a lot more recordings than usual. - #16 todo
+=> {:description => 'As a subscriber I would like to be able to buy additional pre-paid recording slots even though I also have a subscription so that I don’t have to upgrade my subscription level when I temporarily need to make a lot more recordings than usual.', :id => 16, :status => 'todo'}
