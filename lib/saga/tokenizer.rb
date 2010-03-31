@@ -4,6 +4,24 @@ module Saga
       @parser = parser
     end
     
+    def process_line(input)
+      if input[0,2].downcase == 'as'
+        @parser.handle_story(self.class.tokenize_story(input))
+      elsif input[0,1] == '-'
+        @parser.handle_author(self.class.tokenize_author(input))
+      elsif input =~ /^(\w|[-])+:/
+        @parser.handle_definition(self.class.tokenize_definition(input))
+      else
+        @parser.handle_string(input)
+      end
+    end
+    
+    def process(input)
+      input.split("\n").each do |line|
+        process_line(line)
+      end
+    end
+    
     def self.tokenize_story_attributes(input)
       return {} if input.nil?
       
@@ -47,7 +65,6 @@ module Saga
       author[:email]   = parts[1].strip if parts[1]
       author[:company] = parts[2].strip if parts[2]
       author[:website] = parts[3].strip if parts[3]
-      
       author
     end
   end

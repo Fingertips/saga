@@ -54,4 +54,39 @@ describe "A Tokenizer" do
     @parser    = stub('Parser')
     @tokenizer = Saga::Tokenizer.new(@parser)
   end
+  
+  it "sends a tokenized story to the parser" do
+    line = 'As a recorder I would like to use TLS (SSL) so that my connection with the storage API is secure and I can be sure of the API’s identity. - #4 todo'
+    story = Saga::Tokenizer.tokenize_story(line)
+    
+    @parser.expects(:handle_story).with(story)
+    @tokenizer.process_line(line)
+  end
+  
+  it "sends a tokenized author to the parser" do
+    line = '- Manfred Stienstra, manfred@fngtps.com'
+    author = Saga::Tokenizer.tokenize_author(line)
+    
+    @parser.expects(:handle_author).with(author)
+    @tokenizer.process_line(line)
+  end
+  
+  it "sends a tokenized definition to the parser" do
+    line = 'Author: Someone who writes'
+    definition = Saga::Tokenizer.tokenize_definition(line)
+    
+    @parser.expects(:handle_definition).with(definition)
+    @tokenizer.process_line(line)
+  end
+  
+  it "forwards plain strings to the parser" do
+    [
+      'Requirements User Application',
+      'USER STORIES',
+      ''
+    ].each do |line|
+      @parser.expects(:handle_string).with(line)
+      @tokenizer.process_line(line)
+    end
+  end
 end
