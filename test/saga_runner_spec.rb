@@ -1,7 +1,5 @@
 require File.expand_path('../spec_helper', __FILE__)
- 
-require 'saga/runner'
- 
+
 describe "A Runner" do
   it "should show a help text when invoked without a command and options" do
     @runner = Saga::Runner.new([])

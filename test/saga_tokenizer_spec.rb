@@ -1,7 +1,5 @@
 require File.expand_path('../spec_helper', __FILE__)
  
-require 'saga/tokenizer'
-
 module CasesHelper
   def _parse_expected(line)
     eval(line[3..-1])
@@ -73,6 +71,14 @@ describe "A Tokenizer" do
   
   it "sends a tokenized definition to the parser" do
     line = 'Author: Someone who writes'
+    definition = Saga::Tokenizer.tokenize_definition(line)
+    
+    @parser.expects(:handle_definition).with(definition)
+    @tokenizer.process_line(line)
+  end
+  
+  it "send a tokenize defintion to the parser (slighly more complex)" do
+    line = 'Search and retrieval: Stories related to selecting and retrieving recordings.'
     definition = Saga::Tokenizer.tokenize_definition(line)
     
     @parser.expects(:handle_definition).with(definition)
