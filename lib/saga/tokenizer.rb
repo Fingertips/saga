@@ -9,7 +9,7 @@ module Saga
         @parser.handle_story(self.class.tokenize_story(input))
       elsif input[0,1] == '-'
         @parser.handle_author(self.class.tokenize_author(input))
-      elsif input =~ /^(\w|[\s-])+:/
+      elsif input =~ /^\w(\w|[\s-])+:/
         @parser.handle_definition(self.class.tokenize_definition(input))
       else
         @parser.handle_string(input)

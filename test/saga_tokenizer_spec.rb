@@ -77,6 +77,12 @@ describe "A Tokenizer" do
     @tokenizer.process_line(line)
   end
   
+  it "doesn't mistake a story note with a semicolon as a definition" do
+    line = '  It would be nice if we could use http://www.braintreepaymentsolutions.com/'
+    @parser.expects(:handle_string).with(line)
+    @tokenizer.process_line(line)
+  end
+  
   it "send a tokenize defintion to the parser (slighly more complex)" do
     line = 'Search and retrieval: Stories related to selecting and retrieving recordings.'
     definition = Saga::Tokenizer.tokenize_definition(line)
