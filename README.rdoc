@@ -59,6 +59,7 @@ The document ends with a list of definitions. Here we define words used througho
       convert <filename>  - convert the stories to HTML
       inspect <filename>  - print the internals of the document
       autofill <filename> - adds an id to stories without one
+      planning <filename> - shows the planning of stories in iterations
   
   Options:
       -h, --help                       Show help
