@@ -8,17 +8,22 @@ Requirements <%= title %>
 <% end -%>
 
 USER STORIES
-<% unless stories.keys.empty? -%>
-
 <% stories.each do |header, stories| -%>
-<%= "\n#{header}\n\n" unless header.strip == '' -%>
+<% if header.strip == '' %>
+
+<% else %>
+<%= "\n#{header}\n\n"  -%>
+<% end %>
 <% stories.each do |story| -%>
 <%= format_story(story) %>
 <% end -%>
 <% end -%>
-<% end -%>
 <% definitions.each do |header, definitions| -%>
-<%= "\n#{header}\n\n" unless header.strip == '' -%>
+<% if header.strip == '' %>
+
+<% else %>
+<%= "\n#{header}\n\n"  -%>
+<% end %>
 <% definitions.each do |definition| -%>
 <%= format_definition(definition) %>
 <% end %>

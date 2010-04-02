@@ -27,8 +27,18 @@ module Saga
     
     def new_file
       document = Saga::Document.new
-      document.title = '(Title)'
+      document.title = 'Title'
       document.authors << self.class.author
+      document.stories[''] = [{
+        :description => 'As a writer I would like to write stories so developers can implement them.',
+        :id => 1,
+        :status => 'todo'
+      }]
+      document.definitions[''] = [{
+        :title => 'Writer',
+        :definition => 'Someone who is responsible for writing down requirements in the form of stories'
+      }]
+      
       Saga::Formatter.format(document, :template => 'saga')
     end
     
