@@ -50,7 +50,7 @@ describe "A Runner" do
     output = collect_stdout do
       runner.run
     end
-    output.should.include('Requirements (Title)')
+    output.should.include('Requirements Title')
     output.should.include('- Manfred Stienstra')
   end
   
