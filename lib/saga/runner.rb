@@ -15,6 +15,7 @@ module Saga
         opts.separator "    new                 - prints a blank stub"
         opts.separator "    convert <filename>  - convert the stories to HTML"
         opts.separator "    inspect <filename>  - print the internals of the document"
+        opts.separator "    autofill <filename> - adds an id to stories without one"
         opts.separator ""
         opts.separator "Options:"
         opts.on("-h", "--help", "Show help") do
