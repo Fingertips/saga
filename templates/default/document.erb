@@ -47,7 +47,7 @@
 <tr class="<%= story[:status] %>" id="story<%= story[:id] %>">
   <td class="story"><%= story[:description] %></td>
   <td class="meta id"><%= story[:id] %></td>
-  <td class="meta estimate"><%= story[:estimate] %></td>
+  <td class="meta estimate"><%= format_estimate(*story[:estimate]) if story[:estimate] %></td>
   <td class="meta iteration"><%= story[:iteration] %></td>
   <td class="meta status"><%= story[:status] %></td>
 </tr>

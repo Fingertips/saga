@@ -22,6 +22,17 @@ module Saga
       end
     end
     
+    def self.interval(input)
+      case input.strip
+      when 'd'
+        :days
+      when 'w'
+        :weeks
+      else
+        :hours
+      end
+    end
+    
     def self.tokenize_story_attributes(input)
       return {} if input.nil?
       
@@ -34,6 +45,8 @@ module Saga
           next
         elsif match = /\#(\d+)/.match(part)
           attributes[:id] = match[1].to_i
+        elsif match = /(\d+)(d|w|h|)/.match(part)
+          attributes[:estimate] = [match[1].to_i, interval(match[2])]
         else
           rest << part
         end

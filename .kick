@@ -9,6 +9,8 @@ process do |files|
       "test/#{$1.gsub('/', '_')}_spec.rb"
     when %r{^test/(.+)_spec\.rb$}
       file
+    when %r{^test/cases}
+      "test/saga_tokenizer_spec.rb"
     end
   end)
 end

@@ -8,3 +8,9 @@
 => {:id => 12, :status => 'todo'}
  #3  partially  done
 => {:id => 3, :status => 'partially done'}
+12
+=> {:estimate => [12, :hours]}
+1d
+=> {:estimate => [1, :days]}
+#1 1w partially done
+=> {:id => 1, :estimate => [1, :weeks], :status => 'partially done'}
