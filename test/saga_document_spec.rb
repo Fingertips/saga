@@ -26,7 +26,26 @@ describe "A Document" do
     document.definitions.keys.should == sections
   end
   
-  it "should return a list of used IDs" do
+  it "returns the number of stories as its length" do
+    document = Saga::Document.new
+    document.length == 0
+    
+    document.stories[''] = [{}, {}]
+    document.length.should == 2
+    
+    document.stories['Non-functional'] = [{}]
+    document.length.should == 3
+  end
+  
+  it "know whether the document does or does not have stories" do
+    document = Saga::Document.new
+    document.should.be.empty
+    
+    document.stories[''] = [{},{}]
+    document.should.not.be.empty
+  end
+  
+  it "returns a list of used IDs" do
     document = Saga::Document.new
     document.used_ids.should == []
     
@@ -42,7 +61,7 @@ describe "A Document" do
     document.used_ids.should == [2, 12, 3]
   end
   
-  it "should return a list of unused IDs" do
+  it "returns a list of unused IDs" do
     document = Saga::Document.new
     document.unused_ids(0).should == []
     document.unused_ids(3).should == [1,2,3]
@@ -62,7 +81,7 @@ describe "A Document" do
     document.unused_ids(4).should == [1,3,7,8]
   end
   
-  it "should autofills ids" do
+  it "autofills ids" do
     document = Saga::Document.new
     document.autofill_ids
     

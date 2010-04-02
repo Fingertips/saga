@@ -16,6 +16,7 @@ module Saga
         opts.separator "    convert <filename>  - convert the stories to HTML"
         opts.separator "    inspect <filename>  - print the internals of the document"
         opts.separator "    autofill <filename> - adds an id to stories without one"
+        opts.separator "    planning <filename> - shows the planning of stories in iterations"
         opts.separator ""
         opts.separator "Options:"
         opts.on("-h", "--help", "Show help") do
@@ -62,6 +63,9 @@ module Saga
       Saga::Formatter.format(document, :template => 'saga')
     end
     
+    def planning(filename)
+      Saga::Planning.new(Saga::Parser.parse(File.read(filename))).to_s
+    end
     
     def run_command(command, options)
       case command
@@ -73,6 +77,8 @@ module Saga
         write_parsed_document(File.expand_path(@argv[1]))
       when 'autofill'
         puts autofill(File.expand_path(@argv[1]))
+      when 'planning'
+        puts planning(File.expand_path(@argv[1]))
       else
         puts convert(File.expand_path(command))
       end

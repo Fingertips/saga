@@ -88,4 +88,12 @@ describe "A Runner" do
       runner.run
     end.should == "output\n"
   end
+  
+  it "shows an overview of the time planned in the different iterations" do
+    runner = Saga::Runner.new(%w(planning requirements.txt))
+    runner.expects(:planning).with(File.expand_path('requirements.txt')).returns('output')
+    collect_stdout do
+      runner.run
+    end.should == "output\n"
+  end
 end

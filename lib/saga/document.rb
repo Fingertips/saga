@@ -33,6 +33,10 @@ module Saga
       stories.inject(0) { |total, (_, stories)| total + stories.length }
     end
     
+    def empty?
+      length == 0
+    end
+    
     def autofill_ids
       unused_ids = unused_ids(length - used_ids.length)
       stories.each do |_, stories|
