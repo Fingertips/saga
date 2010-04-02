@@ -31,6 +31,10 @@ module Saga
       Saga::Formatter.format(document, :template => 'saga')
     end
     
+    def convert(filename)
+      Saga::Formatter.format(Saga::Parser.parse(File.read(filename)))
+    end
+    
     def write_parsed_document(filename)
       document = Saga::Parser.parse(File.read(filename))
       puts document.title
@@ -41,9 +45,12 @@ module Saga
       document.definitions.each { |header, definitions| puts header; definitions.each { |definition| p definition } }
     end
     
-    def convert(filename)
-      Saga::Formatter.format(Saga::Parser.parse(File.read(filename)))
+    def autofill(filename)
+      document = Saga::Parser.parse(File.read(filename))
+      document.autofill_ids
+      Saga::Formatter.format(document, :template => 'saga')
     end
+    
     
     def run_command(command, options)
       case command
@@ -53,6 +60,8 @@ module Saga
         puts convert(File.expand_path(@argv[1]))
       when 'inspect'
         write_parsed_document(File.expand_path(@argv[1]))
+      when 'autofill'
+        puts autofill(File.expand_path(@argv[1]))
       else
         puts convert(File.expand_path(command))
       end

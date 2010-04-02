@@ -5,3 +5,18 @@ Requirements <%= title %>
 <% end %>
 
 USER STORIES
+<% stories.each do |header, stories| %>
+
+<%= "#{header}\n" if header %>
+<% stories.each do |story| %>
+<%= format_story(story) %>
+<% end %>
+<% end %>
+
+<% definitions.each do |header, definitions| %>
+
+<%= "#{header}\n" if header %>
+<% definitions.each do |definition| %>
+<%= format_definition(definition) %>
+<% end %>
+<% end %>

@@ -80,4 +80,12 @@ describe "A Runner" do
     runner.expects(:write_parsed_document).with(File.expand_path('requirements.txt'))
     runner.run
   end
+  
+  it "autofills the parsed document" do
+    runner = Saga::Runner.new(%w(autofill requirements.txt))
+    runner.expects(:autofill).with(File.expand_path('requirements.txt')).returns('output')
+    collect_stdout do
+      runner.run
+    end.should == "output\n"
+  end
 end
