@@ -21,7 +21,7 @@ describe "A simple Planning" do
   it "shows a planning" do
     @planning.to_s.should ==
       "Unplanned     : 12 (1 story)\n"+
-      "----------------------------------------\n"+
+      "----------------------------\n"+
       "Total         : 12 (1 story)"
   end
 end
@@ -41,7 +41,7 @@ describe "A complicated Planning" do
       "Iteration 1   : 17 (2 stories)\n"+
       "Iteration 2   : 41 (2 stories)\n"+
       "Iteration 3   : 2 (1 story)\n"+
-      "----------------------------------------\n"+
+      "------------------------------\n"+
       "Total         : 68 (6 stories)"
   end
 end

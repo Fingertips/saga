@@ -34,8 +34,9 @@ module Saga
         parts = iterations.keys.sort.map do |iteration|
           self.class.format_properties(iteration, iterations[iteration])
         end
-        parts << '-'*40
-        parts << self.class.format_properties(false, total)
+        formatted_totals = self.class.format_properties(false, total)
+        parts << '-'*formatted_totals.length
+        parts << formatted_totals
         parts.join("\n")
       end
     end
