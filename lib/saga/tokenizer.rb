@@ -45,6 +45,8 @@ module Saga
           next
         elsif match = /\#(\d+)/.match(part)
           attributes[:id] = match[1].to_i
+        elsif match = /i(\d+)/.match(part)
+          attributes[:iteration] = match[1].to_i
         elsif match = /(\d+)(d|w|h|)/.match(part)
           attributes[:estimate] = [match[1].to_i, interval(match[2])]
         else

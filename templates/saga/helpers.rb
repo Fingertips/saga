@@ -21,6 +21,7 @@ module Helpers
     story_attributes << "##{story[:id]}" if story[:id]
     story_attributes << story[:status] if story[:status]
     story_attributes << format_estimate(*story[:estimate]) if story[:estimate]
+    story_attributes << "i#{story[:iteration]}" if story[:iteration]
     
     parts = [[story[:description], story_attributes.join(' ')].join(' - ')]
     parts << "  #{story[:notes]}" if story[:notes]
