@@ -7,6 +7,8 @@ process do |files|
     case file
     when %r{^lib/(.+)\.rb$}
       "test/#{$1.gsub('/', '_')}_spec.rb"
+    when %r{^templates}
+      "test/saga_formatter_spec.rb"
     when %r{^test/(.+)_spec\.rb$}
       file
     when %r{^test/cases}
