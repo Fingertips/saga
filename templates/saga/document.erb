@@ -7,6 +7,10 @@ Requirements <%= title %>
 <% end -%>
 <% end -%>
 
+<% introduction.each do |paragraph| %>
+<%= paragraph %>
+
+<% end %>
 USER STORIES
 <% stories.each do |header, stories| -%>
 <% if header.strip == '' %>

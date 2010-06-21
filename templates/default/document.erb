@@ -29,6 +29,10 @@
 <p class="author"><%= format_author(author) %></p>
 <% end %>
 
+<% introduction.each do |paragraph| %>
+<p><%= paragraph %></p>
+<% end %>
+
 <% unless stories.empty? %>
 <h2>User stories</h2>
 <% stories.each do |header, stories| %>
