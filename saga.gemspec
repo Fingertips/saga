@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{saga}
-  s.version = "0.5.1"
+  s.version = "0.5.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Manfred Stienstra"]
-  s.date = %q{2010-06-21}
+  s.date = %q{2010-08-13}
   s.default_executable = %q{saga}
   s.description = %q{Saga is a tool to convert stories syntax to a nicely formatted document.}
   s.email = %q{manfred@fngtps.com}
@@ -48,6 +48,7 @@ Gem::Specification.new do |s|
      "test/saga_parser_spec.rb",
      "test/saga_planning_spec.rb",
      "test/saga_runner_spec.rb",
+     "test/saga_spec.rb",
      "test/saga_tokenizer_spec.rb",
      "test/spec_helper.rb"
   ]
@@ -62,6 +63,7 @@ Gem::Specification.new do |s|
      "test/saga_parser_spec.rb",
      "test/saga_planning_spec.rb",
      "test/saga_runner_spec.rb",
+     "test/saga_spec.rb",
      "test/saga_tokenizer_spec.rb",
      "test/spec_helper.rb"
   ]

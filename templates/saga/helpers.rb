@@ -25,7 +25,7 @@ module Helpers
     
     parts = [[story[:description], story_attributes.join(' ')].join(' - ')]
     parts << "  #{story[:notes]}" if story[:notes]
-    parts.join("\n\n")
+    parts.join("\n")
   end
   
   def format_definition(definition)
