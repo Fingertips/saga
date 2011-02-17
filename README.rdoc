@@ -2,15 +2,22 @@
 
 Saga is a tool to convert the requirements format used at Fingertips to HTML.
 
-The Saga document consists of three major parts: an introduction, the stories, and definitions. The document is usually a succinct and complete description of a piece of software. Anyone reading the document should get a fairly good idea of the application without further information.
+The Saga document consists of three major parts: an introduction, the stories,
+and definitions. The document is usually a succinct and complete description of
+a piece of software. Anyone reading the document should get a fairly good idea
+of the application without further information.
+
 
 === The introduction
 
-The first line of the document is the title. You can start the line with ‘Requirements’, but this is not compulsory.
+The first line of the document is the title. You can start the line with
+‘Requirements’, but this is not compulsory.
 
   Requirements Saga
 
-After the title follows a list of authors. It's encouraged to add all the authors, this way people know who to speak to for more information about the stories. Only the name of the author is compulsory.
+After the title follows a list of authors. It's encouraged to add all the
+authors, this way people know who to speak to for more information about the
+stories. Only the name of the author is compulsory.
 
   - Manfred Stienstra, manfred@fngtps.com, Fingertips, http://www.fngtps.com
 
@@ -18,28 +25,39 @@ The final part of the introduction is a concise description of the project.
 
   Saga is a tool to convert the requirements format used at Fingertips to HTML.
 
+
 === The stories
 
 The stories section starts with the USER STORIES header.
 
   USER STORIES
 
-After this follows a list of stories. You can choose to add section headers, but this is optional. For example:
+After this follows a list of stories. You can choose to add section headers,
+but this is optional. For example:
 
-  As a writer I want to convert my description of the project to a nice format. - #1 todo
-  
+  As a writer I would like to convert my description of the project to a nice format. - #1 todo
+
   Workflow
-  
-  As a writer I want an example so I don't have to remember all the details of the format. – #2 todo
-    Try to find author details for the system information and autofill that in the generated stub.
-  As a writer I want to debug the parse process so I can find out what I did wrong. - #3 todo
-  
 
-Stories consist of a description and some extra information. The number behind the hash is the unique number of the story. We use the id to point to a story without having to type the whole description in everyday conversation. The little text label at the end describes the status of the story.
+  As a writer I would like to see an example so that I don't have to remember all the details of the format. – #2 todo
+    Try to find author details for the system information and autofill that in the generated stub.
+  As a writer I would like to debug the parse process so I can find out what I did wrong. - #3 todo
+
+Stories consist of a description and some extra information. The number behind
+the hash is the unique number of the story. We use the id to point to a story
+without having to type the whole description in everyday conversation. The
+little text label at the end describes the status of the story.
+
+A TextMate bundle for the stories format is available from:
+https://github.com/Fingertips/stories.tmbundle
+
 
 === Definitions
 
-The document ends with a list of definitions. Here we define words used throughout the document. We only define words if they need a strict definition or if they might be misunderstood by someone. Like with the stories sections are optional.
+The document ends with a list of definitions. Here we define words used
+throughout the document. We only define words if they need a strict definition
+or if they might be misunderstood by someone. Like with the stories sections
+are optional.
 
   ROLES
   
@@ -50,16 +68,33 @@ The document ends with a list of definitions. Here we define words used througho
   
   Project: The software project the developers are working on.
 
+
+=== Template
+
+By default the Fingertips template is used when converting requirements to HTML.
+You can, however, create a custom template. To start from the default one use
+the `template' command:
+
+  $ saga template design/requirements_template
+
+Edit the files in the created directory to your liking and then convert your
+requirements with the `--template' option:
+
+  $ saga convert --template design/requirements_template requirements.txt > requirements.html
+
+
 === Usage
 
   Usage: saga [command]
-  
+
   Commands:
       new                 - prints a blank stub
       convert <filename>  - convert the stories to HTML
       inspect <filename>  - print the internals of the document
       autofill <filename> - adds an id to stories without one
       planning <filename> - shows the planning of stories in iterations
-  
+      template <dir>      - creates a template directory
+
   Options:
+      -t, --template DIR               Use an external template for conversion to HTML
       -h, --help                       Show help
