@@ -61,7 +61,7 @@ describe "A Runner" do
   
   it "converts the provided filename" do
     runner = Saga::Runner.new(%w(requirements.txt))
-    runner.expects(:convert).with(File.expand_path('requirements.txt')).returns('output')
+    runner.expects(:convert).with(File.expand_path('requirements.txt'), {}).returns('output')
     collect_stdout do
       runner.run
     end.should == "output\n"
@@ -69,10 +69,20 @@ describe "A Runner" do
   
   it "converts the provided filename when the convert command is given" do
     runner = Saga::Runner.new(%w(convert requirements.txt))
-    runner.expects(:convert).with(File.expand_path('requirements.txt')).returns('output')
+    runner.expects(:convert).with(File.expand_path('requirements.txt'), {}).returns('output')
     collect_stdout do
       runner.run
     end.should == "output\n"
+  end
+  
+  it "converts the provided filename with an external template" do
+    Saga::Parser.stubs(:parse)
+    File.stubs(:read)
+    Saga::Formatter.expects(:format).with do |_, options|
+      options[:template].should == File.expand_path('path/to/a/template')
+    end
+    runner = Saga::Runner.new(%W(convert --template path/to/a/template requirements.txt))
+    collect_stdout { runner.run }
   end
   
   it "inspects the parsed document" do

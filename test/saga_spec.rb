@@ -24,7 +24,7 @@ describe "Saga" do
   it "round-trips through the parser and formatter" do
     document = @document
     2.times do
-      saga     = Saga::Formatter.format(document, :template => 'saga')
+      saga     = Saga::Formatter.saga_format(document)
       document = Saga::Parser.parse(saga)
     end
     

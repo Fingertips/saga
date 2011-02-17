@@ -24,7 +24,21 @@ describe "Formatter" do
   end
   
   it "formats a saga document to saga" do
-    saga = Saga::Formatter.format(@document, :template => 'saga')
+    saga = Saga::Formatter.saga_format(@document)
     saga.should.include('Requirements Requirements API')
+  end
+
+  describe "with an external template" do
+    it "raises when the document.erb file doesn't exist" do
+      lambda {
+        Saga::Formatter.format(@document, :template => '/does/not/exist')
+      }.should.raise(ArgumentError, "The template at path `/does/not/exist/document.erb' could not be found.")
+    end
+
+    it "omits the helpers.rb file it it doesn't exist" do
+      formatter = Saga::Formatter.new(@document, :template => File.expand_path('../fixtures', __FILE__))
+      formatter.expects(:load).never
+      formatter.format.should.not.be.empty
+    end
   end
 end

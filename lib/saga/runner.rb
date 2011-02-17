@@ -19,7 +19,10 @@ module Saga
         opts.separator "    planning <filename> - shows the planning of stories in iterations"
         opts.separator ""
         opts.separator "Options:"
-        opts.on("-h", "--help", "Show help") do
+        opts.on("-t", "--template DIR", "Use an external template for conversion to HTML") do |template_path|
+          @options[:template] = File.expand_path(template_path)
+        end
+        opts.on("-h", "--help",     "Show help") do
           puts opts
           exit
         end
@@ -40,11 +43,11 @@ module Saga
         :definition => 'Someone who is responsible for writing down requirements in the form of stories'
       }]
       
-      Saga::Formatter.format(document, :template => 'saga')
+      Saga::Formatter.saga_format(document)
     end
     
-    def convert(filename)
-      Saga::Formatter.format(Saga::Parser.parse(File.read(filename)))
+    def convert(filename, options)
+      Saga::Formatter.format(Saga::Parser.parse(File.read(filename)), options)
     end
     
     def write_parsed_document(filename)
@@ -60,7 +63,7 @@ module Saga
     def autofill(filename)
       document = Saga::Parser.parse(File.read(filename))
       document.autofill_ids
-      Saga::Formatter.format(document, :template => 'saga')
+      Saga::Formatter.saga_format(document)
     end
     
     def planning(filename)
@@ -72,22 +75,21 @@ module Saga
       when 'new'
         puts new_file
       when 'convert'
-        puts convert(File.expand_path(@argv[1]))
+        puts convert(File.expand_path(@argv[0]), options)
       when 'inspect'
-        write_parsed_document(File.expand_path(@argv[1]))
+        write_parsed_document(File.expand_path(@argv[0]))
       when 'autofill'
-        puts autofill(File.expand_path(@argv[1]))
+        puts autofill(File.expand_path(@argv[0]))
       when 'planning'
-        puts planning(File.expand_path(@argv[1]))
+        puts planning(File.expand_path(@argv[0]))
       else
-        puts convert(File.expand_path(command))
+        puts convert(File.expand_path(command), options)
       end
     end
     
     def run
-      argv = @argv.dup
-      parser.parse!(argv)
-      if command = argv.shift
+      parser.parse!(@argv)
+      if command = @argv.shift
         run_command(command, @options)
       else
         puts parser.to_s

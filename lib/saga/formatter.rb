@@ -7,20 +7,23 @@ module Saga
     def initialize(document, options={})
       @document = document
       @options  = options
-      @options[:template] ||= 'default'
+      @options[:template] ||= File.join(self.class.template_path, 'default')
     end
     
     def format
-      template_path = File.join(self.class.template_path, @options[:template])
+      helpers_file = File.join(@options[:template], 'helpers.rb')
+      if File.exist?(helpers_file)
+        load helpers_file
+        @document.extend(Helpers)
+      end
       
-      helpers_file = File.join(template_path, 'helpers.rb')
-      load helpers_file
-      @document.extend(Helpers)
-      binding = @document.send(:binding)
-      
-      template_file = File.join(template_path, 'document.erb')
-      template = Erubis::Eruby.new(File.read(template_file))
-      template.result(binding)
+      template_file = File.join(@options[:template], 'document.erb')
+      if File.exist?(template_file)
+        template = Erubis::Eruby.new(File.read(template_file))
+        template.result(@document.send(:binding))
+      else
+        raise ArgumentError, "The template at path `#{template_file}' could not be found."
+      end
     end
     
     def self.format(document, options={})
@@ -30,6 +33,10 @@ module Saga
     
     def self.template_path
       TEMPLATE_PATH
+    end
+
+    def self.saga_format(document)
+      format(document, :template => File.join(template_path, 'saga'))
     end
   end
 end
