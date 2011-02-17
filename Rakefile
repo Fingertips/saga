@@ -6,9 +6,7 @@ task :default => [:spec]
 
 desc "Run all specs"
 task :spec do
-  Dir[File.dirname(__FILE__) + '/test/**/*_spec.rb'].each do |file|
-    load file
-  end
+  sh 'bacon test/*_spec.rb'
 end
 
 namespace :documentation do
