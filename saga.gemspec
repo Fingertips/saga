@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{saga}
-  s.version = "0.5.2"
+  s.version = "0.6.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Manfred Stienstra"]
-  s.date = %q{2010-08-13}
+  s.date = %q{2011-02-17}
   s.default_executable = %q{saga}
   s.description = %q{Saga is a tool to convert stories syntax to a nicely formatted document.}
   s.email = %q{manfred@fngtps.com}
@@ -43,6 +43,7 @@ Gem::Specification.new do |s|
      "test/cases/definition.txt",
      "test/cases/story.txt",
      "test/cases/story_attributes.txt",
+     "test/fixtures/document.erb",
      "test/saga_document_spec.rb",
      "test/saga_formatter_spec.rb",
      "test/saga_parser_spec.rb",
