@@ -106,4 +106,32 @@ describe "A Runner" do
       runner.run
     end.should == "output\n"
   end
+  
+  it "copies the default template to the specified path" do
+    begin
+      destination = "/tmp/saga-template-dir"
+      Saga::Runner.new(%W(template #{destination})).run
+      File.read(File.join(destination, 'helpers.rb')).should ==
+        File.read(File.join(Saga::Formatter.template_path, 'default/helpers.rb'))
+      File.read(File.join(destination, 'document.erb')).should ==
+        File.read(File.join(Saga::Formatter.template_path, 'default/document.erb'))
+    ensure
+      FileUtils.rm_rf(destination)
+    end
+  end
+  
+  it "complains when tryin to create a template at an existing path" do
+    begin
+      destination = "/tmp/saga-template-dir"
+      FileUtils.mkdir_p(destination)
+      runner = Saga::Runner.new(%W(template #{destination}))
+      collect_stdout do
+        runner.run
+      end.should == "The directory `#{destination}' already exists!\n"
+      File.should.not.exist File.join(destination, 'helpers.rb')
+      File.should.not.exist File.join(destination, 'document.erb')
+    ensure
+      FileUtils.rm_rf(destination)
+    end
+  end
 end

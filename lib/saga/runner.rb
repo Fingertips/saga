@@ -17,6 +17,7 @@ module Saga
         opts.separator "    inspect <filename>  - print the internals of the document"
         opts.separator "    autofill <filename> - adds an id to stories without one"
         opts.separator "    planning <filename> - shows the planning of stories in iterations"
+        opts.separator "    template <dir>      - creates a template directory"
         opts.separator ""
         opts.separator "Options:"
         opts.on("-t", "--template DIR", "Use an external template for conversion to HTML") do |template_path|
@@ -70,6 +71,17 @@ module Saga
       Saga::Planning.new(Saga::Parser.parse(File.read(filename))).to_s
     end
     
+    def copy_template(destination)
+      if File.exist?(destination)
+        puts "The directory `#{destination}' already exists!"
+      else
+        require 'fileutils'
+        FileUtils.mkdir_p(destination)
+        FileUtils.cp(File.join(Saga::Formatter.template_path, 'default/helpers.rb'), destination)
+        FileUtils.cp(File.join(Saga::Formatter.template_path, 'default/document.erb'), destination)
+      end
+    end
+    
     def run_command(command, options)
       case command
       when 'new'
@@ -82,6 +94,8 @@ module Saga
         puts autofill(File.expand_path(@argv[0]))
       when 'planning'
         puts planning(File.expand_path(@argv[0]))
+      when 'template'
+        copy_template(File.expand_path(@argv[0]))
       else
         puts convert(File.expand_path(command), options)
       end
