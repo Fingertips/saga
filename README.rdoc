@@ -73,12 +73,12 @@ are optional.
 
 By default the Fingertips template is used when converting requirements to HTML.
 You can, however, create a custom template. To start from the default one use
-the +template+ command:
+the <tt>template</tt> command:
 
   $ saga template design/requirements_template
 
 Edit the files in the created directory to your liking and then convert your
-requirements with the +--template+ option:
+requirements with the <tt>--template</tt> option:
 
   $ saga convert --template design/requirements_template requirements.txt > requirements.html
 
