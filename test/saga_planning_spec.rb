@@ -11,6 +11,35 @@ describe "An empty Planning" do
   end
 end
 
+describe "A Planning for unestimated stories" do
+  before do
+    @document = Saga::Document.new
+    @document.stories[''] = [{}, {}, {}]
+    @planning = Saga::Planning.new(@document)
+  end
+  
+  it "shows a planning" do
+    @planning.to_s.should == "Unestimated   : 3 stories"
+  end
+end
+
+describe "A Planning for estimated and unestimatesd stories" do
+  before do
+    @document = Saga::Document.new
+    @document.stories[''] = [{}, {}, {}]
+    @document.stories['Member'] = [{:estimate => [12, :hours]}]
+    @planning = Saga::Planning.new(@document)
+  end
+  
+  it "shows a planning" do
+    @planning.to_s.should ==
+      "Unplanned     : 12 (1 story)\n"+
+      "----------------------------\n"+
+      "Total         : 12 (1 story)\n"+
+      "Unestimated   : 3 stories"
+  end
+end
+
 describe "A simple Planning" do
   before do
     @document = Saga::Document.new

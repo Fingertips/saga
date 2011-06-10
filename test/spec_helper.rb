@@ -3,6 +3,7 @@ begin
 rescue LoadError
 end
 
+require 'bacon'
 require 'mocha-on-bacon'
 
 Bacon.extend Bacon::TapOutput

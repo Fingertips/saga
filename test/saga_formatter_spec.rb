@@ -35,7 +35,7 @@ describe "Formatter" do
       }.should.raise(ArgumentError, "The template at path `/does/not/exist/document.erb' could not be found.")
     end
 
-    it "omits the helpers.rb file it it doesn't exist" do
+    it "omits the helpers.rb file when it doesn't exist" do
       formatter = Saga::Formatter.new(@document, :template => File.expand_path('../fixtures', __FILE__))
       formatter.expects(:load).never
       formatter.format.should.not.be.empty

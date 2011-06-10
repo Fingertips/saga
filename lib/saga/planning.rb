@@ -27,6 +27,16 @@ module Saga
       total
     end
     
+    def unestimated
+      unestimated = 0
+      @document.stories.values.each do |stories|
+        stories.each do |story|
+          unestimated += 1 unless story[:estimate]
+        end
+      end
+      unestimated
+    end
+    
     def to_s
       if @document.empty?
         "There are no stories yet."
@@ -34,9 +44,12 @@ module Saga
         parts = iterations.keys.sort.map do |iteration|
           self.class.format_properties(iteration, iterations[iteration])
         end
-        formatted_totals = self.class.format_properties(false, total)
-        parts << '-'*formatted_totals.length
-        parts << formatted_totals
+        unless parts.empty?
+          formatted_totals = self.class.format_properties(false, total)
+          parts << '-'*formatted_totals.length
+          parts << formatted_totals
+        end
+        parts << self.class.format_unestimated(unestimated) if unestimated > 0
         parts.join("\n")
       end
     end
@@ -60,6 +73,10 @@ module Saga
       end
       story_column = (properties[:story_count] == 1) ? "#{properties[:story_count]} story" : "#{properties[:story_count]} stories"
       "#{label.ljust(14)}: #{properties[:estimate_total_in_hours]} (#{story_column})"
+    end
+    
+    def self.format_unestimated(unestimated)
+      "Unestimated   : #{unestimated > 1 ? "#{unestimated} stories" : 'one story' }"
     end
   end
 end
