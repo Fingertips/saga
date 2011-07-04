@@ -34,6 +34,12 @@ describe "Tokenizer" do
     end
   end
   
+  it "tokenizes hard stories" do
+    Saga::Tokenizer.tokenize_story('As a member I would like the app to keep the information it got from Twitter up-to-date so that changes I make on Twitter get propagated to my listing.').should == {
+      :description => 'As a member I would like the app to keep the information it got from Twitter up-to-date so that changes I make on Twitter get propagated to my listing.'
+    }
+  end
+  
   it "tokenizes definition input" do
     each_case('definition') do |input, expected|
       Saga::Tokenizer.tokenize_definition(input).should == expected

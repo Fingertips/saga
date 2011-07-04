@@ -124,4 +124,12 @@ describe "A Parser, concerning the handling of input" do
     parser.document.definitions['Storage'].length.should == 1
     parser.document.definitions['Storage'].first[:title].should == 'Other'
   end
+  
+  it "properly parses hard cases" do
+    parse_story_marker
+    parser.parse('As a member I would like the app to keep the information it got from Twitter up-to-date so that changes I make on Twitter get propagated to my listing.')
+    
+    story = parser.document.stories[''].first
+    story[:description].should == 'As a member I would like the app to keep the information it got from Twitter up-to-date so that changes I make on Twitter get propagated to my listing.'
+  end
 end

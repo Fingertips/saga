@@ -59,7 +59,7 @@ module Saga
     end
     
     def self.tokenize_story(input)
-      parts = input.split('-')
+      parts = input.split(' - ')
       if parts.length > 1
         story = tokenize_story_attributes(parts[-1])
         story[:description] = parts[0..-2].join('-').strip
