@@ -36,6 +36,7 @@ describe "A Planning for estimated and unestimatesd stories" do
       "Unplanned     : 12 (1 story)\n"+
       "----------------------------\n"+
       "Total         : 12 (1 story)\n"+
+      "\n"+
       "Unestimated   : 3 stories"
   end
 end

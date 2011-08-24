@@ -37,6 +37,19 @@ module Saga
       unestimated
     end
     
+    def statusses
+      statusses = {}
+      @document.stories.values.each do |stories|
+        stories.each do |story|
+          if story[:estimate] and story[:status]
+            statusses[story[:status]] ||= 0
+            statusses[story[:status]] += self.class.estimate_to_hours(story[:estimate])
+          end
+        end
+      end
+      statusses
+    end
+    
     def to_s
       if @document.empty?
         "There are no stories yet."
@@ -49,10 +62,17 @@ module Saga
           parts << '-'*formatted_totals.length
           parts << formatted_totals
         end
-        parts << self.class.format_unestimated(unestimated) if unestimated > 0
+        if unestimated > 0 or !statusses.empty?
+          parts << ''
+          parts << self.class.format_unestimated(unestimated) if unestimated > 0
+          parts << self.class.format_statusses(statusses) unless statusses.empty?
+        end
+        parts.shift if parts[0] == ''
         parts.join("\n")
       end
     end
+    
+    FIRST_COLUMN_WIDTH = 14
     
     def self.estimate_to_hours(estimate)
       case estimate[1]
@@ -72,11 +92,19 @@ module Saga
         label = 'Total'
       end
       story_column = (properties[:story_count] == 1) ? "#{properties[:story_count]} story" : "#{properties[:story_count]} stories"
-      "#{label.ljust(14)}: #{properties[:estimate_total_in_hours]} (#{story_column})"
+      "#{label.ljust(FIRST_COLUMN_WIDTH)}: #{properties[:estimate_total_in_hours]} (#{story_column})"
     end
     
     def self.format_unestimated(unestimated)
       "Unestimated   : #{unestimated > 1 ? "#{unestimated} stories" : 'one story' }"
+    end
+    
+    def self.format_statusses(statusses)
+      parts = []
+      statusses.each do |status, hours|
+        parts << "#{status.capitalize.ljust(FIRST_COLUMN_WIDTH)}: #{hours}"
+      end
+      parts.join("\n")
     end
   end
 end
