@@ -51,6 +51,12 @@ describe "Parser" do
     document = Saga::Parser.parse('')
     document.should.be.kind_of?(Saga::Document)
   end
+  
+  it "should initialize and parse a reference document" do
+    document = Saga::Parser.parse(File.read(File.expand_path('../cases/document.txt', __FILE__)))
+    document.should.be.kind_of?(Saga::Document)
+    document.length.should == 3
+  end
 end
 
 describe "A Parser, concerning the handling of input" do

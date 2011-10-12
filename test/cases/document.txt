@@ -1,0 +1,13 @@
+Requirements Case
+
+- Manfred Stienstra, manfred@fngtps.com
+
+USER STORIES
+
+As a writer I would like to write stories so that developers can implement them. - #1 todo
+  Stories are written in Saga format.
+| As a writer I would like to add nested stories so that I can write requirements on two zoom levels. - todo
+|   Nested stories are basicaly substories of regular stories.
+| As a writer I would like to add header so that I can group stories by theme. - todo
+
+Writer: Someone who is responsible for writing down requirements in the form of stories
