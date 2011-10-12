@@ -7,6 +7,12 @@ module Saga
     def process_line(input)
       if input[0,2].downcase == 'as'
         @parser.handle_story(self.class.tokenize_story(input))
+      elsif input[0,2] == '  '
+        @parser.handle_notes(input.strip)
+      elsif input[0,3] == '|  '
+        @parser.handle_notes(input[1..-1].strip)
+      elsif input[0,1] == '|'
+        @parser.handle_nested_story(self.class.tokenize_story(input[1..-1]))
       elsif input[0,1] == '-'
         @parser.handle_author(self.class.tokenize_author(input))
       elsif input =~ /^\w(\w|[\s-])+:/
@@ -59,6 +65,7 @@ module Saga
     end
     
     def self.tokenize_story(input)
+      lines = input.split('\n')
       parts = input.split(' - ')
       if parts.length > 1
         story = tokenize_story_attributes(parts[-1])

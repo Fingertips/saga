@@ -59,6 +59,11 @@ describe "A Document" do
     
     document.stories['Non-functional'] << { :id => 3 }
     document.used_ids.should == [2, 12, 3]
+    
+    document.stories[''][0][:stories] = [
+      {}, {:id => 14}, {}, {:id => 5}
+    ]
+    document.used_ids.should == [2, 14, 5, 12, 3]
   end
   
   it "returns a list of unused IDs" do
@@ -87,7 +92,9 @@ describe "A Document" do
     
     document.stories[''] = []
     document.stories[''] << { :description => 'First story'}
-    document.stories[''] << { :description => 'Second story'}
+    document.stories[''] << { :description => 'Second story', :stories => [
+      { :description => 'First nested story' }, { :id => 15, :description => 'Second nested story'}
+    ] }
     
     document.stories['Non-functional'] = []
     document.stories['Non-functional'] << { :id => 1, :description => 'Third story' }
@@ -98,7 +105,8 @@ describe "A Document" do
     
     document.autofill_ids
     document.stories[''].map { |story| story[:id] }.should == [2, 4]
+    document.stories[''][1][:stories].map { |story| story[:id] }.should == [5, 15]
     document.stories['Non-functional'].map { |story| story[:id] }.should == [1]
-    document.stories['Developer'].map { |story| story[:id] }.should == [5, 3]
+    document.stories['Developer'].map { |story| story[:id] }.should == [6, 3]
   end
 end

@@ -7,13 +7,13 @@ module CasesHelper
   
   def each_case(path)
     filename = File.expand_path("../cases/#{path}.txt", __FILE__)
-    input = nil
+    input = ''
     File.readlines(filename).each do |line|
-      if input.nil?
-        input = line.strip
-      else
+      if line.start_with?('=>')
         yield input, _parse_expected(line)
-        input = nil
+        input = ''
+      else
+        input << "#{line}\n"
       end
     end
   end
@@ -67,6 +67,36 @@ describe "A Tokenizer" do
     @tokenizer.process_line(line)
   end
   
+  it "sends a tokenized note to the parser" do
+    line = '  Optionally support SSL'
+    notes = line.strip
+    
+    @parser.expects(:handle_notes).with(notes)
+    @tokenizer.process_line(line)
+  end
+  
+  it "doesn't mistake a story note with a semicolon as a definition" do
+    line = '  It would be nice if we could use http://www.braintreepaymentsolutions.com/'
+    @parser.expects(:handle_notes).with(line.strip)
+    @tokenizer.process_line(line)
+  end
+  
+  it "sends a nested tokenized story to the parser" do
+    line = '| As a recorder I would like to use TLS (SSL) so that my connection with the storage API is secure and I can be sure of the API’s identity. - #4 todo'
+    story = Saga::Tokenizer.tokenize_story(line[1..-1])
+    
+    @parser.expects(:handle_nested_story).with(story)
+    @tokenizer.process_line(line)
+  end
+  
+  it "sends a nested tokenized note to the parser" do
+    line = '|   Optionally support SSL'
+    notes = line[4..-1]
+    
+    @parser.expects(:handle_notes).with(notes)
+    @tokenizer.process_line(line)
+  end
+  
   it "sends a tokenized author to the parser" do
     line = '- Manfred Stienstra, manfred@fngtps.com'
     author = Saga::Tokenizer.tokenize_author(line)
@@ -80,12 +110,6 @@ describe "A Tokenizer" do
     definition = Saga::Tokenizer.tokenize_definition(line)
     
     @parser.expects(:handle_definition).with(definition)
-    @tokenizer.process_line(line)
-  end
-  
-  it "doesn't mistake a story note with a semicolon as a definition" do
-    line = '  It would be nice if we could use http://www.braintreepaymentsolutions.com/'
-    @parser.expects(:handle_string).with(line)
     @tokenizer.process_line(line)
   end
   

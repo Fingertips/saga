@@ -1,0 +1,4 @@
+As an editor I would like to manage content so that I can keep the site up to date.
+| As an editor I would like to add a page so that I can create new pages.
+| As an editor I would like to remove a page so that I can remove unwanted pages.
+=> {:description => 'As an editor I would like to manage content so that I can keep the site up to date.', :stories => [{:description => 'As an editor I would like to add a page so that I can create new pages.'}, {:description => 'As an editor I would like to remove a page so that I can remove unwanted pages.'}]}

@@ -29,8 +29,16 @@ module ParserHelper
     parser.parse('As a recorder I would like to add a recording so that it becomes available. - #1 todo')
   end
   
-  def parse_story_comment
+  def parse_story_notes
     parser.parse('  “Your recording was created successfully.”')
+  end
+  
+  def parse_nested_story
+    parser.parse('| As a recorder I would like to add a recording so that it becomes available. - todo')
+  end
+  
+  def parse_nested_story_notes
+    parser.parse('|   “Your recording was created successfully.”')
   end
   
   def parse_definition
@@ -94,12 +102,32 @@ describe "A Parser, concerning the handling of input" do
   it "interprets a comment after a story as being part of the story" do
     parse_story_marker
     parse_story
-    parse_story_comment
+    parse_story_notes
     
     parser.document.stories.keys.should == ['']
     parser.document.stories[''].length.should == 1
     parser.document.stories[''].first[:id].should == 1
     parser.document.stories[''].first[:notes].should == '“Your recording was created successfully.”'
+  end
+  
+  it "interprets nested story as part of the parent story" do
+    parse_story_marker
+    parse_story
+    parse_story_notes
+    parse_nested_story
+    parse_nested_story_notes
+    parse_nested_story
+    parse_nested_story_notes
+    
+    parser.document.stories.keys.should == ['']
+    parser.document.stories[''].length.should == 1
+    first_story = parser.document.stories[''][0]
+    first_story[:id].should == 1
+    first_story[:notes].should == '“Your recording was created successfully.”'
+    
+    first_story[:stories].length.should == 2
+    first_story[:stories][0][:notes].should == '“Your recording was created successfully.”'
+    first_story[:stories][1][:notes].should == '“Your recording was created successfully.”'
   end
   
   it "interprets definitions without a header as being a gobal definition" do

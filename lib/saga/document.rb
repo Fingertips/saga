@@ -12,10 +12,22 @@ module Saga
       @definitions  = ActiveSupport::OrderedHash.new
     end
     
+    def stories_as_flat_list
+      stories_as_flat_list = []
+      stories.values.flatten.each do |story|
+        stories_as_flat_list << story
+        stories_as_flat_list.concat(story[:stories]) if story[:stories]
+      end; stories_as_flat_list
+    end
+    
     def used_ids
       @stories.values.inject([]) do |ids, stories|
-        ids.concat stories.map { |story| story[:id] }
-        ids
+        stories.each do |story|
+          ids << story[:id]
+          story[:stories].each do |nested|
+            ids << nested[:id]
+          end if story[:stories]
+        end; ids
       end.compact
     end
     
@@ -30,7 +42,7 @@ module Saga
     end
     
     def length
-      stories.inject(0) { |total, (_, stories)| total + stories.length }
+      stories_as_flat_list.length
     end
     
     def empty?
@@ -39,10 +51,8 @@ module Saga
     
     def autofill_ids
       unused_ids = unused_ids(length - used_ids.length)
-      stories.each do |_, stories|
-        stories.each do |story|
-          story[:id] ||= unused_ids.shift
-        end
+      stories_as_flat_list.each do |story|
+        story[:id] ||= unused_ids.shift
       end
     end
   end

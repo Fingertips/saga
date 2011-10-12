@@ -24,6 +24,22 @@ module Saga
       @document.stories[@current_header] << story
     end
     
+    def handle_nested_story(story)
+      @current_section = :story
+      parent = @document.stories[@current_header][-1]
+      parent[:stories] ||= []
+      parent[:stories] << story
+    end
+    
+    def handle_notes(notes)
+      story = @document.stories[@current_header][-1]
+      if @current_section == :story
+        story[:stories][-1][:notes] = notes
+      else
+        story[:notes] = notes
+      end
+    end
+    
     def handle_definition(definition)
       @current_section = :definitions
       @document.definitions[@current_header] ||= []
@@ -39,8 +55,6 @@ module Saga
         @current_section = :introduction
       elsif :introduction == @current_section
         @document.introduction << string
-      elsif :stories == @current_section and string[0,2] == '  '
-        @document.stories[@current_header][-1][:notes] = string.strip
       else
         @current_header = string.strip
       end
