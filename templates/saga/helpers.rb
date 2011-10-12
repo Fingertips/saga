@@ -16,16 +16,22 @@ module Helpers
     end
   end
   
-  def format_story(story)
+  def format_story(story, kind=:regular)
     story_attributes = []
     story_attributes << "##{story[:id]}" if story[:id]
     story_attributes << story[:status] if story[:status]
     story_attributes << format_estimate(*story[:estimate]) if story[:estimate]
     story_attributes << "i#{story[:iteration]}" if story[:iteration]
     
-    parts = [[story[:description], story_attributes.join(' ')].join(' - ')]
-    parts << "  #{story[:notes]}" if story[:notes]
-    parts.join("\n")
+    prefix = (kind == :nested) ? '| ' : ''
+    formatted  = "#{prefix}#{story[:description]}"
+    formatted << " - #{story_attributes.join(' ')}" unless story_attributes.empty?
+    formatted << "\n"
+    formatted << "#{prefix}  #{story[:notes]}\n" if story[:notes]
+    story[:stories].each do |nested|
+      formatted << format_story(nested, :nested)
+    end if story[:stories]
+    formatted
   end
   
   def format_definition(definition)

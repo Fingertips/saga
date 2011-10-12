@@ -13,7 +13,12 @@ describe "Formatter" do
     ]
     @document.stories = [
       ['General', [
-        {:description => 'As a consumer I would like to use TLS (SSL) so that my connection with the API is secure', :id => 4, :status => 'todo', :notes => 'Use a self-signed CA certificate to create the certificates.' }
+        {:description => 'As a consumer I would like to use TLS (SSL) so that my connection with the API is secure', :id => 4, :status => 'todo', :notes => 'Use a self-signed CA certificate to create the certificates.', :stories => [
+            { :description => 'As a consumer I would like to receive a certificate from the provider.', :id => 12, :status => 'done', :notes => 'The certificate for the CA.' },
+            { :description => 'As a consumer I would like to receive a hosts file from the provider.', :id => 13, :status => 'done' }
+          ]
+        },
+        { :description => 'As a consumer I would like to get a list of users', :id => 5, :status => 'todo' }
       ]]
     ]
   end
@@ -21,11 +26,13 @@ describe "Formatter" do
   it "formats a saga document to HTML" do
     html = Saga::Formatter.format(@document)
     html.should.include('<h1>Requirements <br />Requirements API</h1>')
+    html.should.include('receive a certificate')
   end
   
   it "formats a saga document to saga" do
     saga = Saga::Formatter.saga_format(@document)
     saga.should.include('Requirements Requirements API')
+    saga.should.include('receive a certificate')
   end
 
   describe "with an external template" do
