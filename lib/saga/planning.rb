@@ -7,7 +7,7 @@ module Saga
     end
     
     def iterations
-      @document.stories.values.flatten.inject({}) do |properties, story|
+      @document.stories_as_flat_list.inject({}) do |properties, story|
         if story[:estimate]
           iteration = story[:iteration] || -1
           properties[iteration] ||= BLANK_ITERATION.dup
@@ -29,22 +29,18 @@ module Saga
     
     def unestimated
       unestimated = 0
-      @document.stories.values.each do |stories|
-        stories.each do |story|
-          unestimated += 1 unless story[:estimate]
-        end
+      @document.stories_as_flat_list.each do |story|
+        unestimated += 1 unless story[:estimate]
       end
       unestimated
     end
     
     def statusses
       statusses = {}
-      @document.stories.values.each do |stories|
-        stories.each do |story|
-          if story[:estimate] and story[:status]
-            statusses[story[:status]] ||= 0
-            statusses[story[:status]] += self.class.estimate_to_hours(story[:estimate])
-          end
+      @document.stories_as_flat_list.each do |story|
+        if story[:estimate] and story[:status]
+          statusses[story[:status]] ||= 0
+          statusses[story[:status]] += self.class.estimate_to_hours(story[:estimate])
         end
       end
       statusses
