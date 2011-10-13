@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>Requirements Saga &middot; Fingertips</title>
+<link rel="stylesheet" type="text/css" media="all" href="http://resources.fngtps.com/2006/doc.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+  td.id { text-align: right !important; }
+  td.id a { color: #000; }
+  table.review { border-bottom: 1px solid #ccc; margin-top: -1em;}
+  table.review td { padding: .25em 0; vertical-align: top; text-align: left; min-width: 1em; }
+  table.review th { padding: .25em 0; vertical-align: top; text-align: right; }
+  table.review td.story { width: 100%; border-top: 1px solid #ccc; }
+  table.review td.meta { padding-left: 1em; border-top: 1px solid #ccc; text-align: right !important; white-space: nowrap; }
+  table.review td.notes { color: #666; padding: 0 0 .25em 0; font-style: italic; }
+  table.review .dropped { color: #666; text-decoration: line-through; }
+  table.review .done { color: #666; background-color: #f0f8ff; }
+  table.review tr.nested td.story { padding-left: 1em; }
+</style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+</head>
+<body id="doc" class="requirements">
+
+<p id="logo"><img src="http://resources.fngtps.com/2006/print-logo.png" alt="Fingertips design &amp; development" /> </p>
+
+<h1>Requirements <br />Saga</h1>
+
+<p class="author">Manfred Stienstra, <a href="mailto:manfred@fngtps.com">manfred@fngtps.com</a></p>
+
+
+<h2>User stories</h2>
+<table class="review">
+<tr>
+  <th></th>
+  <th title="id">#</th>
+  <th title="Estimate">e</th>
+  <th title="Iteration">i</th>
+  <th title="Status">s</th>
+</tr>
+<tr class="done" id="story1">
+  <td class="story">As a writer I would like to write stories so developers can implement them.</td>
+  <td class="meta id">1</td>
+  <td class="meta estimate"></td>
+  <td class="meta iteration"></td>
+  <td class="meta status">done</td>
+</tr>
+<tr class="todo" id="story2">
+  <td class="story">As a writer I would like to add priorities to my stories so that I can show their importance.</td>
+  <td class="meta id">2</td>
+  <td class="meta estimate"></td>
+  <td class="meta iteration"></td>
+  <td class="meta status">todo</td>
+</tr>
+<tr class="todo" id="story3">
+  <td class="story">As a writer I would like to order my stories so that I can easily find the story I need.</td>
+  <td class="meta id">3</td>
+  <td class="meta estimate"></td>
+  <td class="meta iteration"></td>
+  <td class="meta status">todo</td>
+</tr>
+<tr class="todo">
+  <td class="notes" colspan="5">Improve the HTML template to allow ordering by ID, estimate, iteration, status, and priority.</td>
+</tr>
+</table>
+
+<h2>Roles</h2>
+<dl>
+<dt>Writer</dt>
+<dd>Someone who is responsible for writing down requirements in the form of stories</dd>
+</dl>
+</body>
+</html>

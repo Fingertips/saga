@@ -15,4 +15,11 @@ process do |files|
       "test/saga_tokenizer_spec.rb"
     end
   end)
+  files.take_and_map do |file|
+    case file
+    when 'design/requirements.txt'
+      log `./bin/saga design/requirements.txt > design/requirements.html`
+      files.delete(file)
+    end
+  end
 end

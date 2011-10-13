@@ -1,0 +1,14 @@
+Requirements Saga
+
+- Manfred Stienstra, manfred@fngtps.com
+
+USER STORIES
+
+As a writer I would like to write stories so developers can implement them. - #1 done
+As a writer I would like to add priorities to my stories so that I can show their importance. - #2 todo
+As a writer I would like to order my stories so that I can easily find the story I need. - #3 todo
+  Improve the HTML template to allow ordering by ID, estimate, iteration, status, and priority.
+
+ROLES
+
+Writer: Someone who is responsible for writing down requirements in the form of stories
