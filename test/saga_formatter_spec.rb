@@ -9,7 +9,7 @@ describe "Formatter" do
       {:name => 'Manfred Stienstra', :email => 'manfred@fngtps.com', :company => 'Fingertips', :website => 'http://www.fngtps.com'}
     ]
     @document.introduction = [
-      'A web service for interfacing with the service.', 'Exposes a public API to the application.'
+      'A web service for interfacing with the service.', 'Exposes a public API to the application.', 'Uses <20> levels of redirection.'
     ]
     @document.stories = [
       ['General', [
@@ -26,6 +26,12 @@ describe "Formatter" do
   it "formats a saga document to HTML" do
     html = Saga::Formatter.format(@document)
     html.should.include('<h1>Requirements <br />Requirements API</h1>')
+    html.should.include('receive a certificate')
+  end
+  
+  it "include the escaped introduction in the HTML output" do
+    html = Saga::Formatter.format(@document)
+    html.should.include('<p>Uses &lt;20&gt; levels of redirection.</p>')
     html.should.include('receive a certificate')
   end
   

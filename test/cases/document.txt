@@ -2,6 +2,8 @@ Requirements Case
 
 - Manfred Stienstra, manfred@fngtps.com
 
+Saga is a tool for writing and publishing <requirements> in the form of user stories.
+
 USER STORIES
 
 As a writer I would like to write stories so that developers can implement them. - #1 todo
