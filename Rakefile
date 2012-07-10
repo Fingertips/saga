@@ -16,18 +16,3 @@ namespace :documentation do
     rd.options << "--all" << "--charset" << "utf-8"
   end
 end
-
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |s|
-    s.name = "saga"
-    s.summary = s.description = "Saga is a tool to convert stories syntax to a nicely formatted document."
-    s.homepage = "http://fingertips.github.com"
-    s.email = "manfred@fngtps.com"
-    s.authors = ["Manfred Stienstra"]
-    s.add_dependency('erubis', '>= 2.6')
-    s.add_dependency('activesupport', '>= 2.3')
-    s.add_development_dependency('mocha-on-bacon')
-  end
-rescue LoadError
-end
