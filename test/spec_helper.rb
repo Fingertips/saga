@@ -3,6 +3,9 @@ begin
 rescue LoadError
 end
 
+# Mocha really wants to add MiniTest or TestUnit extensions, we don't need those
+ENV['MOCHA_OPTIONS'] = 'skip_integration'
+
 require 'bacon'
 require 'mocha-on-bacon'
 

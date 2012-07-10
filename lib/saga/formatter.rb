@@ -20,7 +20,7 @@ module Saga
       template_file = File.join(@options[:template], 'document.erb')
       if File.exist?(template_file)
         template = Erubis::Eruby.new(File.read(template_file))
-        template.result(@document.send(:binding))
+        template.result(@document._binding)
       else
         raise ArgumentError, "The template at path `#{template_file}' could not be found."
       end

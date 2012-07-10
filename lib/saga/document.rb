@@ -20,6 +20,10 @@ module Saga
       end; stories_as_flat_list
     end
     
+    def _binding
+      binding
+    end
+    
     def used_ids
       @stories.values.inject([]) do |ids, stories|
         stories.each do |story|
