@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.date = "2012-07-10"
   
   spec.authors = ["Manfred Stienstra"]
-  spec.email = "manfred@fngtpspec.com"
+  spec.email = "manfred@fngtps.com"
   
   spec.description = "Saga is a tool to convert stories syntax to a nicely formatted document."
   spec.summary = "Saga is a tool to convert stories syntax to a nicely formatted document."
