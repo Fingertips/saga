@@ -2,8 +2,8 @@
 
 Gem::Specification.new do |spec|
   spec.name = "saga"
-  spec.version = "0.9.0"
-  spec.date = "2012-07-10"
+  spec.version = "0.9.1"
+  spec.date = "2012-07-19"
   
   spec.authors = ["Manfred Stienstra"]
   spec.email = "manfred@fngtps.com"
@@ -30,4 +30,3 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('bacon')
   spec.add_development_dependency('mocha-on-bacon')
 end
-
