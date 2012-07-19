@@ -34,6 +34,13 @@ describe "Tokenizer" do
     end
   end
   
+  it "tokenizes wild story input" do
+    tokenized = Saga::Tokenizer.tokenize_story('I want to have a library of PDF document within the app. - 20 i1')
+    tokenized[:description].should == "I want to have a library of PDF document within the app."
+    tokenized[:iteration].should == 1
+    tokenized[:estimate].should == [20, :hours]
+  end
+  
   it "tokenizes hard stories" do
     Saga::Tokenizer.tokenize_story('As a member I would like the app to keep the information it got from Twitter up-to-date so that changes I make on Twitter get propagated to my listing.').should == {
       :description => 'As a member I would like the app to keep the information it got from Twitter up-to-date so that changes I make on Twitter get propagated to my listing.'
@@ -60,6 +67,8 @@ describe "A Tokenizer" do
   end
   
   it "sends a tokenized story to the parser" do
+    @tokenizer.current_section = :stories
+    
     line = 'As a recorder I would like to use TLS (SSL) so that my connection with the storage API is secure and I can be sure of the API’s identity. - #4 todo'
     story = Saga::Tokenizer.tokenize_story(line)
     
