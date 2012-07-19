@@ -110,3 +110,13 @@ describe "A Document" do
     document.stories['Developer'].map { |story| story[:id] }.should == [6, 3]
   end
 end
+
+describe "A Document with animal formatting" do
+  before do
+    @document = Saga::Parser.parse(File.read(File.expand_path('../cases/animal_formatting.txt', __FILE__)))
+  end
+
+  it "recognizes stories without the standard formatting" do
+    @document.stories['Tractor integration'].length.should == 2
+  end
+end

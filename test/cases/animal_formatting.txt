@@ -1,0 +1,30 @@
+Requirements Piggy Barn (draft)
+
+- Thijs van der Vossen, thijs@fngtps.com
+
+
+* The “user” role is assumed unless stated otherwise.
+* The mud technique is described in more detail in background.txt
+* The chunking and feeding are described in chunking.txt
+* The barn should be designed for pink pigs only for now. An black pig version might be released later.
+
+USER STORIES
+
+Filling the barn
+
+As a developer I would like to investigate various techniques for filling the barn so that it looks nice.
+  A semi-opaque overlay with a “hole” for the pig is easier to implement.
+
+I want to be able to quickly and easily toggle fences on and off so that I can drive pigs if I want to skip sections I’m not interested in.
+  Visible button as well as a gesture. Gesture needs to be investigated; currently considering single tap, double tap, or long tap.
+
+When I switch fences on with a gesture directly on or nearby a line of grass, I want it to start at that fence.
+
+In fence changing, I want the barn to progress to the next fence automatically.
+
+Tractor integration
+
+I want to be able to drive tractors stored in my barn.
+
+I want to be able to authenticate with tractors so that the pig can access my barn.
+  See https://www.piggybarn.com/developers/ for documentation and development kits.

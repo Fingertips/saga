@@ -14,7 +14,7 @@ describe "Saga" do
     @document.stories = ActiveSupport::OrderedHash.new
     [
       ['General', [
-        {:description => 'As a consumer I would like to use TLS (SSL) so that my connection with the API is secure', :id => 4, :status => 'todo', :notes => 'Use a self-signed CA certificate to create the certificates.' }
+        {:description => 'As a consumer I would like to use TLS (SSL) so that my connection with the API is secure.', :id => 4, :status => 'todo', :notes => 'Use a self-signed CA certificate to create the certificates.' }
       ]]
     ].each do |key, stories|
       @document.stories[key] = stories

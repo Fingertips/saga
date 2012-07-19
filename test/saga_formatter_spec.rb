@@ -13,7 +13,7 @@ describe "Formatter" do
     ]
     @document.stories = [
       ['General', [
-        {:description => 'As a consumer I would like to use TLS (SSL) so that my connection with the API is secure', :id => 4, :status => 'todo', :notes => 'Use a self-signed CA certificate to create the certificates.', :stories => [
+        {:description => 'As a consumer I would like to use TLS (SSL) so that my connection with the API is secure.', :id => 4, :status => 'todo', :notes => 'Use a self-signed CA certificate to create the certificates.', :stories => [
             { :description => 'As a consumer I would like to receive a certificate from the provider.', :id => 12, :status => 'done', :notes => 'The certificate for the CA.' },
             { :description => 'As a consumer I would like to receive a hosts file from the provider.', :id => 13, :status => 'done' }
           ]
