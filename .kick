@@ -3,7 +3,7 @@ ignore(/(^tmp|\.DS_Store)$/)
 
 recipe :ruby
 process do |files|
-  Ruby.run_tests(files.take_and_map do |file|
+  Kicker::Recipes::Ruby.run_tests(files.take_and_map do |file|
     case file
     when %r{^lib/(.+)\.rb$}
       "test/#{$1.gsub('/', '_')}_spec.rb"
