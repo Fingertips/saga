@@ -29,6 +29,10 @@ module ParserHelper
     parser.parse('As a recorder I would like to add a recording so that it becomes available. - #1 todo')
   end
   
+  def parse_wild_story
+    parser.parse('In fence changing, I want the barn to progress to the next fence automatically.')
+  end
+  
   def parse_story_notes
     parser.parse('  “Your recording was created successfully.”')
   end
@@ -91,6 +95,19 @@ describe "A Parser, concerning the handling of input" do
     parser.document.stories.keys.should == ['']
     parser.document.stories[''].length.should == 1
     parser.document.stories[''].first[:id].should == 1
+  end
+  
+  it "parses wild stories" do
+    parse_title
+    parse_introduction
+    parse_story_marker
+    parse_wild_story
+    
+    parser.document.stories.keys.should == ['']
+    parser.document.stories[''].length.should == 1
+    
+    story = parser.document.stories[''].first
+    story[:description].should == "In fence changing, I want the barn to progress to the next fence automatically."
   end
   
   it "interprets stories with a header as being part of that section" do
