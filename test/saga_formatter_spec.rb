@@ -18,7 +18,8 @@ describe "Formatter" do
             { :description => 'As a consumer I would like to receive a hosts file from the provider.', :id => 13, :status => 'done' }
           ]
         },
-        { :description => 'As a consumer I would like to get a list of users', :id => 5, :status => 'todo' }
+        { :description => 'As a consumer I would like to get a list of users', :id => 5, :status => 'todo' },
+        { :description => 'As a consumer I would like to get details for a user', :id => 5, :status => 'todo', :estimate => ['4-8', :range] }
       ]]
     ]
   end
@@ -27,6 +28,7 @@ describe "Formatter" do
     html = Saga::Formatter.format(@document)
     html.should.include('<h1>Requirements <br />Requirements API</h1>')
     html.should.include('receive a certificate')
+    html.should.include('<td class="meta estimate">4-8</td>')
   end
   
   it "include the escaped introduction in the HTML output" do
