@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name = "saga"
-  spec.version = "0.9.1"
+  spec.version = "0.10.0"
   spec.date = "2012-07-19"
   
   spec.authors = ["Manfred Stienstra"]
