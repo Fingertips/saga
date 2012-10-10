@@ -41,6 +41,13 @@ describe "Tokenizer" do
     tokenized[:estimate].should == [20, :hours]
   end
   
+  it "tokenizes estimate ranges" do
+    tokenized = Saga::Tokenizer.tokenize_story('I want to have a library of PDF document within the app. - i1 8-40')
+    tokenized[:description].should == "I want to have a library of PDF document within the app."
+    tokenized[:iteration].should == 1
+    tokenized[:estimate].should == ['8-40', :range]
+  end
+  
   it "tokenizes hard stories" do
     Saga::Tokenizer.tokenize_story('As a member I would like the app to keep the information it got from Twitter up-to-date so that changes I make on Twitter get propagated to my listing.').should == {
       :description => 'As a member I would like the app to keep the information it got from Twitter up-to-date so that changes I make on Twitter get propagated to my listing.'
