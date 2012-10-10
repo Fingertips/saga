@@ -26,6 +26,19 @@ describe "A Document" do
     document.definitions.keys.should == sections
   end
   
+  it "flattens stories" do
+    document = Saga::Document.new
+    document.stories[''] = [{ :estimate => ['8-40', :range] }, {}, {:stories => [{ :estimate => ['1d-5d', :range] }]}]
+    document.stories['Help'] = [{}]
+    document.stories_as_flat_list.should == [
+      { :estimate => ['8-40', :range] },
+      {},
+      {},
+      { :estimate => ['1d-5d', :range] },
+      {}
+    ]
+  end
+  
   it "returns the number of stories as its length" do
     document = Saga::Document.new
     document.length == 0
@@ -115,7 +128,7 @@ describe "A Document with animal formatting" do
   before do
     @document = Saga::Parser.parse(File.read(File.expand_path('../cases/animal_formatting.txt', __FILE__)))
   end
-
+  
   it "recognizes stories without the standard formatting" do
     @document.stories['Tractor integration'].length.should == 2
   end

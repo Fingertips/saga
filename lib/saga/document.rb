@@ -12,12 +12,27 @@ module Saga
       @definitions  = ActiveSupport::OrderedHash.new
     end
     
-    def stories_as_flat_list
+    def copy_story(story)
+      copied = {}
+      [:id, :iteration, :status, :estimate, :description].each do |attribute|
+        copied[attribute] = story[attribute] if story[attribute]
+      end; copied
+    end
+    
+    def flatten_stories(stories)
       stories_as_flat_list = []
-      stories.values.flatten.each do |story|
-        stories_as_flat_list << story
-        stories_as_flat_list.concat(story[:stories]) if story[:stories]
+      stories.flatten.each do |story|
+        if story[:stories]
+          stories_as_flat_list << copy_story(story)
+          stories_as_flat_list.concat(story[:stories])
+        else
+          stories_as_flat_list << story
+        end
       end; stories_as_flat_list
+    end
+    
+    def stories_as_flat_list
+      flatten_stories(stories.values)
     end
     
     def _binding
@@ -53,10 +68,19 @@ module Saga
       length == 0
     end
     
+    def _autofill_ids(stories, unused_ids)
+      stories.each do |story|
+        story[:id] ||= unused_ids.shift
+        if story[:stories]
+          _autofill_ids(story[:stories], unused_ids)
+        end
+      end
+    end
+    
     def autofill_ids
       unused_ids = unused_ids(length - used_ids.length)
-      stories_as_flat_list.each do |story|
-        story[:id] ||= unused_ids.shift
+      stories.each do |section, data|
+        _autofill_ids(data, unused_ids)
       end
     end
   end
