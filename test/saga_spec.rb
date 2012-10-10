@@ -33,3 +33,31 @@ describe "Saga" do
     document.stories.should == @document.stories
   end
 end
+
+module RequirementsHelper
+  def files
+    Dir.glob(File.expand_path("../cases/**/*.txt", __FILE__))
+  end
+  
+  def requirements
+    files.map do |filename|
+      contents = File.read(filename)
+      if contents.start_with?('Requirements')
+        contents
+      end
+    end.compact
+  end
+end
+
+
+describe "Saga, regression" do
+  extend RequirementsHelper
+  
+  it "round-trips all cases through the parser and formatter" do
+    requirements.each do |contents|
+      document = Saga::Parser.parse(contents)
+      saga     = Saga::Formatter.saga_format(document)
+      saga.should.start_with('Requirements')
+    end
+  end
+end

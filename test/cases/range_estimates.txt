@@ -1,0 +1,7 @@
+Requirements Piggy Barn (draft)
+
+- Thijs van der Vossen, thijs@fngtps.com
+
+USER STORIES
+
+As a developer I would like to investigate various techniques for filling the barn so that it looks nice. - 16-32
