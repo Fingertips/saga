@@ -50,9 +50,9 @@ describe "A simple Planning" do
   
   it "shows a planning" do
     @planning.to_s.should ==
-      "Unplanned     : 12 (1 story)\n"+
-      "----------------------------\n"+
-      "Total         : 12 (1 story)"
+      "Unplanned     : 12 (one story)\n"+
+      "------------------------------\n"+
+      "Total         : 12 (one story)"
   end
 end
 
@@ -70,10 +70,28 @@ describe "A complicated Planning" do
       "Unplanned     : 9 (2 stories)\n"+
       "Iteration 1   : 17 (2 stories)\n"+
       "Iteration 2   : 43 (3 stories)\n"+
-      "Iteration 3   : 2 (1 story)\n"+
+      "Iteration 3   : 2 (one story)\n"+
       "------------------------------\n"+
       "Total         : 71 (8 stories)\n"+
       "\n"+
       "Unestimated   : 2 stories"
+  end
+end
+
+describe "A Planning with stories with a range estimate" do
+  before do
+    @document = Saga::Document.new
+    @document.stories[''] = [{ :estimate => ['8-40', :range] }, {}, {:stories => [{ :estimate => ['1d-5d', :range] }]}]
+    @planning = Saga::Planning.new(@document)
+  end
+  
+  it "shows a planning" do
+    @planning.to_s.should ==
+      "Unplanned     : 0 (2 stories)\n"+
+      "-----------------------------\n"+
+      "Total         : 0 (2 stories)\n"+
+      "\n"+
+      "Unestimated   : 2 stories\n"+
+      "Range-estimate: 2 stories"
   end
 end

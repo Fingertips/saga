@@ -35,6 +35,16 @@ module Saga
       unestimated
     end
     
+    def range_estimated
+      range_estimated = 0
+      @document.stories_as_flat_list.each do |story|
+        if story[:estimate] && story[:estimate][1] == :range
+          range_estimated += 1
+        end
+      end
+      range_estimated
+    end
+    
     def statusses
       statusses = {}
       @document.stories_as_flat_list.each do |story|
@@ -61,6 +71,7 @@ module Saga
         if unestimated > 0 or !statusses.empty?
           parts << ''
           parts << self.class.format_unestimated(unestimated) if unestimated > 0
+          parts << self.class.format_range_estimated(range_estimated) if range_estimated > 0
           parts << self.class.format_statusses(statusses) unless statusses.empty?
         end
         parts.shift if parts[0] == ''
@@ -76,6 +87,8 @@ module Saga
         estimate[0] * 8
       when :weeks
         estimate[0] * 40
+      when :range
+        0
       else
         estimate[0]
       end
@@ -87,12 +100,20 @@ module Saga
       else
         label = 'Total'
       end
-      story_column = (properties[:story_count] == 1) ? "#{properties[:story_count]} story" : "#{properties[:story_count]} stories"
+      story_column = format_stories_count(properties[:story_count])
       "#{label.ljust(FIRST_COLUMN_WIDTH)}: #{properties[:estimate_total_in_hours]} (#{story_column})"
     end
     
     def self.format_unestimated(unestimated)
-      "Unestimated   : #{unestimated > 1 ? "#{unestimated} stories" : 'one story' }"
+      "Unestimated   : #{format_stories_count(unestimated)}"
+    end
+    
+    def self.format_range_estimated(range_estimated)
+      "Range-estimate: #{format_stories_count(range_estimated)}"
+    end
+    
+    def self.format_stories_count(count)
+      count > 1 ? "#{count} stories" : 'one story'
     end
     
     def self.format_statusses(statusses)
