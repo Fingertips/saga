@@ -3,7 +3,7 @@ module Saga
     attr_accessor :current_section
     
     RE_STORY = /\./
-    RE_DEFINITION = /\A\w(\w|[\s-])+:/
+    RE_DEFINITION = /\A[[:alpha:]]([[:alpha:]]|[\s-])+:/
     
     def initialize(parser)
       @parser = parser

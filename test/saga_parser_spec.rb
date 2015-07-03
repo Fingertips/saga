@@ -48,6 +48,10 @@ module ParserHelper
   def parse_definition
     parser.parse('Other: Stories that don’t fit anywhere else.')
   end
+
+  def parse_unicode_definition
+    parser.parse('Privé: Stories that don’t fit anywhere else.')
+  end
 end
 
 describe "Parser" do
@@ -182,5 +186,16 @@ describe "A Parser, concerning the handling of input" do
     
     story = parser.document.stories[''].first
     story[:description].should == 'As a member I would like the app to keep the information it got from Twitter up-to-date so that changes I make on Twitter get propagated to my listing.'
+  end
+  
+  it "properly parses definitions with Unicode" do
+    parse_title
+    parse_introduction
+    parse_story_marker
+    parse_unicode_definition
+    
+    parser.document.definitions.keys.should == ['']
+    parser.document.definitions[''].length.should == 1
+    parser.document.definitions[''].first[:title].should == 'Privé'
   end
 end

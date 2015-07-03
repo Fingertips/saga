@@ -1,0 +1,13 @@
+Requirements Case
+
+- Eloy Durán, <eloy@example.com>
+
+Saga is a tool with støries.
+
+USER STORIES
+
+Café
+
+As a writer I would like to write stories so that developers can implement them. - #1 todo
+
+Writé: Someone who is responsible for writing down requirements in the form of stories
