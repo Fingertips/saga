@@ -68,6 +68,8 @@ describe "Tokenizer" do
 end
 
 describe "A Tokenizer" do
+  extend OutputHelper
+  
   before do
     @parser    = stub('Parser')
     @tokenizer = Saga::Tokenizer.new(@parser)
@@ -146,6 +148,16 @@ describe "A Tokenizer" do
       @parser.expects(:handle_string).with(line)
       @tokenizer.process_line(line)
     end
+  end
+  
+  it "shows the offending line when processing a line fails" do
+    line = 'The offending line'
+    @parser.stubs(:handle_string).with(line).raises(NoMethodError)
+    collect_stderr do
+      lambda do
+        @tokenizer.process_line(line, 2)
+      end.should.raise(NoMethodError)
+    end.should.start_with('On line 2: "The offending line":')
   end
   
   it "processes lines from the input" do

@@ -14,7 +14,7 @@ module Saga
       %w(story stories).include?(@current_section.to_s)
     end
     
-    def process_line(input)
+    def process_line(input, index=0)
       if input[0,2] == '  '
         @parser.handle_notes(input.strip)
       elsif input[0,3] == '|  '
@@ -30,11 +30,14 @@ module Saga
       else
         @parser.handle_string(input)
       end
+    rescue Exception => exception
+      $stderr.write "On line #{index}: #{input.inspect}:"
+      raise
     end
     
     def process(input)
-      input.split("\n").each do |line|
-        process_line(line)
+      input.split("\n").each_with_index do |line, index|
+        process_line(line, index)
       end
     end
     
