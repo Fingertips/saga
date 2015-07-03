@@ -2,8 +2,8 @@
 
 Gem::Specification.new do |spec|
   spec.name = "saga"
-  spec.version = "0.10.0"
-  spec.date = "2012-07-19"
+  spec.version = "0.11.0"
+  spec.date = "2015-07-03"
   
   spec.authors = ["Manfred Stienstra"]
   spec.email = "manfred@fngtps.com"
