@@ -1,4 +1,4 @@
-require File.expand_path('../spec_helper', __FILE__)
+require_relative 'test_helper'
 
 module ParserHelper
   def parser

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Support
-  class OutputHelpers
+  module OutputHelpers
     class Collector
       attr_reader :written
       def initialize

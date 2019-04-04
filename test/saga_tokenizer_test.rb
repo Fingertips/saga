@@ -1,4 +1,4 @@
-require File.expand_path('../spec_helper', __FILE__)
+require_relative 'test_helper'
  
 module CasesHelper
   def _parse_expected(line)
@@ -68,8 +68,6 @@ describe "Tokenizer" do
 end
 
 describe "A Tokenizer" do
-  extend OutputHelper
-  
   before do
     @parser    = stub('Parser')
     @tokenizer = Saga::Tokenizer.new(@parser)

@@ -1,4 +1,4 @@
-require File.expand_path('../spec_helper', __FILE__)
+require_relative 'test_helper'
 
 describe "An empty Planning" do
   before do

@@ -1,9 +1,7 @@
-require File.expand_path('../spec_helper', __FILE__)
+require_relative 'test_helper'
 require 'singleton'
 
 describe "A Runner" do
-  extend OutputHelper
-  
   it "shows a help text when invoked without a command and options" do
     runner = Saga::Runner.new([])
     collect_stdout do

@@ -16,7 +16,7 @@ def root
 end
 
 def load_support
-  Dir[File.join(root, "test/support/**/*.rb")].each { |file| require file }
+  Dir[File.join(root, "test/support/**/*.rb")].each { |file| pp file; require file }
 end
 
 load_support
@@ -24,6 +24,6 @@ load_support
 module ActiveSupport
   # Super class of all out test classes
   class TestCase
-    include Support::OutputHelpers::OutputHelpers
+    include Support::OutputHelpers
   end
 end
