@@ -26,6 +26,9 @@ end.call
 module ActiveSupport
   # Super class of all out test classes
   class TestCase
+    protected
+
+    include Bendy::Shape
     include Support::FileHelpers
     include Support::OutputHelpers
   end
