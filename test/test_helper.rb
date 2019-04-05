@@ -26,12 +26,7 @@ end.call
 module ActiveSupport
   # Super class of all out test classes
   class TestCase
+    include Support::FileHelpers
     include Support::OutputHelpers
-
-    protected
-
-    def fixture_path
-      File.expand_path("fixtures", __dir__)
-    end
   end
 end
