@@ -44,7 +44,7 @@ class RunnerTest < ActiveSupport::TestCase
       convert: 'output'
     )
     assert_equal(
-      "output\n",
+      "output",
       collect_stdout { runner.run }
     )
   end
@@ -56,7 +56,7 @@ class RunnerTest < ActiveSupport::TestCase
       convert: 'output'
     )
     assert_equal(
-      "output\n",
+      "output",
       collect_stdout { runner.run }
     )
   end
@@ -86,7 +86,7 @@ class RunnerTest < ActiveSupport::TestCase
   test "shows an overview of the time planned in the different iterations" do
     runner = Saga::Runner.new(%W(planning #{case_path('document')}))
     output = collect_stdout { runner.run }
-    assert_equal "Unestimated   : 3 stories\n", output
+    assert_equal "Unestimated   : 3 stories", output
   end
 
   test "copies the default template to the specified path" do
@@ -111,7 +111,7 @@ class RunnerTest < ActiveSupport::TestCase
       runner = Saga::Runner.new(%W(template #{destination}))
       output = collect_stdout { runner.run}
       assert_equal(
-        "The directory `#{destination}' already exists!\n",
+        "The directory `#{destination}' already exists!",
         output
       )
       %w(helpers.rb document.erb).each do |name|

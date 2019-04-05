@@ -8,7 +8,7 @@ module Support
         @written = []
       end
 
-      def write(string)
+      def write(string, _offset = nil, _opt = nil)
         @written << string
       end
     end

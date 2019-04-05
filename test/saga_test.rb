@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require_relative 'test_helper'
 
-describe "Saga" do
-  before do
+class SagaTest < ActiveSupport::TestCase
+  setup do
     @document = Saga::Document.new
     @document.title = 'Requirements API'
     @document.authors = [
@@ -21,16 +23,16 @@ describe "Saga" do
     end
   end
 
-  it "round-trips through the parser and formatter" do
+  test "round-trips through the parser and formatter" do
     document = @document
     2.times do
-      saga     = Saga::Formatter.saga_format(document)
+      saga = Saga::Formatter.saga_format(document)
       document = Saga::Parser.parse(saga)
     end
 
-    document.title.should == @document.title
-    document.authors.should == @document.authors
-    document.stories.should == @document.stories
+    assert_equal @document.title, document.title
+    assert_equal @document.authors, document.authors
+    assert_equal @document.stories, document.stories
   end
 end
 
@@ -49,14 +51,14 @@ module RequirementsHelper
   end
 end
 
-describe "Saga, regression" do
-  extend RequirementsHelper
+class SagaRegressionTest < ActiveSupport::TestCase
+  include RequirementsHelper
 
-  it "round-trips all cases through the parser and formatter" do
+  test "round-trips all cases through the parser and formatter" do
     requirements.each do |contents|
       document = Saga::Parser.parse(contents)
-      saga     = Saga::Formatter.saga_format(document)
-      saga.should.start_with('Requirements')
+      saga = Saga::Formatter.saga_format(document)
+      assert saga.start_with?('Requirements')
     end
   end
 end

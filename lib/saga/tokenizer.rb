@@ -7,11 +7,11 @@ module Saga
 
     def initialize(parser)
       @parser = parser
-      @part = :current_section
+      @current_section = nil
     end
 
     def expect_stories?
-      %w(story stories).include?(@current_section.to_s)
+      %w(story stories).include?(current_section.to_s)
     end
 
     def process_line(input, index=0)
@@ -30,7 +30,7 @@ module Saga
       else
         @parser.handle_string(input)
       end
-    rescue Exception => exception
+    rescue StandardError
       $stderr.write "On line #{index}: #{input.inspect}:"
       raise
     end
@@ -85,7 +85,6 @@ module Saga
     end
 
     def self.tokenize_story(input)
-      lines = input.split('\n')
       parts = input.split(' - ')
       if parts.length > 1
         story = tokenize_story_attributes(parts[-1])
