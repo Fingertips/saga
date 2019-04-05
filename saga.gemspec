@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
   spec.homepage = 'https://github.com/Fingertips/saga'
   spec.license = 'MIT'
 
+  spec.executables << 'saga'
   spec.files = Dir.glob('lib/**/*') + [
     'LICENSE',
     'README.rdoc'
