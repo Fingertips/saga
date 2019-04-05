@@ -1,24 +1,22 @@
-require 'active_support/ordered_hash'
-
 module Saga
   class Document
     attr_accessor :title, :introduction, :authors, :stories, :definitions
-    
+
     def initialize
       @title        = ''
       @introduction = []
       @authors      = []
-      @stories      = ActiveSupport::OrderedHash.new
-      @definitions  = ActiveSupport::OrderedHash.new
+      @stories      = {}
+      @definitions  = {}
     end
-    
+
     def copy_story(story)
       copied = {}
-      [:id, :iteration, :status, :estimate, :description].each do |attribute|
+      %i[id iteration status estimate description].each do |attribute|
         copied[attribute] = story[attribute] if story[attribute]
       end; copied
     end
-    
+
     def flatten_stories(stories)
       stories_as_flat_list = []
       stories.flatten.each do |story|
@@ -30,26 +28,28 @@ module Saga
         end
       end; stories_as_flat_list
     end
-    
+
     def stories_as_flat_list
       flatten_stories(stories.values)
     end
-    
+
     def _binding
       binding
     end
-    
+
     def used_ids
-      @stories.values.inject([]) do |ids, stories|
+      @stories.values.each_with_object([]) do |stories, ids|
         stories.each do |story|
           ids << story[:id]
+          next unless story[:stories]
+
           story[:stories].each do |nested|
             ids << nested[:id]
-          end if story[:stories]
-        end; ids
+          end
+        end
       end.compact
     end
-    
+
     def unused_ids(limit)
       position = 1
       used_ids = used_ids()
@@ -59,27 +59,25 @@ module Saga
         position
       end
     end
-    
+
     def length
       stories_as_flat_list.length
     end
-    
+
     def empty?
       length == 0
     end
-    
+
     def _autofill_ids(stories, unused_ids)
       stories.each do |story|
         story[:id] ||= unused_ids.shift
-        if story[:stories]
-          _autofill_ids(story[:stories], unused_ids)
-        end
+        _autofill_ids(story[:stories], unused_ids) if story[:stories]
       end
     end
-    
+
     def autofill_ids
       unused_ids = unused_ids(length - used_ids.length)
-      stories.each do |section, data|
+      stories.each do |_section, data|
         _autofill_ids(data, unused_ids)
       end
     end

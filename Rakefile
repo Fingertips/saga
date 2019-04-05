@@ -1,18 +1,9 @@
-require 'rake'
-require 'rdoc/task'
+require 'bundler/gem_tasks'
+require 'rake/testtask'
 
-desc "Run all specs by default"
-task :default => [:spec]
+task default: :test
 
-desc "Run all specs"
-task :spec do
-  sh 'bacon test/*_spec.rb'
-end
-
-namespace :documentation do
-  Rake::RDocTask.new(:generate) do |rd|
-    rd.main = "README.rdoc"
-    rd.rdoc_files.include("README.rdoc", "LICENSE", "bin/**/*.rb", "lib/**/*.rb", "templates/**/*.rb")
-    rd.options << "--all" << "--charset" << "utf-8"
-  end
+Rake::TestTask.new(:test) do |t|
+  t.test_files = FileList['test/**/*_test.rb']
+  t.verbose = true
 end

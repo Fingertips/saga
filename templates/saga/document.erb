@@ -1,32 +1,26 @@
 Requirements <%= title %>
 <% unless authors.empty? %>
-
 <% authors.each do |author| -%>
-- <%= format_author(author) -%>
-
+- <%= format_author(author) %>
 <% end -%>
 <% end -%>
-
 <% introduction.each do |paragraph| %>
 <%= paragraph %>
-
 <% end %>
 USER STORIES
 <% stories.each do |header, stories| -%>
 <% if header.strip == '' %>
-
-<% else %>
-<%= "\n#{header}\n\n"  -%>
-<% end %>
+<% else -%>
+<%= "\n#{header}\n\n" %>
+<% end -%>
 <% stories.each do |story| -%>
-<%= format_story(story) -%>
+<%= format_story(story) %>
 <% end -%>
 <% end -%>
 <% definitions.each do |header, definitions| -%>
-<% if header.strip == '' %>
-
-<% else %>
-<%= "\n#{header}\n\n"  -%>
+<% if header.strip == '' -%>
+<% else -%>
+<%= "\n#{header}\n\n" %>
 <% end %>
 <% definitions.each do |definition| -%>
 <%= format_definition(definition) %>

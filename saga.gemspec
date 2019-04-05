@@ -1,32 +1,32 @@
-# encoding: utf-8
+# frozen_string_literal: true
+
+require File.expand_path('lib/saga/version', __dir__)
 
 Gem::Specification.new do |spec|
-  spec.name = "saga"
-  spec.version = "0.11.1"
-  spec.date = "2015-07-03"
-  
-  spec.authors = ["Manfred Stienstra"]
-  spec.email = "manfred@fngtps.com"
-  
-  spec.description = "Saga is a tool to convert stories syntax to a nicely formatted document."
-  spec.summary = "Saga is a tool to convert stories syntax to a nicely formatted document."
-  
-  spec.executables = ["saga"]
-  spec.extra_rdoc_files = [
-    "LICENSE",
-    "README.rdoc"
+  spec.name = 'saga'
+  spec.version = Saga::VERSION
+  spec.authors = [
+    'Manfred Stienstra'
   ]
-  spec.files = [
-    "LICENSE",
-    "README.rdoc",
-    "Rakefile",
-    "VERSION"
-  ] + Dir['templates/**/*'] + Dir['lib/**/*.rb'] + Dir['bin/*']
-  spec.require_paths = ["lib"]
-  spec.rubygems_version = "1.8.11"
+  spec.email = [
+    'manfred@fngtps.com'
+  ]
+  spec.summary = <<-SUMMARY
+  Saga is a tool to convert stories syntax to a nicely formatted document.
+  SUMMARY
+  spec.description = <<-DESCRIPTION
+  Saga reads its own story format and formats to other output formats using
+  templates.
+  DESCRIPTION
+  spec.homepage = 'https://github.com/Fingertips/saga'
+  spec.license = 'MIT'
 
-  spec.add_runtime_dependency('erubis', '>= 2.6')
-  spec.add_runtime_dependency('activesupport', '>= 2.3')
-  spec.add_development_dependency('bacon')
-  spec.add_development_dependency('mocha-on-bacon')
+  spec.files = Dir.glob('lib/**/*') + [
+    'LICENSE',
+    'README.rdoc'
+  ]
+  spec.require_paths = ['lib']
+
+  spec.add_dependency 'activesupport', '~> 5'
+  spec.add_development_dependency 'rake'
 end
