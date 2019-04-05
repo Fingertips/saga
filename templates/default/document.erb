@@ -9,7 +9,7 @@
   <h1>Requirements<br><%= title %></h1>
 
   <% authors.each do |author| %>
-  <p class="author"><%=h format_author(author) %></p>
+  <p class="author"><%= format_author(author) %></p>
   <% end %>
 
   <% introduction.each do |paragraph| %>
@@ -34,7 +34,7 @@
   <tr class="<%= story[:status] %>" id="story<%= story[:id] %>">
     <td class="story"><%=h story[:description] %></td>
     <td class="meta id"><%=h story[:id] %></td>
-    <td class="meta estimate"><%=h format_estimate(*story[:estimate]) if story[:estimate] %></td>
+    <td class="meta estimate"><%= format_estimate(*story[:estimate]) if story[:estimate] %></td>
     <td class="meta iteration"><%=h story[:iteration] %></td>
     <td class="meta status"><%=h story[:status] %></td>
   </tr>
@@ -48,7 +48,7 @@
   <tr class="nested <%= nested[:status] %>" id="story<%= nested[:id] %>">
     <td class="story"><%=h nested[:description] %></td>
     <td class="meta id"><%=h nested[:id] %></td>
-    <td class="meta estimate"><%=h format_estimate(*nested[:estimate]) if nested[:estimate] %></td>
+    <td class="meta estimate"><%= format_estimate(*nested[:estimate]) if nested[:estimate] %></td>
     <td class="meta iteration"><%=h nested[:iteration] %></td>
     <td class="meta status"><%=h nested[:status] %></td>
   </tr>
@@ -66,7 +66,7 @@
 
   <% definitions.each do |header, definitions| %>
   <% unless header.strip == '' %>
-  <h2><%=h format_header(header) %></h2>
+  <h2><%= format_header(header) %></h2>
   <% end %>
   <dl>
   <% definitions.each do |definition| %>
