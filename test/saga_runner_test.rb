@@ -8,7 +8,7 @@ describe "A Runner" do
       runner.run
     end.should == runner.parser.to_s
   end
-  
+
   it "shows a help test when the -h option is used" do
     runner = Saga::Runner.new(%w(-h))
     runner.stubs(:exit)
@@ -16,9 +16,9 @@ describe "A Runner" do
       runner.run
     end.should == runner.parser.to_s*2 # Because we stub exit it runs twice ):
   end
-  
+
   it "generates a requirements stub to can get started" do
-    Saga::Runner.stubs(:author).returns({:name => "Manfred Stienstra"})
+    Saga::Runner.stubs(:author).returns({name: "Manfred Stienstra"})
     runner = Saga::Runner.new(%w(new))
     output = collect_stdout do
       runner.run
@@ -26,12 +26,12 @@ describe "A Runner" do
     output.should.include('Requirements Title')
     output.should.include('- Manfred Stienstra')
   end
-  
+
   it "knows information about the user currently logged in to the system" do
     author = Saga::Runner.author
     author[:name].should.not.be.nil
   end
-  
+
   it "converts the provided filename" do
     runner = Saga::Runner.new(%w(requirements.txt))
     runner.expects(:convert).with(File.expand_path('requirements.txt'), {}).returns('output')
@@ -39,7 +39,7 @@ describe "A Runner" do
       runner.run
     end.should == "output\n"
   end
-  
+
   it "converts the provided filename when the convert command is given" do
     runner = Saga::Runner.new(%w(convert requirements.txt))
     runner.expects(:convert).with(File.expand_path('requirements.txt'), {}).returns('output')
@@ -47,7 +47,7 @@ describe "A Runner" do
       runner.run
     end.should == "output\n"
   end
-  
+
   it "converts the provided filename with an external template" do
     Saga::Parser.stubs(:parse)
     File.stubs(:read)
@@ -57,13 +57,13 @@ describe "A Runner" do
     runner = Saga::Runner.new(%W(convert --template path/to/a/template requirements.txt))
     collect_stdout { runner.run }
   end
-  
+
   it "inspects the parsed document" do
     runner = Saga::Runner.new(%w(inspect requirements.txt))
     runner.expects(:write_parsed_document).with(File.expand_path('requirements.txt'))
     runner.run
   end
-  
+
   it "autofills the parsed document" do
     runner = Saga::Runner.new(%w(autofill requirements.txt))
     runner.expects(:autofill).with(File.expand_path('requirements.txt')).returns('output')
@@ -71,7 +71,7 @@ describe "A Runner" do
       runner.run
     end.should == "output\n"
   end
-  
+
   it "shows an overview of the time planned in the different iterations" do
     runner = Saga::Runner.new(%w(planning requirements.txt))
     runner.expects(:planning).with(File.expand_path('requirements.txt')).returns('output')
@@ -79,7 +79,7 @@ describe "A Runner" do
       runner.run
     end.should == "output\n"
   end
-  
+
   it "copies the default template to the specified path" do
     begin
       destination = "/tmp/saga-template-dir"
@@ -92,7 +92,7 @@ describe "A Runner" do
       FileUtils.rm_rf(destination)
     end
   end
-  
+
   it "complains when tryin to create a template at an existing path" do
     begin
       destination = "/tmp/saga-template-dir"

@@ -1,42 +1,53 @@
-require 'erubis'
+require 'erb'
 
 module Saga
   class Formatter
     TEMPLATE_PATH = File.expand_path('../../../templates', __FILE__)
-    
-    def initialize(document, options={})
+
+    attr_reader :document
+    attr_reader :template_path
+
+    def initialize(document, template_path: nil)
       @document = document
-      @options  = options
-      @options[:template] ||= File.join(self.class.template_path, 'default')
+      @template_path ||= template_path || File.join(self.class.template_path, 'default')
     end
-    
+
     def format
-      helpers_file = File.join(@options[:template], 'helpers.rb')
+      @document.extend(ERB::Util)
       if File.exist?(helpers_file)
         load helpers_file
         @document.extend(Helpers)
       end
-      
-      template_file = File.join(@options[:template], 'document.erb')
+
       if File.exist?(template_file)
-        template = Erubis::Eruby.new(File.read(template_file))
+        template = ERB.new(File.read(template_file), nil, '-')
         template.result(@document._binding)
       else
         raise ArgumentError, "The template at path `#{template_file}' could not be found."
       end
     end
-    
-    def self.format(document, options={})
-      formatter = new(document, options)
+
+    def self.format(document, **kwargs)
+      formatter = new(document, **kwargs)
       formatter.format
     end
-    
+
     def self.template_path
       TEMPLATE_PATH
     end
 
     def self.saga_format(document)
-      format(document, :template => File.join(template_path, 'saga'))
+      format(document, template_path: File.join(template_path, 'saga'))
+    end
+
+    private
+
+    def helpers_file
+      File.join(template_path, 'helpers.rb')
+    end
+
+    def template_file
+      File.join(template_path, 'document.erb')
     end
   end
 end

@@ -7,7 +7,6 @@ and definitions. The document is usually a succinct and complete description of
 a piece of software. Anyone reading the document should get a fairly good idea
 of the application without further information.
 
-
 === The introduction
 
 The first line of the document is the title. You can start the line with
@@ -24,7 +23,6 @@ stories. Only the name of the author is compulsory.
 The final part of the introduction is a concise description of the project.
 
   Saga is a tool to convert the requirements format used at Fingertips to HTML.
-
 
 === The stories
 
@@ -51,7 +49,6 @@ little text label at the end describes the status of the story.
 A TextMate bundle for the stories format is available from:
 https://github.com/Fingertips/stories.tmbundle
 
-
 === Definitions
 
 The document ends with a list of definitions. Here we define words used
@@ -60,14 +57,13 @@ or if they might be misunderstood by someone. Like with the stories sections
 are optional.
 
   ROLES
-  
+
   Writer: Someone who was appointed the task of writing the stories.
   Developer: A person developing the application.
-  
-  DEFINITIONS
-  
-  Project: The software project the developers are working on.
 
+  DEFINITIONS
+
+  Project: The software project the developers are working on.
 
 === Template
 
@@ -81,7 +77,6 @@ Edit the files in the created directory to your liking and then convert your
 requirements with the <tt>--template</tt> option:
 
   $ saga convert --template design/requirements_template requirements.txt > requirements.html
-
 
 === Usage
 

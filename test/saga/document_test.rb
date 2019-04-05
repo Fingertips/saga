@@ -74,18 +74,18 @@ class DocumentTest < ActiveSupport::TestCase
     assert_equal [], document.used_ids
 
     document.stories[''] = []
-    document.stories[''] << { :id => 2 }
+    document.stories[''] << { id: 2 }
     assert_equal [2], document.used_ids
 
     document.stories['Non-functional'] = []
-    document.stories['Non-functional'] << { :id => 12 }
+    document.stories['Non-functional'] << { id: 12 }
     assert_equal [2, 12], document.used_ids
 
-    document.stories['Non-functional'] << { :id => 3 }
+    document.stories['Non-functional'] << { id: 3 }
     assert_equal [2, 12, 3], document.used_ids
 
     document.stories[''][0][:stories] = [
-      {}, {:id => 14}, {}, {:id => 5}
+      {}, {id: 14}, {}, {id: 5}
     ]
     assert_equal [2, 14, 5, 12, 3], document.used_ids
   end
@@ -97,11 +97,11 @@ class DocumentTest < ActiveSupport::TestCase
     assert_equal [1,2,3,4], document.unused_ids(4)
 
     document.stories[''] = []
-    document.stories[''] << { :id => 2 }
-    document.stories[''] << { :id => 4 }
-    document.stories[''] << { :id => 5 }
-    document.stories[''] << { :id => 6 }
-    document.stories[''] << { :id => 100 }
+    document.stories[''] << { id: 2 }
+    document.stories[''] << { id: 4 }
+    document.stories[''] << { id: 5 }
+    document.stories[''] << { id: 6 }
+    document.stories[''] << { id: 100 }
 
     assert_equal [], document.unused_ids(0)
     assert_equal [1], document.unused_ids(1)
@@ -115,17 +115,17 @@ class DocumentTest < ActiveSupport::TestCase
     document.autofill_ids
 
     document.stories[''] = []
-    document.stories[''] << { :description => 'First story'}
-    document.stories[''] << { :description => 'Second story', :stories => [
-      { :description => 'First nested story' }, { :id => 15, :description => 'Second nested story'}
+    document.stories[''] << { description: 'First story'}
+    document.stories[''] << { description: 'Second story', stories: [
+      { description: 'First nested story' }, { id: 15, description: 'Second nested story'}
     ] }
 
     document.stories['Non-functional'] = []
-    document.stories['Non-functional'] << { :id => 1, :description => 'Third story' }
+    document.stories['Non-functional'] << { id: 1, description: 'Third story' }
 
     document.stories['Developer'] = []
-    document.stories['Developer'] << { :description => 'Fourth story' }
-    document.stories['Developer'] << { :id => 3, :description => 'Fifth story' }
+    document.stories['Developer'] << { description: 'Fourth story' }
+    document.stories['Developer'] << { id: 3, description: 'Fifth story' }
 
     document.autofill_ids
     assert_equal [2, 4], document.stories[''].map { |story| story[:id] }

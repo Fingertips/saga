@@ -1,12 +1,12 @@
 require 'optparse'
- 
+
 module Saga
   class Runner
     def initialize(argv)
       @argv = argv
       @options = {}
     end
-    
+
     def parser
       @parser ||= OptionParser.new do |opts|
         opts.banner =  "Usage: saga [command]"
@@ -29,28 +29,28 @@ module Saga
         end
       end
     end
-    
+
     def new_file
       document = Saga::Document.new
       document.title = 'Title'
       document.authors << self.class.author
       document.stories[''] = [{
-        :description => 'As a writer I would like to write stories so developers can implement them.',
-        :id => 1,
-        :status => 'todo'
+        description: 'As a writer I would like to write stories so developers can implement them.',
+        id: 1,
+        status: 'todo'
       }]
       document.definitions[''] = [{
-        :title => 'Writer',
-        :definition => 'Someone who is responsible for writing down requirements in the form of stories'
+        title: 'Writer',
+        definition: 'Someone who is responsible for writing down requirements in the form of stories'
       }]
-      
+
       Saga::Formatter.saga_format(document)
     end
-    
+
     def convert(filename, options)
       Saga::Formatter.format(Saga::Parser.parse(File.read(filename)), options)
     end
-    
+
     def write_parsed_document(filename)
       document = Saga::Parser.parse(File.read(filename))
       puts document.title
@@ -60,17 +60,17 @@ module Saga
       puts
       document.definitions.each { |header, definitions| puts header; definitions.each { |definition| p definition } }
     end
-    
+
     def autofill(filename)
       document = Saga::Parser.parse(File.read(filename))
       document.autofill_ids
       Saga::Formatter.saga_format(document)
     end
-    
+
     def planning(filename)
       Saga::Planning.new(Saga::Parser.parse(File.read(filename))).to_s
     end
-    
+
     def copy_template(destination)
       if File.exist?(destination)
         puts "The directory `#{destination}' already exists!"
@@ -81,7 +81,7 @@ module Saga
         FileUtils.cp(File.join(Saga::Formatter.template_path, 'default/document.erb'), destination)
       end
     end
-    
+
     def run_command(command, options)
       case command
       when 'new'
@@ -100,7 +100,7 @@ module Saga
         puts convert(File.expand_path(command), options)
       end
     end
-    
+
     def run
       parser.parse!(@argv)
       if command = @argv.shift
@@ -109,10 +109,10 @@ module Saga
         puts parser.to_s
       end
     end
-    
+
     def self.author
       name = `osascript -e "long user name of (system info)" &1> /dev/null`.strip
-      {:name => name}
+      {name: name}
     end
   end
 end

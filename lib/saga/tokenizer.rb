@@ -1,19 +1,19 @@
 module Saga
   class Tokenizer
     attr_accessor :current_section
-    
+
     RE_STORY = /\./
     RE_DEFINITION = /\A[[:alpha:]]([[:alpha:]]|[\s-])+:/
-    
+
     def initialize(parser)
       @parser = parser
       @part = :current_section
     end
-    
+
     def expect_stories?
       %w(story stories).include?(@current_section.to_s)
     end
-    
+
     def process_line(input, index=0)
       if input[0,2] == '  '
         @parser.handle_notes(input.strip)
@@ -34,13 +34,13 @@ module Saga
       $stderr.write "On line #{index}: #{input.inspect}:"
       raise
     end
-    
+
     def process(input)
       input.split("\n").each_with_index do |line, index|
         process_line(line, index)
       end
     end
-    
+
     def self.interval(input)
       case input.strip
       when 'd'
@@ -51,18 +51,18 @@ module Saga
         :hours
       end
     end
-    
+
     RE_STORY_NUMBER = /\#(\d+)/
     RE_STORY_ITERATION = /i(\d+)/
     RE_STORY_ESTIMATE_PART = /(\d+)(d|w|h|)/
-    
+
     def self.tokenize_story_attributes(input)
       return {} if input.nil?
-      
+
       attributes = {}
       rest       = []
       parts      = input.split(/\s/)
-      
+
       parts.each do |part|
         if part.strip == ''
           next
@@ -79,11 +79,11 @@ module Saga
           rest << part
         end
       end
-      
+
       attributes[:status] = rest.join(' ') unless rest.empty?
       attributes
     end
-    
+
     def self.tokenize_story(input)
       lines = input.split('\n')
       parts = input.split(' - ')
@@ -92,18 +92,18 @@ module Saga
         story[:description] = parts[0..-2].join('-').strip
         story
       else
-        { :description => input.strip }
+        { description: input.strip }
       end
     end
-    
+
     def self.tokenize_definition(input)
       if match = /^([^:]+)\s*:\s*(.+)\s*$/.match(input)
-        {:title => match[1], :definition => match[2]}
+        {title: match[1], definition: match[2]}
       else
         {}
       end
     end
-    
+
     def self.tokenize_author(input)
       author = {}
       parts = input[1..-1].split(',')

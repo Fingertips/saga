@@ -7,12 +7,12 @@ module Support
       def initialize
         @written = []
       end
-    
+
       def write(string)
         @written << string
       end
     end
-  
+
     def collect_stdout(&block)
       collector = Support::OutputHelpers::Collector.new
       stdout = $stdout

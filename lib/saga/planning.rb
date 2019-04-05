@@ -1,11 +1,11 @@
 module Saga
   class Planning
-    BLANK_ITERATION = {:story_count => 0, :estimate_total_in_hours => 0}
-    
+    BLANK_ITERATION = {story_count: 0, estimate_total_in_hours: 0}
+
     def initialize(document)
       @document = document
     end
-    
+
     def iterations
       @document.stories_as_flat_list.inject({}) do |properties, story|
         if story[:estimate]
@@ -17,7 +17,7 @@ module Saga
         properties
       end
     end
-    
+
     def total
       total = BLANK_ITERATION.dup
       iterations.each do |iteration, properties|
@@ -26,7 +26,7 @@ module Saga
       end
       total
     end
-    
+
     def unestimated
       unestimated = 0
       @document.stories_as_flat_list.each do |story|
@@ -34,7 +34,7 @@ module Saga
       end
       unestimated
     end
-    
+
     def range_estimated
       range_estimated = 0
       @document.stories_as_flat_list.each do |story|
@@ -44,7 +44,7 @@ module Saga
       end
       range_estimated
     end
-    
+
     def statusses
       statusses = {}
       @document.stories_as_flat_list.each do |story|
@@ -55,7 +55,7 @@ module Saga
       end
       statusses
     end
-    
+
     def to_s
       if @document.empty?
         "There are no stories yet."
@@ -78,9 +78,9 @@ module Saga
         parts.join("\n")
       end
     end
-    
+
     FIRST_COLUMN_WIDTH = 14
-    
+
     def self.estimate_to_hours(estimate)
       case estimate[1]
       when :days
@@ -93,7 +93,7 @@ module Saga
         estimate[0]
       end
     end
-    
+
     def self.format_properties(iteration, properties)
       if iteration
         label = (iteration == -1) ? "Unplanned" : "Iteration #{iteration}"
@@ -103,19 +103,19 @@ module Saga
       story_column = format_stories_count(properties[:story_count])
       "#{label.ljust(FIRST_COLUMN_WIDTH)}: #{properties[:estimate_total_in_hours]} (#{story_column})"
     end
-    
+
     def self.format_unestimated(unestimated)
       "Unestimated   : #{format_stories_count(unestimated)}"
     end
-    
+
     def self.format_range_estimated(range_estimated)
       "Range-estimate: #{format_stories_count(range_estimated)}"
     end
-    
+
     def self.format_stories_count(count)
       count > 1 ? "#{count} stories" : 'one story'
     end
-    
+
     def self.format_statusses(statusses)
       parts = []
       statusses.each do |status, hours|
