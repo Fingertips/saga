@@ -22,10 +22,11 @@ Gem::Specification.new do |spec|
   spec.license = 'MIT'
 
   spec.executables << 'saga'
-  spec.files = Dir.glob('lib/**/*') + [
+  spec.files = [
     'LICENSE',
     'README.rdoc'
-  ]
+  ] + Dir.glob('lib/**/*') + Dir.glob('templates/**/*')
+
   spec.require_paths = ['lib']
 
   spec.add_dependency 'activesupport', '~> 5'
