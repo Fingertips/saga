@@ -3,11 +3,11 @@
 module Support
   module FileHelpers
     def fixture_path
-      File.expand_path("../fixtures", __dir__)
+      File.expand_path('../fixtures', __dir__)
     end
 
     def cases_path
-      File.expand_path("../cases", __dir__)
+      File.expand_path('../cases', __dir__)
     end
 
     def case_path(name)

@@ -2,7 +2,7 @@ def format_author(author)
   parts = []
   parts << author[:name] if author[:name]
   parts << "<a href=\"mailto:#{author[:email]}\">#{author[:email]}</a>" if author[:email]
-  if author[:website] and author[:company]
+  if author[:website] && author[:company]
     parts << "<a href=\"#{author[:website]}\">#{author[:company]}</a>"
   elsif author[:company]
     parts << author[:company]
@@ -11,7 +11,7 @@ def format_author(author)
 end
 
 def format_header(header)
-  "#{header[0,1].upcase}#{header[1..-1].downcase}"
+  "#{header[0, 1].upcase}#{header[1..-1].downcase}"
 end
 
 def pluralize(cardinality, singular, plural)

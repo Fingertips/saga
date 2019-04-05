@@ -53,15 +53,16 @@ module Saga
 
     def handle_string(string)
       return if string.strip == ''
+
       if string.strip == 'USER STORIES'
         self.current_section = :stories
         return @current_section
       end
 
-      if :title == @current_section
+      if @current_section == :title
         @document.title = string.gsub(/^requirements/i, '').strip
         self.current_section = :introduction
-      elsif :introduction == @current_section
+      elsif @current_section == :introduction
         @document.introduction << string
       else
         @current_header = string.strip

@@ -13,24 +13,24 @@ module Support
       end
     end
 
-    def collect_stdout(&block)
+    def collect_stdout
       collector = Support::OutputHelpers::Collector.new
       stdout = $stdout
       $stdout = collector
       begin
-        block.call
+        yield
       ensure
         $stdout = stdout
       end
       collector.written.join
     end
 
-    def collect_stderr(&block)
+    def collect_stderr
       collector = Support::OutputHelpers::Collector.new
       stderr = $stderr
       $stderr = collector
       begin
-        block.call
+        yield
       ensure
         $stderr = stderr
       end

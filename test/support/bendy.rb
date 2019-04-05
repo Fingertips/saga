@@ -11,7 +11,7 @@ module Bendy
         ''
       else
         out = ' '
-        for method, value in self.class.__config
+        self.class.__config.each do |method, value|
           out << method.to_s + ':' + value.inspect + ', '
         end
         out[0..-3]

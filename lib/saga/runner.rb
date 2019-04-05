@@ -17,21 +17,21 @@ module Saga
 
     def parser
       @parser ||= OptionParser.new do |parser|
-        parser.banner =  "Usage: saga [command]"
-        parser.separator ""
-        parser.separator "Commands:"
-        parser.separator "    new                 - prints a blank stub"
-        parser.separator "    convert <filename>  - convert the stories to HTML"
-        parser.separator "    inspect <filename>  - print the internals of the document"
-        parser.separator "    autofill <filename> - adds an id to stories without one"
-        parser.separator "    planning <filename> - shows the planning of stories in iterations"
-        parser.separator "    template <dir>      - creates a template directory"
-        parser.separator ""
-        parser.separator "Options:"
-        parser.on("-t", "--template DIR", "Use an external template for conversion to HTML") do |template_path|
+        parser.banner =  'Usage: saga [command]'
+        parser.separator ''
+        parser.separator 'Commands:'
+        parser.separator '    new                 - prints a blank stub'
+        parser.separator '    convert <filename>  - convert the stories to HTML'
+        parser.separator '    inspect <filename>  - print the internals of the document'
+        parser.separator '    autofill <filename> - adds an id to stories without one'
+        parser.separator '    planning <filename> - shows the planning of stories in iterations'
+        parser.separator '    template <dir>      - creates a template directory'
+        parser.separator ''
+        parser.separator 'Options:'
+        parser.on('-t', '--template DIR', 'Use an external template for conversion to HTML') do |template_path|
           @options.template_path = File.expand_path(template_path)
         end
-        parser.on("-h", "--help",     "Show help") do
+        parser.on('-h', '--help', 'Show help') do
           puts parser
           @options.run = false
         end

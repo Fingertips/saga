@@ -2,7 +2,7 @@ require 'erb'
 
 module Saga
   class Formatter
-    TEMPLATE_PATH = File.expand_path('../../../templates', __FILE__)
+    TEMPLATE_PATH = File.expand_path('../../templates', __dir__)
 
     attr_reader :document
     attr_reader :template_path
@@ -17,9 +17,7 @@ module Saga
     end
 
     def format
-      unless @document.is_a?(ERB::Util)
-        @document.extend(ERB::Util)
-      end
+      @document.extend(ERB::Util) unless @document.is_a?(ERB::Util)
 
       if File.exist?(helpers_file)
         @document.instance_eval(File.read(helpers_file))
@@ -43,7 +41,7 @@ module Saga
 
     private
 
-    if RUBY_VERSION < "2.6.0"
+    if RUBY_VERSION < '2.6.0'
       def build_erb
         ERB.new(File.read(template_file), nil, '-')
       end
