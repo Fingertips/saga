@@ -3,6 +3,9 @@ module Saga
     BLANK_ITERATION = {story_count: 0, estimate_total_in_hours: 0}
 
     def initialize(document)
+      unless document
+        raise ArgumentError, "Please supply a document for planning."
+      end
       @document = document
     end
 
