@@ -101,7 +101,7 @@ module Saga
       when 'new'
         puts new_file
       when 'convert'
-        puts convert(File.expand_path(@argv[0]), options)
+        puts convert(File.expand_path(@argv[0]))
       when 'inspect'
         write_parsed_document(File.expand_path(@argv[0]))
       when 'autofill'
@@ -111,7 +111,7 @@ module Saga
       when 'template'
         copy_template(File.expand_path(@argv[0]))
       else
-        puts convert(File.expand_path(command), options)
+        puts convert(File.expand_path(command))
       end
     end
 
