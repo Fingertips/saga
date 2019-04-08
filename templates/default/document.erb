@@ -237,82 +237,84 @@ dd
 </style>
 </head>
 <body>
-  <h1>Requirements <%= title %></h1>
 
-  <% unless authors.empty? %>
+<h1>Requirements <%= title %></h1>
+
+<% unless authors.empty? %>
   <ul class="authors">
-  <% authors.each do |author| %>
-  <li><%= format_author(author) %></li>
-  <% end %>
+    <% authors.each do |author| %>
+      <li><%= format_author(author) %></li>
+    <% end %>
   </ul>
-  <% end %>
+<% end %>
 
-  <% introduction.each do |paragraph| %>
+<% introduction.each do |paragraph| %>
   <p><%=h paragraph %></p>
-  <% end %>
+<% end %>
 
-  <% unless stories.empty? %>
+<% unless stories.empty? %>
   <h2>User stories</h2>
   <% stories.each do |header, stories| %>
-  <% unless header.strip == '' %>
-  <h3><%=h header %></h3>
+    <% unless header.strip == '' %>
+      <h3><%=h header %></h3>
+    <% end %>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th class="meta" title="id">#</th>
+          <th class="meta" title="Estimate">e</th>
+          <th class="meta" title="Iteration">i</th>
+          <th class="meta" title="Status">s</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% stories.each do |story| %>
+          <tr class="<%= story[:status] %>" id="story<%= story[:id] %>">
+            <td class="story"><%=h story[:description] %></td>
+            <td class="meta id"><%=h story[:id] %></td>
+            <td class="meta estimate"><%= format_estimate(*story[:estimate]) if story[:estimate] %></td>
+            <td class="meta iteration"><%=h story[:iteration] %></td>
+            <td class="meta status"><%=h story[:status] %></td>
+          </tr>
+          <% if story[:notes] %>
+            <tr class="notes <%= story[:status] %>">
+              <td colspan="5"><%=h story[:notes] %></td>
+            </tr>
+          <% end %>
+          <% if story[:stories] %>
+            <% story[:stories].each do |nested| %>
+              <tr class="nested <%= nested[:status] %>" id="story<%= nested[:id] %>">
+                <td class="story"><%=h nested[:description] %></td>
+                <td class="meta id"><%=h nested[:id] %></td>
+                <td class="meta estimate"><%= format_estimate(*nested[:estimate]) if nested[:estimate] %></td>
+                <td class="meta iteration"><%=h nested[:iteration] %></td>
+                <td class="meta status"><%=h nested[:status] %></td>
+              </tr>
+              <% if nested[:notes] %>
+                <tr class="nested notes <%= nested[:status] %>">
+                  <td colspan="5"><%=h nested[:notes] %></td>
+                </tr>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
   <% end %>
-  <table>
-  <thead>
-  <tr>
-    <th></th>
-    <th class="meta" title="id">#</th>
-    <th class="meta" title="Estimate">e</th>
-    <th class="meta" title="Iteration">i</th>
-    <th class="meta" title="Status">s</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% stories.each do |story| %>
-  <tr class="<%= story[:status] %>" id="story<%= story[:id] %>">
-    <td class="story"><%=h story[:description] %></td>
-    <td class="meta id"><%=h story[:id] %></td>
-    <td class="meta estimate"><%= format_estimate(*story[:estimate]) if story[:estimate] %></td>
-    <td class="meta iteration"><%=h story[:iteration] %></td>
-    <td class="meta status"><%=h story[:status] %></td>
-  </tr>
-  <% if story[:notes] %>
-  <tr class="notes <%= story[:status] %>">
-    <td colspan="5"><%=h story[:notes] %></td>
-  </tr>
-  <% end %>
-  <% if story[:stories] %>
-  <% story[:stories].each do |nested| %>
-  <tr class="nested <%= nested[:status] %>" id="story<%= nested[:id] %>">
-    <td class="story"><%=h nested[:description] %></td>
-    <td class="meta id"><%=h nested[:id] %></td>
-    <td class="meta estimate"><%= format_estimate(*nested[:estimate]) if nested[:estimate] %></td>
-    <td class="meta iteration"><%=h nested[:iteration] %></td>
-    <td class="meta status"><%=h nested[:status] %></td>
-  </tr>
-  <% if nested[:notes] %>
-  <tr class="nested notes <%= nested[:status] %>">
-    <td colspan="5"><%=h nested[:notes] %></td>
-  </tr>
-  <% end %>
-  <% end %>
-  <% end %>
-  <% end %>
-  </tbody>
-  </table>
-  <% end %>
-  <% end %>
+<% end %>
 
-  <% definitions.each do |header, definitions| %>
+<% definitions.each do |header, definitions| %>
   <% unless header.strip == '' %>
-  <h2><%= format_header(header) %></h2>
+    <h2><%= format_header(header) %></h2>
   <% end %>
   <dl>
-  <% definitions.each do |definition| %>
-  <dt><%=h definition[:title] %></dt>
-  <dd><%=h definition[:definition] %></dd>
-  <% end %>
+    <% definitions.each do |definition| %>
+      <dt><%=h definition[:title] %></dt>
+      <dd><%=h definition[:definition] %></dd>
+    <% end %>
   </dl>
-  <% end %>
-  </body>
+<% end %>
+
+</body>
 </html>
