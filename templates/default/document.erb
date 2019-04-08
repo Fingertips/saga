@@ -1,340 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Requirements <%= title %></title>
-  <style>
-    /* Links */
-
-    a
-    {
-      color: #00c;
-      text-decoration: none;
-    }
-    a:hover,
-    a:active
-    {
-      text-decoration: underline;
-    }
-    a:visited
-    {
-      color: #009;
-    }
-
-    /* Typography and margins */
-
-    body,
-    table
-    {
-      font: 14px/18px palatino, georgia, serif;
-    }
-    h1,
-    h2 
-    {
-      margin: 12px 0 6px 0;
-      font-size: 18px;
-      line-height: 30px;
-      letter-spacing: -.5px;
-      font-weight: normal;
-      color: #222;
-    }
-    h3
-    {
-      font-size: 14px;
-    }
-    p,
-    ul,
-    ol
-    {
-      margin: 12px 0;
-    }
-    p.date,
-    p.author
-    {
-      clear: both;
-      margin: 6px 0;
-    }
-    p.number,
-    #doc p.date
-    {
-      margin: 6px 0 24px 0;
-    }
-    p.author,
-    #doc p.date
-    {
-      font-style: italic;
-    }
-    table,
-    dl
-    {
-      margin: 21px 0 24px 0;
-    }
-    p.greeting
-    {
-      margin: 24px 0;
-    }
-    p.signature,
-    p.attachments
-    {
-      margin: 72px 0 24px 0;
-    }
-
-    /* Page structure */
-
-    html,
-    body
-    {
-      margin: 0;
-      padding: 0;
-    }
-    body
-    {
-      padding: 0 10%;
-      background: rgb(255,255,255);
-      background-image: linear-gradient(rgba(0,0,0,0.07), rgba(0,0,0,0));
-      background-position: left top;
-      background-repeat: no-repeat;
-      background-size: 100% 5%;
-    }
-    body.requirements
-    {
-      padding: 0 2em;
-    }
-    #logo
-    {
-      float: right;
-      width: 123px;
-      height: 123px;
-      margin: 0 0 0 12px;
-      padding: 0;
-    }
-    #logo img
-    {
-      display: block;
-      width: 123px;
-      height: 123px;
-    }
-    h1
-    {
-      margin: 0 0 24px 0;
-      padding-top: 73px;
-    }
-    .vcard 
-    {
-      margin: 12px 0;
-      padding: 5px 0 0 0;
-      border-top: 1px solid #ccc;
-      font-size: 12px;
-      text-align: right;
-      color: #777
-    }
-
-    /* Invoice table */
-
-    table
-    {
-      border-collapse: collapse;
-      empty-cells: show;
-    }
-    table.invoice th,
-    table.invoice td
-    {
-      padding: 0 18px 0 0;
-      vertical-align: top;
-      text-align: left;
-      line-height: 24px;
-    }
-    table.invoice .amount
-    {
-      text-align: right;
-      white-space: nowrap;
-    }
-    table.invoice .note
-    {
-      padding: 0;
-    }
-    table.invoice tbody,
-    table.invoice tr.total
-    {
-      border-top: 1px solid #ccc;
-    }
-    table.invoice tbody.total th
-    {
-      text-align: right;
-      font-weight: normal;
-    }
-    table.invoice tr.total th,
-    table.invoice tr.total td
-    {
-      font-weight: bold;
-    }
-
-    /* Data table */
-
-    table.data 
-    {
-      font-size: 12px;
-    }
-    table.data th,
-    table.data td
-    {
-      padding: 2px 6px;
-      text-align: left;
-      vertical-align: top;
-      border: 1px solid #ccc;
-    }
-    table.data th
-    {
-      background-color: #eee;
-    }
-    table.data .separator
-    { 
-      border-top: 2px solid #000;
-    }
-    body.requirements table.data .dropped
-    {
-      color: #999; 
-      background-color: #f6f6f8; 
-      text-decoration: line-through;
-    }
-    body.requirements table.data .done
-    {
-      background-color: #f0f8ff;
-    }
-
-    /* Stories table */
-    td.id { text-align: right !important; }
-    td.id a { color: #000; }
-    table.review { border-bottom: 1px solid #ccc; margin-top: -1em;}
-    table.review td { padding: .25em 0; vertical-align: top; text-align: left; min-width: 1em; }
-    table.review th { padding: .25em 0; vertical-align: top; text-align: right; }
-    table.review td.story { width: 100%; border-top: 1px solid #ccc; }
-    table.review td.meta { padding-left: 1em; border-top: 1px solid #ccc; text-align: right !important; white-space: nowrap; }
-    table.review td.notes { color: #666; padding: 0 0 .25em 0; font-style: italic; }
-    table.review .dropped { color: #666; text-decoration: line-through; }
-    table.review .done { color: #666; background-color: #f0f8ff; }
-    table.review tr.nested td.story { padding-left: 1em; }
-
-    /* Plain lists */
-
-    ul,
-    ol
-    {
-      padding: 0;
-    }
-    ul
-    {
-      list-style-type: square;
-    }
-    li
-    {
-      margin: 0;
-      padding: 0;
-    }
-    .separated li
-    {
-      margin: .5em 0;
-    }
-    li li
-    {
-      margin-left: 2em;
-    }
-
-    /* Definition list */
-
-    dl
-    {
-      border-bottom: 1px solid #ccc;
-    }
-    dt,
-    dd
-    {
-      margin: 0;
-    }
-    dt
-    {
-      padding: 6px 1em 0 0;
-      display: block;
-      float: left;
-      clear: both;
-      font-weight: bold;
-    }
-    dd
-    {
-      padding: 6px 0;
-      border-top: 1px solid #ccc;
-      padding-left: 25%;
-      display: block;
-    }
-
-    /* Additional elements */
-
-    hr
-    {
-      margin: 2em 0;
-      height: 1px;
-      background-color: #ccc;
-      border: none;
-    }
-    div.note
-    {
-      margin: 2em 0;
-      padding: 1px 18px;
-      border: 1px solid #ccc;
-      background-color: #f6f6f8;
-    }
-
-    /* Printing */
-
-    @media print
-    {
-      .noprint
-      {
-        display: none;
-      }
-      body,
-      table
-      {
-        font: 12px/15px palatino, georgia, serif;
-      }
-      table.invoice th,
-      table.invoice td
-      {
-        line-height: 20px;
-      }
-      table.data,
-      .vcard 
-      {
-        font-size: 10px;
-      }
-      a,
-      a:visited,
-      h1,
-      h2,
-      .vcard
-      {
-        color: #000;
-      }
-      h1
-      {
-        padding-top: 0;
-      }
-      body
-      {
-        padding: 1em 3em;
-      }
-      body
-      {
-        background: none;
-      }
-    }
-  </style>
+<meta charset="utf-8">
+<title>Requirements <%= title %></title>
+<style>
+a
+{
+  text-decoration: none;
+}
+a:hover,
+a:active
+{
+  text-decoration: underline;
+}
+body
+{
+  margin: 1.5em 1em;
+  font-family: palatino, georgia, serif;
+  line-height: 1.25;
+}
+h1,
+h2,
+h3
+{
+  margin: 0;
+  font-size: 150%;
+  line-height: 1;
+  font-weight: normal;
+}
+h2
+{
+  margin: 1em 0;
+}
+h3
+{
+  margin: 0.75em 0 0.25em 0;
+  font-size: 125%;
+}
+table + h2,
+dl + h2,
+table + h3
+{
+  margin-top: 2em;
+}
+p,
+ul
+{
+  margin: 1em 0;
+}
+ul.authors
+{
+  padding: 0;
+  font-style: italic;
+  list-style-type: none;
+  color: #444;
+}
+table
+{
+  margin: 1em -1em;
+  border-collapse: collapse;
+  empty-cells: show;
+  border-bottom: 1px solid #ddd;
+  margin-top: -1em;
+}
+tbody tr:not(.notes)
+{
+  border-top: 1px solid #ddd;
+}
+tr.notes
+{
+  color: #444;
+  font-style: italic;
+}
+th,
+td
+{
+  padding: .5em 0.25em;
+  vertical-align: top;
+  text-align: left;
+}
+th:first-child,
+td:first-child
+{
+  padding-left: 1em;
+}
+th:last-child,
+td:last-child
+{
+  padding-right: 1em;
+}
+th
+{
+  text-align: right;
+}
+tr.notes td
+{
+  padding-top: 0;
+}
+td.story
+{
+  width: 100%;
+}
+td.meta
+{
+  text-align: right !important;
+  white-space: nowrap;
+}
+th.meta
+{
+  cursor: help;
+}
+.dropped
+{
+  color: #888;
+  text-decoration: line-through;
+}
+.done
+{
+  background-color: #f0f8ff;
+}
+tr.nested td.story
+{
+  padding-left: 1em;
+}
+td.id
+{
+  text-align: right !important;
+}
+td.id a
+{
+  color: #000;
+}
+dl
+{
+  margin: 1em -1em;
+}
+dt,
+dd
+{
+  display: block;
+}
+dt
+{
+  float: left;
+  clear: both;
+  margin: 0;
+  padding: 0 0 0 1em;
+  font-weight: bold;
+}
+dt:after
+{
+  content: ": ";
+}
+dd
+{
+  margin: 0 0 1em 0;
+  padding: 0 1em;
+  display: block;
+}
+@media (min-width: 40em) {
+  body
+  {
+    margin: 2em;
+  }
+  table,
+  dl
+  {
+    margin-left: -2em;
+    margin-right: -2em;
+  }
+  th:first-child,
+  td:first-child
+  {
+    padding-left: 2em;
+  }
+  th:last-child,
+  td:last-child
+  {
+    padding-right: 2em;
+  }
+  dl
+  {
+    border-bottom: 1px solid #ddd;
+  }
+  dt
+  {
+    padding: .5em 0 0 2em;
+    border-top: none;
+  }
+  dd
+  {
+    margin: 0;
+    padding: .5em 2em .5em 20em;
+    border-top: 1px solid #ddd;
+  }
+}
+@media print
+{
+  body
+  {
+    margin: 0;
+    font-size: 10pt;
+  }
+  table,
+  dl
+  {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  th:first-child,
+  td:first-child
+  {
+    padding-left: 0;
+  }
+  th:last-child,
+  td:last-child
+  {
+    padding-right: 0;
+  }
+  dl
+  {
+    border-bottom: 1px solid #ddd;
+  }
+  dt
+  {
+    padding: .5em 0 0 0;
+    border-top: none;
+  }
+  dd
+  {
+    margin: 0;
+    padding: .5em 0 .5em 40%;
+    border-top: 1px solid #ddd;
+  }
+}
+</style>
 </head>
-<body id="doc" class="requirements">
-  <h1>Requirements<br><%= title %></h1>
+<body>
+  <h1>Requirements <%= title %></h1>
 
+  <% unless authors.empty? %>
+  <ul class="authors">
   <% authors.each do |author| %>
-  <p class="author"><%= format_author(author) %></p>
+  <li><%= format_author(author) %></li>
+  <% end %>
+  </ul>
   <% end %>
 
   <% introduction.each do |paragraph| %>
@@ -347,14 +257,17 @@
   <% unless header.strip == '' %>
   <h3><%=h header %></h3>
   <% end %>
-  <table class="review">
+  <table>
+  <thead>
   <tr>
     <th></th>
-    <th title="id">#</th>
-    <th title="Estimate">e</th>
-    <th title="Iteration">i</th>
-    <th title="Status">s</th>
+    <th class="meta" title="id">#</th>
+    <th class="meta" title="Estimate">e</th>
+    <th class="meta" title="Iteration">i</th>
+    <th class="meta" title="Status">s</th>
   </tr>
+  </thead>
+  <tbody>
   <% stories.each do |story| %>
   <tr class="<%= story[:status] %>" id="story<%= story[:id] %>">
     <td class="story"><%=h story[:description] %></td>
@@ -364,8 +277,8 @@
     <td class="meta status"><%=h story[:status] %></td>
   </tr>
   <% if story[:notes] %>
-  <tr class="<%= story[:status] %>">
-    <td class="notes" colspan="5"><%=h story[:notes] %></td>
+  <tr class="notes <%= story[:status] %>">
+    <td colspan="5"><%=h story[:notes] %></td>
   </tr>
   <% end %>
   <% if story[:stories] %>
@@ -378,13 +291,14 @@
     <td class="meta status"><%=h nested[:status] %></td>
   </tr>
   <% if nested[:notes] %>
-  <tr class="nested <%= nested[:status] %>">
-    <td class="notes" colspan="5"><%=h nested[:notes] %></td>
+  <tr class="nested notes <%= nested[:status] %>">
+    <td colspan="5"><%=h nested[:notes] %></td>
   </tr>
   <% end %>
   <% end %>
   <% end %>
   <% end %>
+  </tbody>
   </table>
   <% end %>
   <% end %>
