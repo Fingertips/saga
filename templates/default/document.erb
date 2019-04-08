@@ -1,79 +1,320 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Requirements <%= title %></title>
-  <link rel="stylesheet" type="text/css" media="all" href="http://resources.fngtps.com/2019/doc.css" />
+<meta charset="utf-8">
+<title>Requirements <%= title %></title>
+<style>
+a
+{
+  text-decoration: none;
+}
+a:hover,
+a:active
+{
+  text-decoration: underline;
+}
+body
+{
+  margin: 1.5em 1em;
+  font-family: palatino, georgia, serif;
+  line-height: 1.25;
+}
+h1,
+h2,
+h3
+{
+  margin: 0;
+  font-size: 150%;
+  line-height: 1;
+  font-weight: normal;
+}
+h2
+{
+  margin: 1em 0;
+}
+h3
+{
+  margin: 0.75em 0 0.25em 0;
+  font-size: 125%;
+}
+table + h2,
+dl + h2,
+table + h3
+{
+  margin-top: 2em;
+}
+p,
+ul
+{
+  margin: 1em 0;
+}
+ul.authors
+{
+  padding: 0;
+  font-style: italic;
+  list-style-type: none;
+  color: #444;
+}
+table
+{
+  margin: 1em -1em;
+  border-collapse: collapse;
+  empty-cells: show;
+  border-bottom: 1px solid #ddd;
+  margin-top: -1em;
+}
+tbody tr:not(.notes)
+{
+  border-top: 1px solid #ddd;
+}
+tr.notes
+{
+  color: #444;
+  font-style: italic;
+}
+th,
+td
+{
+  padding: .5em 0.25em;
+  vertical-align: top;
+  text-align: left;
+}
+th:first-child,
+td:first-child
+{
+  padding-left: 1em;
+}
+th:last-child,
+td:last-child
+{
+  padding-right: 1em;
+}
+th
+{
+  text-align: right;
+}
+tr.notes td
+{
+  padding-top: 0;
+}
+td.story
+{
+  width: 100%;
+}
+th.meta
+{
+  cursor: help;
+}
+td.meta
+{
+  text-align: right !important;
+  white-space: nowrap;
+}
+.dropped
+{
+  color: #888;
+  text-decoration: line-through;
+}
+.done
+{
+  background-color: #f0f8ff;
+}
+tr.nested td.story
+{
+  padding-left: 1em;
+}
+td.id
+{
+  text-align: right !important;
+}
+td.id a
+{
+  color: #000;
+}
+dl
+{
+  margin: 1em -1em;
+}
+dt,
+dd
+{
+  display: block;
+}
+dt
+{
+  float: left;
+  clear: both;
+  margin: 0;
+  padding: 0 0 0 1em;
+  font-weight: bold;
+}
+dt:after
+{
+  content: ": ";
+}
+dd
+{
+  margin: 0 0 1em 0;
+  padding: 0 1em;
+  display: block;
+}
+@media (min-width: 40em) {
+  body
+  {
+    margin: 2em;
+  }
+  table,
+  dl
+  {
+    margin-left: -2em;
+    margin-right: -2em;
+  }
+  th:first-child,
+  td:first-child
+  {
+    padding-left: 2em;
+  }
+  th:last-child,
+  td:last-child
+  {
+    padding-right: 2em;
+  }
+  dl
+  {
+    border-bottom: 1px solid #ddd;
+  }
+  dt
+  {
+    padding: .5em 0 0 2em;
+    border-top: none;
+  }
+  dd
+  {
+    margin: 0;
+    padding: .5em 2em .5em 20em;
+    border-top: 1px solid #ddd;
+  }
+}
+@media print
+{
+  body
+  {
+    margin: 0;
+    font-size: 10pt;
+  }
+  table,
+  dl
+  {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  th:first-child,
+  td:first-child
+  {
+    padding-left: 0;
+  }
+  th:last-child,
+  td:last-child
+  {
+    padding-right: 0;
+  }
+  dl
+  {
+    border-bottom: 1px solid #ddd;
+  }
+  dt
+  {
+    padding: .5em 0 0 0;
+    border-top: none;
+  }
+  dd
+  {
+    margin: 0;
+    padding: .5em 0 .5em 40%;
+    border-top: 1px solid #ddd;
+  }
+}
+</style>
 </head>
-<body id="doc" class="requirements">
-  <h1>Requirements<br><%= title %></h1>
+<body>
 
-  <% authors.each do |author| %>
-  <p class="author"><%= format_author(author) %></p>
-  <% end %>
+<h1>Requirements <%= title %></h1>
 
-  <% introduction.each do |paragraph| %>
+<% unless authors.empty? %>
+  <ul class="authors">
+    <% authors.each do |author| %>
+      <li><%= format_author(author) %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<% introduction.each do |paragraph| %>
   <p><%=h paragraph %></p>
-  <% end %>
+<% end %>
 
-  <% unless stories.empty? %>
+<% unless stories.empty? %>
   <h2>User stories</h2>
   <% stories.each do |header, stories| %>
-  <% unless header.strip == '' %>
-  <h3><%=h header %></h3>
+    <% unless header.strip == '' %>
+      <h3><%=h header %></h3>
+    <% end %>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th class="meta" title="id">#</th>
+          <th class="meta" title="Estimate">e</th>
+          <th class="meta" title="Iteration">i</th>
+          <th class="meta" title="Status">s</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% stories.each do |story| %>
+          <tr class="<%= story[:status] %>" id="story<%= story[:id] %>">
+            <td class="story"><%=h story[:description] %></td>
+            <td class="meta id"><%=h story[:id] %></td>
+            <td class="meta estimate"><%= format_estimate(*story[:estimate]) if story[:estimate] %></td>
+            <td class="meta iteration"><%=h story[:iteration] %></td>
+            <td class="meta status"><%=h story[:status] %></td>
+          </tr>
+          <% if story[:notes] %>
+            <tr class="notes <%= story[:status] %>">
+              <td colspan="5"><%=h story[:notes] %></td>
+            </tr>
+          <% end %>
+          <% if story[:stories] %>
+            <% story[:stories].each do |nested| %>
+              <tr class="nested <%= nested[:status] %>" id="story<%= nested[:id] %>">
+                <td class="story"><%=h nested[:description] %></td>
+                <td class="meta id"><%=h nested[:id] %></td>
+                <td class="meta estimate"><%= format_estimate(*nested[:estimate]) if nested[:estimate] %></td>
+                <td class="meta iteration"><%=h nested[:iteration] %></td>
+                <td class="meta status"><%=h nested[:status] %></td>
+              </tr>
+              <% if nested[:notes] %>
+                <tr class="nested notes <%= nested[:status] %>">
+                  <td colspan="5"><%=h nested[:notes] %></td>
+                </tr>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
   <% end %>
-  <table class="review">
-  <tr>
-    <th></th>
-    <th title="id">#</th>
-    <th title="Estimate">e</th>
-    <th title="Iteration">i</th>
-    <th title="Status">s</th>
-  </tr>
-  <% stories.each do |story| %>
-  <tr class="<%= story[:status] %>" id="story<%= story[:id] %>">
-    <td class="story"><%=h story[:description] %></td>
-    <td class="meta id"><%=h story[:id] %></td>
-    <td class="meta estimate"><%= format_estimate(*story[:estimate]) if story[:estimate] %></td>
-    <td class="meta iteration"><%=h story[:iteration] %></td>
-    <td class="meta status"><%=h story[:status] %></td>
-  </tr>
-  <% if story[:notes] %>
-  <tr class="<%= story[:status] %>">
-    <td class="notes" colspan="5"><%=h story[:notes] %></td>
-  </tr>
-  <% end %>
-  <% if story[:stories] %>
-  <% story[:stories].each do |nested| %>
-  <tr class="nested <%= nested[:status] %>" id="story<%= nested[:id] %>">
-    <td class="story"><%=h nested[:description] %></td>
-    <td class="meta id"><%=h nested[:id] %></td>
-    <td class="meta estimate"><%= format_estimate(*nested[:estimate]) if nested[:estimate] %></td>
-    <td class="meta iteration"><%=h nested[:iteration] %></td>
-    <td class="meta status"><%=h nested[:status] %></td>
-  </tr>
-  <% if nested[:notes] %>
-  <tr class="nested <%= nested[:status] %>">
-    <td class="notes" colspan="5"><%=h nested[:notes] %></td>
-  </tr>
-  <% end %>
-  <% end %>
-  <% end %>
-  <% end %>
-  </table>
-  <% end %>
-  <% end %>
+<% end %>
 
-  <% definitions.each do |header, definitions| %>
+<% definitions.each do |header, definitions| %>
   <% unless header.strip == '' %>
-  <h2><%= format_header(header) %></h2>
+    <h2><%= format_header(header) %></h2>
   <% end %>
   <dl>
-  <% definitions.each do |definition| %>
-  <dt><%=h definition[:title] %></dt>
-  <dd><%=h definition[:definition] %></dd>
-  <% end %>
+    <% definitions.each do |definition| %>
+      <dt><%=h definition[:title] %></dt>
+      <dd><%=h definition[:definition] %></dd>
+    <% end %>
   </dl>
-  <% end %>
-  </body>
+<% end %>
+
+</body>
 </html>
