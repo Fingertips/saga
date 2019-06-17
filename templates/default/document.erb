@@ -67,6 +67,10 @@ tbody tr:not(.notes)
 {
   border-top: 1px solid #ddd;
 }
+tbody tr.nested:not(.notes)
+{
+  border-top: 1px dashed #ddd;
+}
 tr.notes
 {
   color: #444;
@@ -83,6 +87,11 @@ th:first-child,
 td:first-child
 {
   padding-left: 1em;
+}
+tr.nested th:first-child,
+tr.nested td:first-child
+{
+  padding-left: 3em;
 }
 th:last-child,
 td:last-child
@@ -118,10 +127,6 @@ td.meta
 .done
 {
   background-color: #f0f8ff;
-}
-tr.nested td.story
-{
-  padding-left: 1em;
 }
 td.id
 {
@@ -179,6 +184,11 @@ dd
   {
     padding-right: 2em;
   }
+  tr.nested th:first-child,
+  tr.nested td:first-child
+  {
+    padding-left: 4em;
+  }
   dl
   {
     border-bottom: 1px solid #ddd;
@@ -212,6 +222,11 @@ dd
   td:first-child
   {
     padding-left: 0;
+  }
+  tr.nested th:first-child,
+  tr.nested td:first-child
+  {
+    padding-left: 2em;
   }
   th:last-child,
   td:last-child
