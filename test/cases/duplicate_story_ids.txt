@@ -1,0 +1,5 @@
+USER STORIES
+
+As an admin I would like to manage managers. - #1
+As a manager I would like to manage editors. - #2
+As an editor I would like to manage content. - #1

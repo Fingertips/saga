@@ -22,7 +22,7 @@ module Support
       ensure
         $stdout = stdout
       end
-      collector.written.join
+      collector.written.join("\n")
     end
 
     def collect_stderr

@@ -26,6 +26,7 @@ module Saga
         parser.separator '    autofill <filename> - adds an id to stories without one'
         parser.separator '    planning <filename> - shows the planning of stories in iterations'
         parser.separator '    template <dir>      - creates a template directory'
+        parser.separator '    verify <dir>        - checks internal consistency of the document'
         parser.separator ''
         parser.separator 'Options:'
         parser.on('-t', '--template DIR', 'Use an external template for conversion to HTML') do |template_path|
@@ -96,20 +97,26 @@ module Saga
       end
     end
 
+    def verify(filename)
+      Saga::Verifier.new(Saga::Parser.parse(File.read(filename))).run
+    end
+
     def run_command(command)
       case command
       when 'new'
         puts new_file
       when 'convert'
-        puts convert(File.expand_path(@argv[0]))
+        puts convert(file_path)
       when 'inspect'
-        write_parsed_document(File.expand_path(@argv[0]))
+        write_parsed_document(file_path)
       when 'autofill'
-        puts autofill(File.expand_path(@argv[0]))
+        puts autofill(file_path)
       when 'planning'
-        puts planning(File.expand_path(@argv[0]))
+        puts planning(file_path)
       when 'template'
-        copy_template(File.expand_path(@argv[0]))
+        copy_template(file_path)
+      when 'verify'
+        verify(file_path)
       else
         puts convert(File.expand_path(command))
       end
@@ -127,6 +134,10 @@ module Saga
 
     def author
       { name: `osascript -e "long user name of (system info)" &1> /dev/null`.strip }
+    end
+
+    def file_path
+      File.expand_path(@argv[0])
     end
   end
 end
