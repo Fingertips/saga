@@ -74,7 +74,7 @@ class RunnerTest < ActiveSupport::TestCase
   test 'inspects the parsed document' do
     runner = Saga::Runner.new(%W[inspect #{case_path('document')}])
     output = collect_stdout { runner.run }
-    assert output.include?(':name')
+    assert output.include?('name:')
   end
 
   test 'autofills the parsed document' do
