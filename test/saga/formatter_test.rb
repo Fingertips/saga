@@ -9,7 +9,7 @@ class FormatterTest < ActiveSupport::TestCase
 
   test 'formats a saga document to HTML' do
     html = Saga::Formatter.format(@document)
-    assert html.include?('<h1>Requirements<br>Requirements API</h1>')
+    assert html.include?('<h1>Requirements Requirements API</h1>')
     assert html.include?('receive a certificate')
     assert html.include?('<td class="meta estimate">4-8</td>')
   end
