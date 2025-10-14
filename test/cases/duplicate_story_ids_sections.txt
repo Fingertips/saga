@@ -1,0 +1,16 @@
+USER STORIES
+
+Authentication
+
+As an unauthenticated user I want to sign in. - #3
+
+Authorization
+
+As an admin I want to access the admin pages. - #2
+
+Administration
+
+As an admin I would like to manage managers. - #1
+As a manager I would like to manage editors. - #2
+As an editor I would like to manage content. - #1
+As an unauthenticated user I may not access the admin section. - #3
