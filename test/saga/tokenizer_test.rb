@@ -78,7 +78,7 @@ class TokenizerBehaviorTest < ActiveSupport::TestCase
 
     last_message = @parser.__messages__.last
     assert_equal :handle_story, last_message[:method]
-    assert_equal story, last_message[:kwargs]
+    assert_equal story, last_message.dig(:args, 0)
   end
 
   test 'sends a tokenized note to the parser' do
@@ -109,7 +109,7 @@ class TokenizerBehaviorTest < ActiveSupport::TestCase
 
     last_message = @parser.__messages__.last
     assert_equal :handle_nested_story, last_message[:method]
-    assert_equal story, last_message[:kwargs]
+    assert_equal story, last_message.dig(:args, 0)
   end
 
   test 'sends a nested tokenized note to the parser' do
@@ -131,7 +131,7 @@ class TokenizerBehaviorTest < ActiveSupport::TestCase
 
     last_message = @parser.__messages__.last
     assert_equal :handle_author, last_message[:method]
-    assert_equal author, last_message[:kwargs]
+    assert_equal author, last_message.dig(:args,  0)
   end
 
   test 'sends a tokenized definition to the parser' do
@@ -142,7 +142,7 @@ class TokenizerBehaviorTest < ActiveSupport::TestCase
 
     last_message = @parser.__messages__.last
     assert_equal :handle_definition, last_message[:method]
-    assert_equal definition, last_message[:kwargs]
+    assert_equal definition, last_message.dig(:args, 0)
   end
 
   test 'send a tokenize defintion to the parser (slighly more complex)' do
@@ -153,7 +153,7 @@ class TokenizerBehaviorTest < ActiveSupport::TestCase
 
     last_message = @parser.__messages__.last
     assert_equal :handle_definition, last_message[:method]
-    assert_equal definition, last_message[:kwargs]
+    assert_equal definition, last_message.dig(:args, 0)
   end
 
   test 'forwards plain strings to the parser' do

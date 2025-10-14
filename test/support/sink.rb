@@ -10,8 +10,8 @@ module Support
       @messages
     end
 
-    def method_missing(m, *a, **kw, &block)
-      @messages << { method: m, args: a, kwargs: kw, block: block }.compact
+    def method_missing(method, *args, **kwargs, &block)
+      @messages << { method:, args:, kwargs:, block: }.compact
     end
   end
 end
