@@ -24,6 +24,8 @@ def format_estimate(cardinality, interval)
     pluralize(cardinality, 'day', 'days')
   when :weeks
     pluralize(cardinality, 'week', 'days')
+  when :relative
+    cardinality.gsub('straightforward', "straight\u00ADforward")
   else
     cardinality.to_s
   end

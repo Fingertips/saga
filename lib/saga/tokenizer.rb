@@ -54,6 +54,7 @@ module Saga
 
     RE_STORY_NUMBER = /\#(\d+)/.freeze
     RE_STORY_ITERATION = /i(\d+)/.freeze
+    RE_STORY_RELATIVE_ESTIMATE = /(trivial|easy|simple|straightforward|hard|epic)/.freeze
     RE_STORY_ESTIMATE_PART = /(\d+)(d|w|h|)/.freeze
 
     def self.tokenize_story_attributes(input)
@@ -70,6 +71,8 @@ module Saga
           attributes[:id] = match[1].to_i
         elsif match = RE_STORY_ITERATION.match(part)
           attributes[:iteration] = match[1].to_i
+        elsif match = RE_STORY_RELATIVE_ESTIMATE.match(part)
+          attributes[:estimate] = [match[1], :relative]
         elsif match = /#{RE_STORY_ESTIMATE_PART}-#{RE_STORY_ESTIMATE_PART}/.match(part)
           estimate = "#{match[1, 2].join}-#{match[3, 2].join}"
           attributes[:estimate] = [estimate, :range]

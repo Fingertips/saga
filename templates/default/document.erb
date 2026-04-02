@@ -114,10 +114,15 @@ th.meta
 {
   cursor: help;
 }
-td.meta
+td.meta:not(.estimate)
 {
   text-align: right !important;
   white-space: nowrap;
+}
+td.meta.estimate
+{
+  text-align: right !important;
+  hyphens: manual;
 }
 .dropped
 {

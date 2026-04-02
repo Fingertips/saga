@@ -48,6 +48,16 @@ module Saga
       range_estimated
     end
 
+    def relative_estimated
+      relative_estimated = 0
+      @document.stories_as_flat_list.each do |story|
+        if story[:estimate] && story[:estimate][1] == :relative
+          relative_estimated += 1
+        end
+      end
+      relative_estimated
+    end
+
     def statusses
       statusses = {}
       @document.stories_as_flat_list.each do |story|
@@ -75,6 +85,9 @@ module Saga
           parts << ''
           parts << self.class.format_unestimated(unestimated) if unestimated > 0
           parts << self.class.format_range_estimated(range_estimated) if range_estimated > 0
+          if relative_estimated > 0
+            parts << self.class.format_relative_estimated(relative_estimated)
+          end
           parts << self.class.format_statusses(statusses) unless statusses.empty?
         end
         parts.shift if parts[0] == ''
@@ -91,6 +104,8 @@ module Saga
       when :weeks
         estimate[0] * 40
       when :range
+        0
+      when :relative
         0
       else
         estimate[0]
@@ -113,6 +128,10 @@ module Saga
 
     def self.format_range_estimated(range_estimated)
       "Range-estimate: #{format_stories_count(range_estimated)}"
+    end
+
+    def self.format_relative_estimated(relative_estimated)
+      "Relative      : #{format_stories_count(relative_estimated)}"
     end
 
     def self.format_stories_count(count)

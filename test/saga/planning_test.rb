@@ -76,4 +76,19 @@ class PlanningTest < ActiveSupport::TestCase
       planning.to_s
     )
   end
+
+  test 'planning with stories with a relative estimate shows a planning' do
+    document = Saga::Document.new
+    document.stories[''] = [{ estimate: ['simple', :relative] }, {}, { stories: [{ estimate: ['straightforward', :relative] }] }]
+    planning = Saga::Planning.new(document)
+    assert_equal(
+      "Unplanned     : 0 (2 stories)\n" \
+      "-----------------------------\n" \
+      "Total         : 0 (2 stories)\n" \
+      "\n" \
+      "Unestimated   : 2 stories\n" \
+      'Relative      : 2 stories',
+      planning.to_s
+    )
+  end
 end
