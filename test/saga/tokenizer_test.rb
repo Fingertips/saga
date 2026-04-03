@@ -33,6 +33,13 @@ class TokenizerTest < ActiveSupport::TestCase
     assert_equal ['8-40', :range], tokenized[:estimate]
   end
 
+  test 'tokenizes relative estimates' do
+    tokenized = Saga::Tokenizer.tokenize_story('I want to have a library of PDF document within the app. - i1 straightforward')
+    assert_equal 'I want to have a library of PDF document within the app.', tokenized[:description]
+    assert_equal 1, tokenized[:iteration]
+    assert_equal ['straightforward', :relative], tokenized[:estimate]
+  end
+
   test 'tokenizes hard stories' do
     assert_equal(
       {
