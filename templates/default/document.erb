@@ -4,255 +4,219 @@
 <meta charset="utf-8">
 <title>Requirements <%= title %></title>
 <style>
-a
+:root
 {
-  text-decoration: none;
+  color-scheme: light dark;
+
+  --primary: hsl(232 0% 0%);
+  --background: white;
+  --done-background: hsl(232 90% 95%);
+  --dropped: hsl(232 0% 60%);
+  --target-background: hsl(40 90% 95%);
+  --border: hsl(232 0% 90%);
+  --link: hsl(232 80% 60%);
+  --link-active: hsl(232 80% 40%);
+
+  --inset-left: max(env(safe-area-inset-left), 1rem, 2.5vw);
+  --inset-right: max(env(safe-area-inset-right), 1rem, 2.5vw);
+  --inset-top: max(env(safe-area-inset-top), 1rem);
+  --inset-bottom: max(env(safe-area-inset-bottom), 1rem);
 }
-a:hover,
-a:active
+@media (prefers-color-scheme: dark)
 {
-  text-decoration: underline;
+  :root
+  {
+    --primary: hsl(232 0% 90%);
+    --background: hsl(232 0% 10%);
+    --done-background: hsl(232 90% 10%);
+    --dropped: hsl(232 0% 40%);
+    --target-background: hsl(40 90% 10%);
+    --border: hsl(232 0% 20%);
+    --link: hsl(232 80% 70%);
+    --link-active: hsl(232 80% 60%);
+  }
 }
 body
 {
-  margin: 1.5em 1em;
   font-family: palatino, georgia, serif;
   line-height: 1.25;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+  margin: var(--inset-top) var(--inset-right) var(--inset-bottom) var(--inset-left);
+  background: var(--background);
+  color: var(--primary);
+}
+p,
+h1,
+h2,
+h3,
+ul,
+li,
+dl,
+dt,
+dd
+{
+  margin: 0;
+  padding: 0
 }
 h1,
 h2,
 h3
 {
-  margin: 0;
-  font-size: 150%;
-  line-height: 1;
   font-weight: normal;
+}
+h1
+{
+  font-size: 162.5%;
 }
 h2
 {
-  margin: 1em 0;
+  font-size: 137.5%;
 }
 h3
 {
-  margin: 0.75em 0 0.25em 0;
-  font-size: 125%;
+  font-size: 118.75%;
 }
-table + h2,
-dl + h2,
-table + h3
+h2,
+h3
 {
-  margin-top: 2em;
+  margin: 2rem 0 1.25rem 0;
 }
-p,
 ul
 {
-  margin: 1em 0;
-}
-ul.authors
-{
-  padding: 0;
-  font-style: italic;
+  margin: 1rem 0;
   list-style-type: none;
-  color: #444;
-}
-table
-{
-  margin: 1em -1em;
-  border-collapse: collapse;
-  empty-cells: show;
-  border-bottom: 1px solid #ddd;
-  margin-top: -1em;
-}
-tbody tr:not(.notes)
-{
-  border-top: 1px solid #ddd;
-}
-tbody tr.nested:not(.notes)
-{
-  border-top: 1px dashed #ddd;
-}
-tr.notes
-{
-  color: #444;
   font-style: italic;
-}
-th,
-td
-{
-  padding: .5em 0.25em;
-  vertical-align: top;
-  text-align: left;
-}
-th:first-child,
-td:first-child
-{
-  padding-left: 1em;
-}
-tr.nested th:first-child,
-tr.nested td:first-child
-{
-  padding-left: 3em;
-}
-th:last-child,
-td:last-child
-{
-  padding-right: 1em;
-}
-th
-{
-  text-align: right;
-}
-tr.notes td
-{
-  padding-top: 0;
-}
-td.story
-{
-  width: 100%;
-}
-th.meta
-{
-  cursor: help;
-}
-td.meta:not(.estimate)
-{
-  text-align: right !important;
-  white-space: nowrap;
-}
-td.meta.estimate
-{
-  text-align: right !important;
-  hyphens: manual;
-}
-.dropped
-{
-  color: #888;
-  text-decoration: line-through;
-}
-.done
-{
-  background-color: #f0f8ff;
-}
-td.id
-{
-  text-align: right !important;
-}
-td.id a
-{
-  color: #000;
 }
 dl
 {
-  margin: 1em -1em;
-}
-dt,
-dd
-{
-  display: block;
-}
-dt
-{
-  float: left;
-  clear: both;
-  margin: 0;
-  padding: 0 0 0 1em;
-  font-weight: bold;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem 1rem;
+  margin: 1rem 0;
 }
 dt:after
 {
-  content: ": ";
+  content: ':';
 }
-dd
+a[href]
 {
-  margin: 0 0 1em 0;
-  padding: 0 1em;
-  display: block;
+  color: var(--link);
 }
-@media (min-width: 40em) {
-  body
-  {
-    margin: 2em;
-  }
-  table,
-  dl
-  {
-    margin-left: -2em;
-    margin-right: -2em;
-  }
-  th:first-child,
-  td:first-child
-  {
-    padding-left: 2em;
-  }
-  th:last-child,
-  td:last-child
-  {
-    padding-right: 2em;
-  }
-  tr.nested th:first-child,
-  tr.nested td:first-child
-  {
-    padding-left: 4em;
-  }
-  dl
-  {
-    border-bottom: 1px solid #ddd;
-  }
-  dt
-  {
-    padding: .5em 0 0 2em;
-    border-top: none;
-  }
-  dd
-  {
-    margin: 0;
-    padding: .5em 2em .5em 20em;
-    border-top: 1px solid #ddd;
-  }
-}
-@media print
+a[href]:active
 {
-  body
+  color: var(--link-active);
+}
+div.stories
+{
+  display: grid;
+  grid-template-columns: fit-content(0) 1fr repeat(4, fit-content(0));
+  margin: 1rem calc(-1 * var(--inset-right)) 1rem calc(-1 * var(--inset-left));
+}
+h3,
+div.stories > div.story
+{
+  grid-column-start: 1;
+  grid-column-end: 6;
+}
+div.stories > h3
+{
+  margin: 1.5rem var(--inset-right) 0.75rem var(--inset-left);
+}
+div.stories > h3:first-child
+{
+  margin-top: 0;
+}
+div.stories > div.story
+{
+  display: grid;
+  grid-template-columns: subgrid;
+  border-top: 1px solid var(--border);
+  padding: 0.5rem;
+}
+div.stories > div.story:not(:has(+ div.story))
+{
+  border-bottom: 1px solid var(--border);
+}
+div.story.done
+{
+  background: var(--done-background);
+}
+div.story.dropped
+{
+  color: var(--dropped);
+}
+div.story.dropped > div.content
+{
+  text-decoration: line-through;
+}
+div.story:target
+{
+  background: var(--target-background);
+}
+div.story > *
+{
+  padding: 0 0.5rem;
+}
+div.story > *:first-child
+{
+  padding-left: calc(var(--inset-right) - 0.5rem);
+}
+div.story > *:last-child
+{
+  padding-right: calc(var(--inset-left) - 0.5rem);
+}
+div.story > a.id
+{
+  grid-column: 1;
+  color: inherit;
+  text-decoration: none;
+}
+div.story > div.content
+{
+  grid-column: 2;
+}
+div.story > div.estimate
+{
+  grid-column: 3;
+}
+div.story > div.iteration
+{
+  grid-column: 4;
+  font-variant-numeric: tabular-nums;
+}
+div.story > div.status
+{
+  grid-column: 5;
+}
+@media (max-width: 25rem) {
+  div.story > div.content
   {
-    margin: 0;
-    font-size: 10pt;
+    grid-column: 2 / span 4;
   }
-  table,
-  dl
+  div.story > div.estimate,
+  div.story > div.iteration,
+  div.story > div.status
   {
-    margin-left: 0;
-    margin-right: 0;
+    padding-top: 0.25rem;
   }
-  th:first-child,
-  td:first-child
-  {
-    padding-left: 0;
-  }
-  tr.nested th:first-child,
-  tr.nested td:first-child
-  {
-    padding-left: 2em;
-  }
-  th:last-child,
-  td:last-child
-  {
-    padding-right: 0;
-  }
-  dl
-  {
-    border-bottom: 1px solid #ddd;
-  }
-  dt
-  {
-    padding: .5em 0 0 0;
-    border-top: none;
-  }
-  dd
-  {
-    margin: 0;
-    padding: .5em 0 .5em 40%;
-    border-top: 1px solid #ddd;
-  }
+}
+div.content p:not(:first-of-type)
+{
+  font-style: italic;
+  margin-top: 0.25rem;
+}
+div.story.nested div.content
+{
+  padding-left: 2rem;
+}
+a.id,
+div.estimate:not(.relative),
+div.iteration
+{
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 </style>
 </head>
@@ -261,67 +225,58 @@ dd
 <h1>Requirements <%= title %></h1>
 
 <% unless authors.empty? %>
-  <ul class="authors">
+  <ul>
     <% authors.each do |author| %>
-      <li><%= format_author(author) %></li>
+      <li><%= author(author) %></li>
     <% end %>
   </ul>
 <% end %>
 
 <% introduction.each do |paragraph| %>
-  <p><%=h paragraph %></p>
+  <p><%= h paragraph %></p>
 <% end %>
 
+<h2>User stories</h2>
+
 <% unless stories.empty? %>
-  <h2>User stories</h2>
-  <% stories.each do |header, stories| %>
-    <% unless header.strip == '' %>
-      <h3><%=h header %></h3>
-    <% end %>
-    <table>
-      <thead>
-        <tr>
-          <th></th>
-          <th class="meta" title="id">#</th>
-          <th class="meta" title="Estimate">e</th>
-          <th class="meta" title="Iteration">i</th>
-          <th class="meta" title="Status">s</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% stories.each do |story| %>
-          <tr class="<%= story[:status] %>" id="story<%= story[:id] %>">
-            <td class="story"><%=h story[:description] %></td>
-            <td class="meta id"><%=h story[:id] %></td>
-            <td class="meta estimate"><%= format_estimate(*story[:estimate]) if story[:estimate] %></td>
-            <td class="meta iteration"><%=h story[:iteration] %></td>
-            <td class="meta status"><%=h story[:status] %></td>
-          </tr>
-          <% if story[:notes] %>
-            <tr class="notes <%= story[:status] %>">
-              <td colspan="5"><%=h story[:notes] %></td>
-            </tr>
-          <% end %>
-          <% if story[:stories] %>
-            <% story[:stories].each do |nested| %>
-              <tr class="nested <%= nested[:status] %>" id="story<%= nested[:id] %>">
-                <td class="story"><%=h nested[:description] %></td>
-                <td class="meta id"><%=h nested[:id] %></td>
-                <td class="meta estimate"><%= format_estimate(*nested[:estimate]) if nested[:estimate] %></td>
-                <td class="meta iteration"><%=h nested[:iteration] %></td>
-                <td class="meta status"><%=h nested[:status] %></td>
-              </tr>
-              <% if nested[:notes] %>
-                <tr class="nested notes <%= nested[:status] %>">
-                  <td colspan="5"><%=h nested[:notes] %></td>
-                </tr>
-              <% end %>
+  <div class="stories">
+    <% stories.each do |header, stories| %>
+      <% unless header.strip == '' %>
+        <h3><%= h header %></h3>
+      <% end %>
+
+      <% stories.each do |story| %>
+        <div class="story <%= story[:status] %>" id="<%= dom_story_id(story[:id]) %>">
+          <%= id(story[:id]) %>
+          <div class="content">
+            <p><%= h story[:description] %></p>
+            <% if story[:notes] %>
+              <p><%= h story[:notes] %></p>
             <% end %>
+          </div>
+          <%= estimate(*story[:estimate]) %>
+          <%= iteration(story[:iteration]) %>
+          <%= status(story[:status]) %>
+        </div>
+        <% if story[:stories] %>
+          <% story[:stories].each do |nested| %>
+            <div class="story nested <%= nested[:status] %>" id="<%= dom_story_id(nested[:id]) %>">
+              <%= id(nested[:id]) %>
+              <div class="content">
+                <p><%= h nested[:description] %></p>
+                <% if nested[:notes] %>
+                  <p><%= h nested[:notes] %></p>
+                <% end %>
+              </div>
+              <%= estimate(*nested[:estimate]) %>
+              <%= iteration(nested[:iteration]) %>
+              <%= status(nested[:status]) %>
+            </div>
           <% end %>
         <% end %>
-      </tbody>
-    </table>
-  <% end %>
+      <% end %>
+    <% end %>
+  </div>
 <% end %>
 
 <% definitions.each do |header, definitions| %>
@@ -330,8 +285,8 @@ dd
   <% end %>
   <dl>
     <% definitions.each do |definition| %>
-      <dt><%=h definition[:title] %></dt>
-      <dd><%=h definition[:definition] %></dd>
+      <dt><%= h definition[:title] %></dt>
+      <dd><%= h definition[:definition] %></dd>
     <% end %>
   </dl>
 <% end %>

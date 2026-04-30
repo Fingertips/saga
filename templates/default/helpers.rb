@@ -1,4 +1,4 @@
-def format_author(author)
+def author(author)
   parts = []
   parts << author[:name] if author[:name]
   parts << "<a href=\"mailto:#{author[:email]}\">#{author[:email]}</a>" if author[:email]
@@ -28,5 +28,31 @@ def format_estimate(cardinality, interval)
     cardinality.gsub('straightforward', "straight\u00ADforward")
   else
     cardinality.to_s
+  end
+end
+
+def dom_story_id(id)
+  "story#{id}"
+end
+
+def id(id)
+  ["<a href=\"##{dom_story_id(id)}\" class=\"id\" title=\"ID\">#", id, '</a>'].join if id
+end
+
+def iteration(iteration)
+  ['<div class="iteration" title="Iteration">', iteration, '</div>'].join if iteration
+end
+
+def status(status)
+  ['<div class="status" title="Status">', status, '</div>'].join if status
+end
+
+def estimate(cardinality = nil, interval = nil)
+  if cardinality
+    [
+      "<div class=\"estimate #{interval}\" title=\"Estimate\">",
+      format_estimate(cardinality, interval),
+      '</div>'
+    ].join
   end
 end
