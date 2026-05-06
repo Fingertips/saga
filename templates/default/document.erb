@@ -118,7 +118,7 @@ div.stories
   margin: 1rem calc(-1 * var(--inset-right)) 1rem calc(-1 * var(--inset-left));
 }
 h3,
-div.stories > div.story
+div.story
 {
   grid-column-start: 1;
   grid-column-end: 6;
@@ -131,20 +131,21 @@ div.stories > h3:first-child
 {
   margin-top: 0;
 }
-div.stories > div.story
+div.story
 {
   display: grid;
   grid-template-columns: subgrid;
   border-top: 1px solid var(--border);
   padding: 0.5rem;
 }
-div.stories > div.story:not(:has(+ div.story))
+div.story:not(:has(+ div.story))
 {
   border-bottom: 1px solid var(--border);
 }
 div.story.done
 {
   background: var(--done-background);
+  border-color: var(--background) !important;
 }
 div.story.dropped
 {
