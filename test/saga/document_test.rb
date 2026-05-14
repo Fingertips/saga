@@ -90,8 +90,8 @@ class DocumentTest < ActiveSupport::TestCase
     document.stories[''] = []
     document.stories[''] << { description: 'First story' }
     document.stories[''] << { description: 'Second story' }
-    document.stories[''] << { description: 'First nested story', type: 'substory' }
-    document.stories[''] << { id: 15, description: 'Second nested story', type: 'substory' }
+    document.stories[''] << { description: 'First substory', type: 'substory' }
+    document.stories[''] << { id: 15, description: 'Second substory', type: 'substory' }
 
     document.stories['Non-functional'] = []
     document.stories['Non-functional'] << { id: 1, description: 'Third story' }
