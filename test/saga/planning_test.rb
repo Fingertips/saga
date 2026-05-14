@@ -11,7 +11,7 @@ class PlanningTest < ActiveSupport::TestCase
 
   test 'planning for unestimated stories shows a planning' do
     document = Saga::Document.new
-    document.stories[''] = [{}, {}, { stories: [{}, {}] }]
+    document.stories[''] = [{}, {}, {}, {}, {}]
     planning = Saga::Planning.new(document)
     assert_equal 'Unestimated   : 5 stories', planning.to_s
   end
@@ -19,7 +19,7 @@ class PlanningTest < ActiveSupport::TestCase
   test 'planning for estimated and unestimated stories shows a planning' do
     document = Saga::Document.new
     document.stories[''] = [{}, {}, {}]
-    document.stories['Member'] = [{}, { estimate: [6, :hours], stories: [{ estimate: [6, :hours] }] }, {}]
+    document.stories['Member'] = [{}, { estimate: [6, :hours] }, { estimate: [6, :hours] }, {}]
     planning = Saga::Planning.new(document)
     assert_equal(
       "Unplanned     : 12 (2 stories)\n" \
@@ -45,8 +45,8 @@ class PlanningTest < ActiveSupport::TestCase
 
   test 'complicated planning shows a planning' do
     document = Saga::Document.new
-    document.stories[''] = [{ estimate: [12, :hours], iteration: 1 }, { estimate: [8, :hours], stories: [{}, {}] }]
-    document.stories['Developer'] = [{ estimate: [1, :weeks], iteration: 2, stories: [{ estimate: [2, :hours], iteration: 2 }, { estimate: [1, :hours] }] }, { estimate: [1, :hours], iteration: 2 }]
+    document.stories[''] = [{ estimate: [12, :hours], iteration: 1 }, { estimate: [8, :hours] }, {}, {}]
+    document.stories['Developer'] = [{ estimate: [1, :weeks], iteration: 2 }, { estimate: [2, :hours], iteration: 2 }, { estimate: [1, :hours] }, { estimate: [1, :hours], iteration: 2 }]
     document.stories['Writer'] = [{ estimate: [5, :hours], iteration: 1 }, { estimate: [2, :hours], iteration: 3 }]
     planning = Saga::Planning.new(document)
     assert_equal(
@@ -64,7 +64,7 @@ class PlanningTest < ActiveSupport::TestCase
 
   test 'planning with stories with a range estimate shows a planning' do
     document = Saga::Document.new
-    document.stories[''] = [{ estimate: ['8-40', :range] }, {}, { stories: [{ estimate: ['1d-5d', :range] }] }]
+    document.stories[''] = [{ estimate: ['8-40', :range] }, {}, {}, { estimate: ['1d-5d', :range] }]
     planning = Saga::Planning.new(document)
     assert_equal(
       "Unplanned     : 0 (2 stories)\n" \
@@ -79,7 +79,7 @@ class PlanningTest < ActiveSupport::TestCase
 
   test 'planning with stories with a relative estimate shows a planning' do
     document = Saga::Document.new
-    document.stories[''] = [{ estimate: ['simple', :relative] }, {}, { stories: [{ estimate: ['straightforward', :relative] }] }]
+    document.stories[''] = [{ estimate: ['simple', :relative] }, {}, {}, { estimate: ['straightforward', :relative] }]
     planning = Saga::Planning.new(document)
     assert_equal(
       "Unplanned     : 0 (2 stories)\n" \

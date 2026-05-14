@@ -92,18 +92,19 @@ class ParserTest < ActiveSupport::TestCase
     )
   end
 
-  test 'interprets nested story as part of the parent story' do
+  test 'adds substories' do
     parse_story_marker
     parse_story
     parse_story_notes
-    parse_nested_story
-    parse_nested_story_notes
-    parse_nested_story
-    parse_nested_story_notes
+    parse_aubstory
+    parse_aubstory_notes
+    parse_aubstory
+    parse_aubstory_notes
 
     assert_equal [''], parser.document.stories.keys
-    assert_equal 1, parser.document.stories[''].length
+    assert_equal 3, parser.document.stories[''].length
     first_story = parser.document.stories[''][0]
+    substories = parser.document.stories[''].select{ |story| story[:type] == 'substory' }
 
     assert_equal 1, first_story[:id]
     assert_equal(
@@ -111,14 +112,14 @@ class ParserTest < ActiveSupport::TestCase
       first_story[:notes]
     )
 
-    assert_equal 2, first_story[:stories].length
+    assert_equal 2, substories.length
     assert_equal(
       '“Your recording was created successfully.”',
-      first_story[:stories][0][:notes]
+      substories[0][:notes]
     )
     assert_equal(
       '“Your recording was created successfully.”',
-      first_story[:stories][1][:notes]
+      substories[1][:notes]
     )
   end
 

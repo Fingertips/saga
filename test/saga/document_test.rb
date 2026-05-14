@@ -28,30 +28,6 @@ class DocumentTest < ActiveSupport::TestCase
     assert_equal sections, document.definitions.keys
   end
 
-  test 'flattens stories' do
-    document = Saga::Document.new
-    document.stories[''] = [
-      { estimate: ['8-40', :range] },
-      {},
-      {
-        stories: [
-          { estimate: ['1d-5d', :range] }
-        ]
-      }
-    ]
-    document.stories['Help'] = [{}]
-    assert_equal(
-      [
-        { estimate: ['8-40', :range] },
-        {},
-        {},
-        { estimate: ['1d-5d', :range] },
-        {}
-      ],
-      document.stories_as_flat_list
-    )
-  end
-
   test 'returns the number of stories as its length' do
     document = Saga::Document.new
     assert_equal 0, document.length
@@ -85,11 +61,6 @@ class DocumentTest < ActiveSupport::TestCase
 
     document.stories['Non-functional'] << { id: 3 }
     assert_equal [2, 12, 3], document.used_ids
-
-    document.stories[''][0][:stories] = [
-      {}, { id: 14 }, {}, { id: 5 }
-    ]
-    assert_equal [2, 14, 5, 12, 3], document.used_ids
   end
 
   test 'returns a list of unused IDs' do
@@ -118,9 +89,9 @@ class DocumentTest < ActiveSupport::TestCase
 
     document.stories[''] = []
     document.stories[''] << { description: 'First story' }
-    document.stories[''] << { description: 'Second story', stories: [
-      { description: 'First nested story' }, { id: 15, description: 'Second nested story' }
-    ] }
+    document.stories[''] << { description: 'Second story' }
+    document.stories[''] << { description: 'First nested story', type: 'substory' }
+    document.stories[''] << { id: 15, description: 'Second nested story', type: 'substory' }
 
     document.stories['Non-functional'] = []
     document.stories['Non-functional'] << { id: 1, description: 'Third story' }
@@ -130,8 +101,8 @@ class DocumentTest < ActiveSupport::TestCase
     document.stories['Developer'] << { id: 3, description: 'Fifth story' }
 
     document.autofill_ids
-    assert_equal [2, 4], document.stories[''].map { |story| story[:id] }
-    assert_equal [5, 15], document.stories[''][1][:stories].map { |story| story[:id] }
+    assert_equal [2, 4, 5, 15], document.stories[''].map { |story| story[:id] }
+    assert_equal [5, 15], document.stories[''].select{ |story| story[:type] == 'substory' }.map { |story| story[:id] }
     assert_equal [1], document.stories['Non-functional'].map { |story| story[:id] }
     assert_equal [6, 3], document.stories['Developer'].map { |story| story[:id] }
   end

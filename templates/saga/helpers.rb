@@ -15,23 +15,18 @@ def format_estimate(cardinality, interval)
   end
 end
 
-def format_story(story, kind = :regular)
+def format_story(story)
   story_attributes = []
   story_attributes << "##{story[:id]}" if story[:id]
   story_attributes << story[:status] if story[:status]
   story_attributes << format_estimate(*story[:estimate]) if story[:estimate]
   story_attributes << "i#{story[:iteration]}" if story[:iteration]
 
-  prefix = kind == :nested ? '| ' : ''
+  prefix = story[:type] == 'substory' ? '| ' : ''
   formatted = "#{prefix}#{story[:description]}"
   formatted << " - #{story_attributes.join(' ')}" unless story_attributes.empty?
   formatted << "\n"
   formatted << "#{prefix}  #{story[:notes]}\n" if story[:notes]
-  if story[:stories]
-    story[:stories].each do |nested|
-      formatted << format_story(nested, :nested)
-    end
-  end
   formatted
 end
 
