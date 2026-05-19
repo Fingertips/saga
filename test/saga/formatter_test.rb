@@ -54,12 +54,36 @@ class FormatterTest < ActiveSupport::TestCase
     ]
     document.stories = [
       ['General', [
-        { description: 'As a consumer I would like to use TLS (SSL) so that my connection with the API is secure.', id: 4, status: 'todo', notes: 'Use a self-signed CA certificate to create the certificates.', stories: [
-          { description: 'As a consumer I would like to receive a certificate from the provider.', id: 12, status: 'done', notes: 'The certificate for the CA.' },
-          { description: 'As a consumer I would like to receive a hosts file from the provider.', id: 13, status: 'done' }
-        ] },
-        { description: 'As a consumer I would like to get a list of users', id: 5, status: 'todo' },
-        { description: 'As a consumer I would like to get details for a user', id: 5, status: 'todo', estimate: ['4-8', :range] }
+        {
+          description: 'As a consumer I would like to use TLS (SSL) so that my connection with the API is secure.',
+          id: 4,
+          status: 'todo',
+          notes: 'Use a self-signed CA certificate to create the certificates.'
+        },
+        {
+          description: 'As a consumer I would like to receive a certificate from the provider.',
+          id: 12,
+          status: 'done',
+          notes: 'The certificate for the CA.',
+          type: 'substory'
+        },
+        {
+          description: 'As a consumer I would like to receive a hosts file from the provider.',
+          id: 13,
+          status: 'done',
+          type: 'substory'
+        },
+        {
+          description: 'As a consumer I would like to get a list of users',
+          id: 5,
+          status: 'todo'
+        },
+        {
+          description: 'As a consumer I would like to get details for a user',
+          id: 5,
+          status: 'todo',
+          estimate: ['4-8', :range]
+        }
       ]]
     ]
     document

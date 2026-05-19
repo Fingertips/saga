@@ -20,7 +20,7 @@ module Saga
       elsif input[0, 3] == '|  '
         @parser.handle_notes(input[1..-1].strip)
       elsif input[0, 1] == '|'
-        @parser.handle_nested_story(self.class.tokenize_story(input[1..-1]))
+        @parser.handle_substory(self.class.tokenize_story(input[1..-1]))
       elsif input[0, 1] == '-'
         @parser.handle_author(self.class.tokenize_author(input))
       elsif input =~ RE_DEFINITION

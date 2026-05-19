@@ -108,18 +108,18 @@ class TokenizerBehaviorTest < ActiveSupport::TestCase
     assert_equal [line.strip], last_message[:args]
   end
 
-  test 'sends a nested tokenized story to the parser' do
+  test 'sends a tokenized substory to the parser' do
     line = '| As a recorder I would like to use TLS (SSL) so that my connection with the storage API is secure and I can be sure of the API’s identity. - #4 todo'
     story = Saga::Tokenizer.tokenize_story(line[1..-1])
 
     @tokenizer.process_line(line)
 
     last_message = @parser.__messages__.last
-    assert_equal :handle_nested_story, last_message[:method]
+    assert_equal :handle_substory, last_message[:method]
     assert_equal story, last_message.dig(:args, 0)
   end
 
-  test 'sends a nested tokenized note to the parser' do
+  test 'sends a tokenized note of a substory to the parser' do
     line = '|   Optionally support SSL'
     notes = line[4..-1]
 

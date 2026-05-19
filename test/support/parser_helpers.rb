@@ -38,11 +38,11 @@ module Support
       parser.parse('  “Your recording was created successfully.”')
     end
 
-    def parse_nested_story
+    def parse_aubstory
       parser.parse('| As a recorder I would like to add a recording so that it becomes available. - todo')
     end
 
-    def parse_nested_story_notes
+    def parse_aubstory_notes
       parser.parse('|   “Your recording was created successfully.”')
     end
 

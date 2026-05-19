@@ -24,16 +24,15 @@ module Saga
     end
 
     def handle_story(story)
+      story[:type] = 'story' unless story[:type]
       self.current_section = :stories
       @document.stories[@current_header] ||= []
       @document.stories[@current_header] << story
     end
 
-    def handle_nested_story(story)
-      self.current_section = :story
-      parent = @document.stories[@current_header][-1]
-      parent[:stories] ||= []
-      parent[:stories] << story
+    def handle_substory(story)
+      story[:type] = 'substory'
+      handle_story(story)
     end
 
     def handle_notes(notes)

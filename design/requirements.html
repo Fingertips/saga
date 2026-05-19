@@ -1,82 +1,315 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>Requirements Saga &middot; Fingertips</title>
-<link rel="stylesheet" type="text/css" media="all" href="http://resources.fngtps.com/2006/doc.css" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<style type="text/css">
-  td.id { text-align: right !important; }
-  td.id a { color: #000; }
-  table.review { border-bottom: 1px solid #ccc; margin-top: -1em;}
-  table.review td { padding: .25em 0; vertical-align: top; text-align: left; min-width: 1em; }
-  table.review th { padding: .25em 0; vertical-align: top; text-align: right; }
-  table.review td.story { width: 100%; border-top: 1px solid #ccc; }
-  table.review td.meta { padding-left: 1em; border-top: 1px solid #ccc; text-align: right !important; white-space: nowrap; }
-  table.review td.notes { color: #666; padding: 0 0 .25em 0; font-style: italic; }
-  table.review .dropped { color: #666; text-decoration: line-through; }
-  table.review .done { color: #666; background-color: #f0f8ff; }
-  table.review tr.nested td.story { padding-left: 1em; }
+<meta charset="utf-8">
+<title>Requirements Saga</title>
+<style>
+:root
+{
+  color-scheme: light dark;
+
+  --primary: hsl(232 0% 0%);
+  --background: white;
+  --done-background: hsl(232 90% 95%);
+  --dropped: hsl(232 0% 60%);
+  --target-background: hsl(40 90% 95%);
+  --border: hsl(232 0% 90%);
+  --link: hsl(232 80% 60%);
+  --link-active: hsl(232 80% 40%);
+
+  --inset-left: max(env(safe-area-inset-left), 1rem, 2.5vw);
+  --inset-right: max(env(safe-area-inset-right), 1rem, 2.5vw);
+  --inset-top: max(env(safe-area-inset-top), 1rem);
+  --inset-bottom: max(env(safe-area-inset-bottom), 1rem);
+}
+@media (prefers-color-scheme: dark)
+{
+  :root
+  {
+    --primary: hsl(232 0% 90%);
+    --background: hsl(232 0% 10%);
+    --done-background: hsl(232 90% 10%);
+    --dropped: hsl(232 0% 40%);
+    --target-background: hsl(40 90% 10%);
+    --border: hsl(232 0% 20%);
+    --link: hsl(232 80% 70%);
+    --link-active: hsl(232 80% 60%);
+  }
+}
+body
+{
+  font-family: palatino, georgia, serif;
+  line-height: 1.25;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+  margin: var(--inset-top) var(--inset-right) var(--inset-bottom) var(--inset-left);
+  background: var(--background);
+  color: var(--primary);
+}
+p,
+h1,
+h2,
+h3,
+ul,
+li,
+dl,
+dt,
+dd
+{
+  margin: 0;
+  padding: 0
+}
+h1,
+h2,
+h3
+{
+  font-weight: normal;
+}
+h1
+{
+  font-size: 162.5%;
+}
+h2
+{
+  font-size: 137.5%;
+}
+h3
+{
+  font-size: 118.75%;
+}
+h2,
+h3
+{
+  margin: 2rem 0 1.25rem 0;
+}
+body > p + p
+{
+  margin-top: 1rem;
+}
+ul
+{
+  margin: 1rem 0;
+  list-style-type: none;
+  font-style: italic;
+}
+dl
+{
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem 1rem;
+  margin: 1rem 0;
+}
+dt:after
+{
+  content: ':';
+}
+a[href]
+{
+  color: var(--link);
+}
+a[href]:active
+{
+  color: var(--link-active);
+}
+div.stories
+{
+  display: grid;
+  grid-template-columns: fit-content(0) 1fr repeat(4, fit-content(0));
+  margin: 1rem calc(-1 * var(--inset-right)) 1rem calc(-1 * var(--inset-left));
+}
+h3,
+div.stories > div
+{
+  grid-column-start: 1;
+  grid-column-end: 6;
+}
+div.stories > h3
+{
+  margin: 1.5rem var(--inset-right) 0.75rem var(--inset-left);
+}
+div.stories > h3:first-child
+{
+  margin-top: 0;
+}
+div.stories > div
+{
+  display: grid;
+  grid-template-columns: subgrid;
+  border-top: 1px solid var(--border);
+  padding: 0.5rem;
+}
+div.stories > div:not(:has(+ div.stories > div))
+{
+  border-bottom: 1px solid var(--border);
+}
+div.stories > div.done
+{
+  background: var(--done-background);
+  border-color: var(--background) !important;
+}
+div.stories > div.dropped
+{
+  color: var(--dropped);
+}
+div.stories > div.dropped > div.content
+{
+  text-decoration: line-through;
+}
+div.stories > div:target
+{
+  background: var(--target-background);
+}
+div.stories > div > *
+{
+  padding: 0 0.5rem;
+}
+div.stories > div > *:first-child
+{
+  padding-left: calc(var(--inset-right) - 0.5rem);
+}
+div.stories > div > *:last-child
+{
+  padding-right: calc(var(--inset-left) - 0.5rem);
+}
+div.stories > div > a.id
+{
+  grid-column: 1;
+  color: inherit;
+  text-decoration: none;
+}
+div.stories > div > div.content
+{
+  grid-column: 2;
+}
+div.stories > div > div.estimate
+{
+  grid-column: 3;
+}
+div.stories > div > div.iteration
+{
+  grid-column: 4;
+  font-variant-numeric: tabular-nums;
+}
+div.stories > div > div.status
+{
+  grid-column: 5;
+}
+@media (max-width: 25rem) {
+  div.stories > div > div.content
+  {
+    grid-column: 2 / span 4;
+  }
+  div.stories > div > div.estimate,
+  div.stories > div > div.iteration,
+  div.stories > div > div.status
+  {
+    padding-top: 0.25rem;
+  }
+}
+div.content p:not(:first-of-type)
+{
+  font-style: italic;
+  margin-top: 0.25rem;
+}
+div.stories > div.substory div.content p
+{
+  padding-left: 2rem;
+}
+a.id,
+div.estimate:not(.relative),
+div.iteration
+{
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
 </style>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
 </head>
-<body id="doc" class="requirements">
+<body>
 
-<p id="logo"><img src="http://resources.fngtps.com/2006/print-logo.png" alt="Fingertips design &amp; development" /> </p>
+<h1>Requirements Saga</h1>
 
-<h1>Requirements <br />Saga</h1>
 
-<p class="author">Manfred Stienstra, <a href="mailto:manfred@fngtps.com">manfred@fngtps.com</a></p>
+  <ul>
+    
+      <li>Manfred Stienstra, <a href="mailto:manfred@fngtps.com">manfred@fngtps.com</a></li>
+    
+  </ul>
+
+
+
 
 <h2>User stories</h2>
-<table class="review">
-<tr>
-  <th></th>
-  <th title="id">#</th>
-  <th title="Estimate">e</th>
-  <th title="Iteration">i</th>
-  <th title="Status">s</th>
-</tr>
-<tr class="done" id="story1">
-  <td class="story">As a writer I would like to write stories so developers can implement them.</td>
-  <td class="meta id">1</td>
-  <td class="meta estimate"></td>
-  <td class="meta iteration"></td>
-  <td class="meta status">done</td>
-</tr>
-<tr class="todo" id="story2">
-  <td class="story">As a writer I would like to add priorities to my stories so that I can show their importance.</td>
-  <td class="meta id">2</td>
-  <td class="meta estimate"></td>
-  <td class="meta iteration"></td>
-  <td class="meta status">todo</td>
-</tr>
-<tr class="todo" id="story3">
-  <td class="story">As a writer I would like to order my stories so that I can easily find the story I need.</td>
-  <td class="meta id">3</td>
-  <td class="meta estimate"></td>
-  <td class="meta iteration"></td>
-  <td class="meta status">todo</td>
-</tr>
-<tr class="todo">
-  <td class="notes" colspan="5">Improve the HTML template to allow ordering by ID, estimate, iteration, status, and priority.</td>
-</tr>
-<tr class="todo" id="story4">
-  <td class="story">As a writer I would like to ignore certain themes during autofill and planning so that I can specify non-functional stories.</td>
-  <td class="meta id">4</td>
-  <td class="meta estimate"></td>
-  <td class="meta iteration"></td>
-  <td class="meta status">todo</td>
-</tr>
-<tr class="todo">
-  <td class="notes" colspan="5">saga -n 'Non-functional' -n 'Optional' autofill design/requirements.txt</td>
-</tr>
-</table>
 
-<h2>Roles</h2>
-<dl>
-<dt>Writer</dt>
-<dd>Someone who is responsible for writing down requirements in the form of stories</dd>
-</dl>
+
+  <div class="stories">
+    
+      
+
+      
+        <div class="story done" id="story1">
+          <a href="#story1" class="id" title="ID">#1</a>
+          <div class="content">
+            <p>As a writer I would like to write stories so developers can implement them.</p>
+            
+          </div>
+          
+          
+          <div class="status" title="Status">done</div>
+        </div>
+      
+        <div class="story todo" id="story2">
+          <a href="#story2" class="id" title="ID">#2</a>
+          <div class="content">
+            <p>As a writer I would like to add priorities to my stories so that I can show their importance.</p>
+            
+          </div>
+          
+          
+          <div class="status" title="Status">todo</div>
+        </div>
+      
+        <div class="story todo" id="story3">
+          <a href="#story3" class="id" title="ID">#3</a>
+          <div class="content">
+            <p>As a writer I would like to order my stories so that I can easily find the story I need.</p>
+            
+              <p>Improve the HTML template to allow ordering by ID, estimate, iteration, status, and priority.</p>
+            
+          </div>
+          
+          
+          <div class="status" title="Status">todo</div>
+        </div>
+      
+        <div class="story todo" id="story4">
+          <a href="#story4" class="id" title="ID">#4</a>
+          <div class="content">
+            <p>As a writer I would like to ignore certain themes during autofill and planning so that I can specify non-functional stories.</p>
+            
+              <p>saga -n &#39;Non-functional&#39; -n &#39;Optional&#39; autofill design/requirements.txt</p>
+            
+          </div>
+          
+          
+          <div class="status" title="Status">todo</div>
+        </div>
+      
+    
+  </div>
+
+
+
+  
+    <h2>Roles</h2>
+  
+  <dl>
+    
+      <dt>Writer</dt>
+      <dd>Someone who is responsible for writing down requirements in the form of stories</dd>
+    
+  </dl>
+
+
 </body>
 </html>

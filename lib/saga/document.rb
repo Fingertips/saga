@@ -17,20 +17,8 @@ module Saga
       end; copied
     end
 
-    def flatten_stories(stories)
-      stories_as_flat_list = []
-      stories.flatten.each do |story|
-        if story[:stories]
-          stories_as_flat_list << copy_story(story)
-          stories_as_flat_list.concat(story[:stories])
-        else
-          stories_as_flat_list << story
-        end
-      end; stories_as_flat_list
-    end
-
     def stories_as_flat_list
-      flatten_stories(stories.values)
+      stories.values.flatten
     end
 
     def _binding
@@ -38,16 +26,7 @@ module Saga
     end
 
     def used_ids
-      @stories.values.each_with_object([]) do |stories, ids|
-        stories.each do |story|
-          ids << story[:id]
-          next unless story[:stories]
-
-          story[:stories].each do |nested|
-            ids << nested[:id]
-          end
-        end
-      end.compact
+      stories_as_flat_list.map{ |story| story[:id] }.compact
     end
 
     def unused_ids(limit)
